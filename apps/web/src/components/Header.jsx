@@ -20,6 +20,14 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'HOME', path: '/' },
     { name: 'PRODUCTS', path: '/products' },
     { name: 'BLOG', path: '/blog' },
+    { name: 'TRIAGE WIZARD', path: '/triage-wizard' },
+    { name: 'LAUNCH KIT', path: '/launch-kit' },
+  ];
+
+  const allNavLinks = [
+    { name: 'HOME', path: '/' },
+    { name: 'PRODUCTS', path: '/products' },
+    { name: 'BLOG', path: '/blog' },
     { name: 'CALCULATOR', path: '/calculator' },
     { name: 'WORKSPACE', path: '/workspace-simulator' },
     { name: 'RESOURCES', path: '/resources' },
@@ -174,7 +182,7 @@ const Header = ({ setIsCartOpen }) => {
       {/* Mobile Dropdown Menu */}
       {isMobileMenuOpen && (
         <div className="lg:hidden absolute top-[70px] left-0 w-full bg-[hsl(var(--header-bg))] border-b-[8px] border-black flex flex-col p-4 gap-3 z-40 shadow-xl">
-          {navLinks.map((link) => {
+          {allNavLinks.map((link) => {
             const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
             return (
               <Link 
