@@ -31,7 +31,6 @@ import LLMDirectoryPage from '@/pages/LLMDirectoryPage.jsx';
 import WorkloadsPage from '@/pages/WorkloadsPage.jsx';
 import TriageWizardPage from '@/pages/TriageWizardPage.jsx';
 import LaunchKitPage from '@/pages/LaunchKitPage.jsx';
-import QuickstartPage from '@/pages/QuickstartPage.jsx';
 
 // Other Existing Pages
 import AboutPage from '@/pages/AboutPage.jsx';
@@ -93,7 +92,6 @@ function App() {
               <Routes>
                 {/* Redirects */}
                 <Route path="/home" element={<Navigate to="/" replace />} />
-                <Route path="/quickstart" element={<QuickstartPage />} />
                 
                 {/* Admin Auth Route (No layout) */}
                 <Route path="/admin-login" element={<AdminLoginPage />} />
