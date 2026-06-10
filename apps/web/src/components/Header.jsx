@@ -24,6 +24,7 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'WORKSPACE', path: '/workspace-simulator' },
     { name: 'RESOURCES', path: '/resources' },
     { name: 'TRIAGE WIZARD', path: '/triage-wizard' },
+    { name: 'LAUNCH KIT', path: '/launch-kit' },
   ];
 
   const handleLogout = () => {

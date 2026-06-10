@@ -85,26 +85,30 @@ const TriageWizardPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-[var(--slate-900)] py-12 px-4 font-sans text-slate-200 selection:bg-[var(--cyan-500)] selection:text-white">
+    <div className="max-w-4xl mx-auto pb-24 pt-6 md:pt-12 px-4 sm:px-6">
       <Helmet>
         <title>Triage Wizard | Error Diagnostics</title>
       </Helmet>
 
-      <div className="max-w-[700px] mx-auto">
+      <div>
         <Link 
           to="/" 
-          className="inline-flex items-center gap-2 text-[var(--cyan-400)] hover:text-[var(--cyan-500)] mb-8 font-medium transition-colors"
+          className="neo-button bg-white text-black text-sm py-2 px-4 mb-8 flex items-center gap-2 w-fit"
         >
-          <ArrowLeft className="w-4 h-4" />
-          Back to Home
+          <ArrowLeft className="w-4 h-4" strokeWidth={3} />
+          BACK TO HOME
         </Link>
 
-        <header className="mb-10 text-center">
-          <div className="inline-flex items-center justify-center w-16 h-16 rounded-full bg-[var(--slate-800)] border border-[var(--cyan-500)] shadow-[0_0_20px_rgba(14,165,233,0.2)] mb-6">
-            <Terminal className="w-8 h-8 text-[var(--cyan-400)]" />
+        <header className="mb-10">
+          <div className="inline-flex items-center gap-2 px-3 py-1 border-2 border-black bg-primary text-black text-sm font-black mb-4 uppercase tracking-widest shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+            <Terminal size={16} strokeWidth={3} /> Diagnostics
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-3">Triage Wizard</h1>
-          <p className="text-slate-400 max-w-lg mx-auto">Select your environment parameters to generate a targeted diagnostic report for your local AI stack.</p>
+          <h1 className="text-4xl md:text-6xl font-black uppercase leading-none mb-4 text-balance">
+            Triage Wizard
+          </h1>
+          <p className="text-lg font-bold max-w-3xl text-muted-foreground text-balance">
+            Select your environment parameters to generate a targeted diagnostic report for your local AI stack.
+          </p>
         </header>
 
         <AnimatePresence mode="wait">
@@ -114,11 +118,11 @@ const TriageWizardPage = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95 }}
-              className="bg-[var(--slate-800)] p-6 md:p-8 rounded-xl border border-slate-700 shadow-2xl"
+              className="neo-card bg-[#FFFDF0] p-6 md:p-8 flex flex-col"
             >
               <div className="space-y-6">
                 <div>
-                  <label htmlFor="os" className="block text-[var(--cyan-400)] text-sm font-semibold mb-2 uppercase tracking-wider">
+                  <label htmlFor="os" className="block text-sm font-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1 text-black">
                     1. Operating System
                   </label>
                   <select
@@ -126,7 +130,7 @@ const TriageWizardPage = () => {
                     name="os"
                     value={selections.os}
                     onChange={handleSelectChange}
-                    className="w-full bg-[var(--slate-900)] border border-slate-700 text-slate-200 rounded-md py-3 px-4 outline-none focus:border-[var(--cyan-500)] focus:ring-1 focus:ring-[var(--cyan-500)] transition-all"
+                    className="neo-input"
                   >
                     <option value="" disabled>Select your OS...</option>
                     {OPTIONS.os.map(opt => (
@@ -136,7 +140,7 @@ const TriageWizardPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="installRoute" className="block text-[var(--cyan-400)] text-sm font-semibold mb-2 uppercase tracking-wider">
+                  <label htmlFor="installRoute" className="block text-sm font-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1 text-black">
                     2. Installation Route
                   </label>
                   <select
@@ -144,7 +148,7 @@ const TriageWizardPage = () => {
                     name="installRoute"
                     value={selections.installRoute}
                     onChange={handleSelectChange}
-                    className="w-full bg-[var(--slate-900)] border border-slate-700 text-slate-200 rounded-md py-3 px-4 outline-none focus:border-[var(--cyan-500)] focus:ring-1 focus:ring-[var(--cyan-500)] transition-all"
+                    className="neo-input"
                   >
                     <option value="" disabled>Select installation route...</option>
                     {OPTIONS.installRoute.map(opt => (
@@ -154,7 +158,7 @@ const TriageWizardPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="stage" className="block text-[var(--cyan-400)] text-sm font-semibold mb-2 uppercase tracking-wider">
+                  <label htmlFor="stage" className="block text-sm font-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1 text-black">
                     3. Failure Stage
                   </label>
                   <select
@@ -162,7 +166,7 @@ const TriageWizardPage = () => {
                     name="stage"
                     value={selections.stage}
                     onChange={handleSelectChange}
-                    className="w-full bg-[var(--slate-900)] border border-slate-700 text-slate-200 rounded-md py-3 px-4 outline-none focus:border-[var(--cyan-500)] focus:ring-1 focus:ring-[var(--cyan-500)] transition-all"
+                    className="neo-input"
                   >
                     <option value="" disabled>Select when it failed...</option>
                     {OPTIONS.stage.map(opt => (
@@ -172,7 +176,7 @@ const TriageWizardPage = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="category" className="block text-[var(--cyan-400)] text-sm font-semibold mb-2 uppercase tracking-wider">
+                  <label htmlFor="category" className="block text-sm font-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1 text-black">
                     4. Symptom Category
                   </label>
                   <select
@@ -180,7 +184,7 @@ const TriageWizardPage = () => {
                     name="category"
                     value={selections.category}
                     onChange={handleSelectChange}
-                    className="w-full bg-[var(--slate-900)] border border-slate-700 text-slate-200 rounded-md py-3 px-4 outline-none focus:border-[var(--cyan-500)] focus:ring-1 focus:ring-[var(--cyan-500)] transition-all"
+                    className="neo-input"
                   >
                     <option value="" disabled>Select the primary symptom...</option>
                     {OPTIONS.category.map(opt => (
@@ -190,24 +194,24 @@ const TriageWizardPage = () => {
                 </div>
               </div>
 
-              <div className="mt-10 pt-6 border-t border-slate-700 flex justify-end">
+              <div className="mt-8 pt-6 border-t-[3px] border-black flex justify-end">
                 <button
                   onClick={runTriage}
                   disabled={!isComplete || isAnalyzing}
-                  className={`flex items-center gap-2 px-8 py-3 rounded-md font-semibold text-white transition-all duration-300 ${
+                  className={`neo-button text-black font-black uppercase py-4 px-8 text-base md:text-lg ${
                     !isComplete || isAnalyzing
-                      ? 'bg-slate-700 cursor-not-allowed opacity-50' 
-                      : 'bg-[var(--cyan-500)] hover:bg-[var(--cyan-400)] hover:shadow-[0_0_20px_rgba(14,165,233,0.4)] active:scale-[0.98]'
+                      ? 'bg-slate-300 opacity-50 cursor-not-allowed shadow-none hover:translate-x-0 hover:translate-y-0' 
+                      : 'bg-secondary'
                   }`}
                 >
                   {isAnalyzing ? (
                     <>
-                      <RefreshCw className="w-5 h-5 animate-spin" />
+                      <RefreshCw className="w-5 h-5 animate-spin mr-2" strokeWidth={3} />
                       Analyzing Stack...
                     </>
                   ) : (
                     <>
-                      <Wrench className="w-5 h-5" />
+                      <Wrench className="w-5 h-5 mr-2" strokeWidth={3} />
                       Run Local Diagnostics
                     </>
                   )}
@@ -219,25 +223,23 @@ const TriageWizardPage = () => {
               key="result"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
+              className="space-y-8"
             >
-              <div className="bg-[var(--slate-800)] p-6 md:p-8 rounded-xl border border-[var(--cyan-500)] shadow-[0_0_30px_rgba(14,165,233,0.15)] relative overflow-hidden">
-                <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-[var(--cyan-500)] to-[var(--cyan-400)]"></div>
-                
-                <h2 className="text-2xl font-bold text-white mb-4">{result.title}</h2>
-                <p className="text-slate-300 mb-8 leading-relaxed text-lg">{result.verdict}</p>
+              <div className="neo-card bg-[hsl(var(--primary))] p-6 md:p-8 relative overflow-hidden">
+                <h2 className="text-2xl md:text-3xl font-black uppercase mb-4 text-black">{result.title}</h2>
+                <p className="font-poppins font-semibold text-black/85 mb-8 leading-relaxed text-base md:text-lg">{result.verdict}</p>
 
                 {result.command && (
                   <div className="mb-8">
-                    <h3 className="text-[var(--cyan-400)] text-sm font-semibold mb-3 uppercase tracking-wider">Execute Diagnostic Command</h3>
-                    <div className="triage-code-block relative group">
+                    <h3 className="text-black text-sm font-black mb-3 uppercase tracking-wider border-b border-black pb-1">Execute Diagnostic Command</h3>
+                    <div className="relative bg-black text-primary p-4 pr-16 rounded-[var(--border-radius-lg)] border-4 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] overflow-x-auto font-mono text-sm">
                       <code>{result.command}</code>
                       <button 
                         onClick={() => handleCopy(result.command)}
-                        className="absolute right-3 top-1/2 -translate-y-1/2 p-2 rounded bg-slate-800 text-slate-300 hover:text-white hover:bg-slate-700 transition-colors"
+                        className="absolute right-3 top-1/2 -translate-y-1/2 neo-button bg-white text-black py-1.5 px-3 text-xs"
                         aria-label="Copy code"
                       >
-                        {copied ? <Check className="w-4 h-4 text-green-400" /> : <Copy className="w-4 h-4" />}
+                        {copied ? <Check className="w-3.5 h-3.5 text-green-600" strokeWidth={3} /> : <Copy className="w-3.5 h-3.5" strokeWidth={3} />}
                       </button>
                     </div>
                   </div>
@@ -245,11 +247,11 @@ const TriageWizardPage = () => {
 
                 {result.actions && result.actions.length > 0 && (
                   <div className="mb-8">
-                    <h3 className="text-[var(--cyan-400)] text-sm font-semibold mb-3 uppercase tracking-wider">Next Actions</h3>
-                    <ul className="space-y-3">
+                    <h3 className="text-black text-sm font-black mb-3 uppercase tracking-wider border-b border-black pb-1">Next Actions</h3>
+                    <ul className="space-y-3 font-poppins">
                       {result.actions.map((action, i) => (
-                        <li key={i} className="flex items-start gap-3 text-slate-300">
-                          <div className="mt-1 min-w-[6px] w-1.5 h-1.5 rounded-full bg-[var(--cyan-500)]"></div>
+                        <li key={i} className="flex items-start gap-3 text-black font-semibold">
+                          <div className="mt-1.5 min-w-[8px] w-2 h-2 bg-black"></div>
                           <span>{action}</span>
                         </li>
                       ))}
@@ -258,14 +260,14 @@ const TriageWizardPage = () => {
                 )}
 
                 {result.avoid && result.avoid.length > 0 && (
-                  <div className="bg-red-500/10 border border-[var(--red-500)] rounded-lg p-5 mt-8">
-                    <h3 className="flex items-center gap-2 text-[var(--red-500)] text-sm font-bold mb-3 uppercase tracking-wider">
-                      <ShieldAlert className="w-4 h-4" /> What you MUST avoid doing
+                  <div className="bg-[#fee2e2] border-[4px] border-black rounded-[var(--border-radius-lg)] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] p-5 mt-8 text-black">
+                    <h3 className="flex items-center gap-2 text-red-600 text-sm font-black mb-3 uppercase tracking-wider">
+                      <ShieldAlert className="w-4 h-4" strokeWidth={3} /> What you MUST avoid doing
                     </h3>
-                    <ul className="space-y-2">
+                    <ul className="space-y-2 font-poppins">
                       {result.avoid.map((item, i) => (
-                        <li key={i} className="flex items-start gap-3 text-red-200">
-                          <AlertTriangle className="w-4 h-4 min-w-[16px] text-[var(--red-500)] mt-0.5" />
+                        <li key={i} className="flex items-start gap-3 text-black font-semibold">
+                          <AlertTriangle className="w-4 h-4 min-w-[16px] text-red-600 mt-0.5" strokeWidth={3} />
                           <span className="text-sm">{item}</span>
                         </li>
                       ))}
@@ -277,13 +279,13 @@ const TriageWizardPage = () => {
               <div className="flex flex-col sm:flex-row gap-4 justify-between mt-8">
                 <button
                   onClick={() => toast.success('Fix report request sent to engineering.')}
-                  className="px-6 py-3 rounded-md font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition-colors text-center active:scale-[0.98]"
+                  className="neo-button bg-white text-black font-black py-3 px-6 text-sm sm:text-base uppercase"
                 >
                   Request Fix Report
                 </button>
                 <button
                   onClick={handleReset}
-                  className="px-6 py-3 rounded-md font-semibold bg-[var(--cyan-500)] text-white hover:bg-[var(--cyan-400)] shadow-lg shadow-[var(--cyan-500)]/20 transition-all text-center active:scale-[0.98]"
+                  className="neo-button bg-accent text-black font-black py-3 px-6 text-sm sm:text-base uppercase"
                 >
                   Reset Wizard
                 </button>

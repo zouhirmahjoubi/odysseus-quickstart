@@ -30,6 +30,7 @@ import BlogDetailPage from '@/pages/BlogDetailPage.jsx';
 import LLMDirectoryPage from '@/pages/LLMDirectoryPage.jsx';
 import WorkloadsPage from '@/pages/WorkloadsPage.jsx';
 import TriageWizardPage from '@/pages/TriageWizardPage.jsx';
+import LaunchKitPage from '@/pages/LaunchKitPage.jsx';
 
 // Other Existing Pages
 import AboutPage from '@/pages/AboutPage.jsx';
@@ -125,6 +126,7 @@ function App() {
                   <Route path="/workspace-simulator" element={<WorkspaceSimulatorPage />} />
                   <Route path="/resources" element={<ResourcesPage />} />
                   <Route path="/triage-wizard" element={<TriageWizardPage />} />
+                  <Route path="/launch-kit" element={<LaunchKitPage />} />
                   <Route path="/llm-directory" element={<LLMDirectoryPage />} />
                   <Route path="/workloads" element={<WorkloadsPage />} />
                   

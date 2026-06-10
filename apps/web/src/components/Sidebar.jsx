@@ -4,7 +4,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { 
   LayoutDashboard, Calculator, MonitorPlay, BookOpen, Moon, Sun, 
   FileText, Database, Briefcase, ShoppingBag, Menu, X, ChevronRight,
-  User, LogOut, ShieldAlert
+  User, LogOut, ShieldAlert, Rocket
 } from 'lucide-react';
 import { useTheme } from '@/contexts/ThemeContext.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
@@ -57,6 +57,8 @@ const Sidebar = () => {
     { name: 'RESOURCES', path: '/resources', icon: BookOpen },
     { name: 'LLM DIRECTORY', path: '/llm-directory', icon: Database },
     { name: 'WORKLOADS', path: '/workloads', icon: Briefcase },
+    { name: 'TRIAGE WIZARD', path: '/triage-wizard', icon: ShieldAlert },
+    { name: 'LAUNCH KIT', path: '/launch-kit', icon: Rocket },
   ];
 
   return (
