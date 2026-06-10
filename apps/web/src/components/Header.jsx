@@ -22,6 +22,7 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'BLOG', path: '/blog' },
     { name: 'TRIAGE WIZARD', path: '/triage-wizard' },
     { name: 'LAUNCH KIT', path: '/launch-kit' },
+    { name: 'QUICKSTART', path: '/quickstart' },
   ];
 
   const allNavLinks = [
@@ -33,6 +34,7 @@ const Header = ({ setIsCartOpen }) => {
     { name: 'RESOURCES', path: '/resources' },
     { name: 'TRIAGE WIZARD', path: '/triage-wizard' },
     { name: 'LAUNCH KIT', path: '/launch-kit' },
+    { name: 'QUICKSTART', path: '/quickstart' },
   ];
 
   const handleLogout = () => {
