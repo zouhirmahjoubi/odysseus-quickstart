@@ -81,6 +81,32 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
+  const loginWithOAuth = async (provider) => {
+    try {
+      const response = await fetch(`/hcgi/api/oauth/${provider}`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json().catch(() => ({}));
+        throw new Error(errorData.error || `Failed to initiate ${provider} login`);
+      }
+
+      const { authUrl } = await response.json();
+      if (authUrl) {
+        window.location.href = authUrl;
+      } else {
+        throw new Error(`No authUrl returned for ${provider}`);
+      }
+    } catch (error) {
+      console.error(`${provider} OAuth initialization failed:`, error);
+      throw error;
+    }
+  };
+
   const logout = () => {
     pb.authStore.clear();
     setCurrentUser(null);
@@ -92,6 +118,7 @@ export const AuthProvider = ({ children }) => {
     user: currentUser, // Alias for backwards compatibility
     isLoading,
     login,
+    loginWithOAuth,
     logout,
     isAuthenticated
   };
