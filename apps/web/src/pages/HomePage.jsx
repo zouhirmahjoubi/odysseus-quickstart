@@ -13,6 +13,7 @@ import pb from '@/lib/pocketbaseClient';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
 import { fallbackBlogs } from '@/data/fallbackBlogs.js';
+import { SquigglyText } from '@/components/ui/squiggly-text';
 
 const OPTIONS = {
   os: [
@@ -270,7 +271,7 @@ const HomePage = () => {
             </div>
             
             <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase leading-[1.1] mb-6 text-black dark:text-white">
-              The safest, fastest, and most beginner-friendly way to run Odysseus locally.
+              The safest, <SquigglyText stepDuration={70} scale={[4, 6]} className="text-primary">fastest</SquigglyText>, and most beginner-friendly way to run Odysseus locally.
             </h1>
             
             <p className="text-base sm:text-lg font-bold text-muted-foreground max-w-2xl mb-8 leading-relaxed">
@@ -304,7 +305,7 @@ const HomePage = () => {
 
           {/* Right Column */}
           <div className="w-full lg:w-[40%] flex-shrink-0 z-10">
-            <div className="neo-card bg-card p-4 relative shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))]">
+            <div className="neo-card bg-card p-4 relative shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))] cute-wiggle-hover">
               <div className="flex items-center gap-1.5 mb-3 border-b-2 border-black/10 pb-3">
                 <span className="w-3 h-3 rounded-full bg-red-500/85"></span>
                 <span className="w-3 h-3 rounded-full bg-yellow-500/85"></span>
@@ -312,7 +313,7 @@ const HomePage = () => {
                 <span className="text-[9px] text-muted-foreground font-mono ml-2">pewdiepie-archdaemon/odysseus</span>
               </div>
               <div className="aspect-video w-full bg-black/5 dark:bg-black/60 rounded border-2 border-black border-dashed flex flex-col items-center justify-center p-6 text-center">
-                <Terminal size={36} className="text-primary mb-2" strokeWidth={2.5} />
+                <Terminal size={36} className="text-primary mb-2 cute-float" strokeWidth={2.5} />
                 <span className="text-xs font-black uppercase text-black dark:text-white leading-tight">Official Workspace Blueprint</span>
                 <span className="text-[9px] font-mono text-muted-foreground mt-1">Ref: Github Repository Source</span>
               </div>
@@ -331,10 +332,10 @@ const HomePage = () => {
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
           {/* Col 1 */}
-          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card">
+          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card cute-wiggle-hover">
             <div>
               <div className="w-10 h-10 bg-primary/20 text-black border-2 border-black rounded-[8px] flex items-center justify-center mb-4">
-                <BookOpen size={20} strokeWidth={2.5} />
+                <BookOpen size={20} className="cute-float" strokeWidth={2.5} />
               </div>
               <h3 className="text-lg md:text-xl font-black uppercase mb-2">I haven't installed Odysseus AI yet</h3>
               <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 leading-relaxed">
@@ -357,10 +358,10 @@ const HomePage = () => {
           </div>
 
           {/* Col 2 */}
-          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card">
+          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card cute-wiggle-hover">
             <div>
               <div className="w-10 h-10 bg-secondary/20 text-black border-2 border-black rounded-[8px] flex items-center justify-center mb-4">
-                <Laptop size={20} strokeWidth={2.5} />
+                <Laptop size={20} className="cute-float-delay" strokeWidth={2.5} />
               </div>
               <h3 className="text-lg md:text-xl font-black uppercase mb-2">I need Docker or Ollama setup</h3>
               <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 leading-relaxed">
@@ -383,10 +384,10 @@ const HomePage = () => {
           </div>
 
           {/* Col 3 */}
-          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card">
+          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card cute-wiggle-hover">
             <div>
               <div className="w-10 h-10 bg-accent/20 text-black border-2 border-black rounded-[8px] flex items-center justify-center mb-4">
-                <ShieldAlert size={20} strokeWidth={2.5} />
+                <ShieldAlert size={20} className="cute-float" strokeWidth={2.5} />
               </div>
               <h3 className="text-lg md:text-xl font-black uppercase mb-2">Odysseus AI is already not working</h3>
               <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 leading-relaxed">
@@ -930,15 +931,15 @@ const HomePage = () => {
 
       {/* --- 7. TIERED PRICING - ONE STRONG TOOLKIT OFFER --- */}
       <section id="offer" className="flex justify-center">
-        <div className="neo-card bg-[hsl(var(--primary))] p-8 md:p-12 border-4 border-black max-w-3xl w-full text-center relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="neo-card bg-[hsl(var(--primary))] p-8 md:p-12 border-4 border-black max-w-3xl w-full text-center relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] cute-wiggle-hover">
           <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-[hsl(var(--accent))] opacity-25"></div>
           
-          <span className="bg-secondary text-black border-4 border-black px-4 py-1.5 font-black uppercase tracking-widest mb-6 rounded-lg inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-xs">
+          <span className="bg-secondary text-black border-4 border-black px-4 py-1.5 font-black uppercase tracking-widest mb-6 rounded-lg inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-xs cute-float">
             🌟 Special Early Access Bundle
           </span>
           
           <h2 className="text-3xl md:text-5xl font-black uppercase text-black mb-3">
-            Odysseus AI Launch Kit & Toolkit
+            Odysseus AI <SquigglyText stepDuration={70} scale={[5, 7]} className="text-[hsl(var(--accent))]">Launch Kit</SquigglyText> & Toolkit
           </h2>
           <p className="text-sm font-black uppercase tracking-wide text-black/70 mb-8 max-w-xl mx-auto">
             The ultimate local deployment template bundle, startup scripts, and configurations to run Odysseus locally without fighting errors.
