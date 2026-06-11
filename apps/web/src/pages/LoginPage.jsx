@@ -43,7 +43,7 @@ function LoginPage() {
     try {
       await loginWithOAuth(provider);
     } catch (error) {
-      toast.error(`Failed to initialize ${provider} login.`);
+      toast.error(`Failed to initialize ${provider} login: ${error.message}`);
       setOauthLoading(null);
     }
   };
