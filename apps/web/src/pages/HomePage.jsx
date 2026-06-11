@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
 import { Link, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence } from 'framer-motion';
 import { 
   ArrowRight, Cpu, Database, Shield, Zap, Terminal, Box, BookOpen, AlertCircle,
   LayoutGrid, ShoppingBag, Calculator, Monitor, MonitorPlay, FileText, Copy, Check, ChevronDown,
