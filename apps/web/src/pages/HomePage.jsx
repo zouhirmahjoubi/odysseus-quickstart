@@ -5,7 +5,7 @@ import {
   ArrowRight, Cpu, Database, Shield, Zap, Terminal, Box, BookOpen, AlertCircle,
   LayoutGrid, ShoppingBag, Calculator, Monitor, MonitorPlay, FileText, Copy, Check, ChevronDown,
   HelpCircle, CheckCircle, Laptop, ShieldAlert, ExternalLink, Mail, ArrowUpRight,
-  DollarSign, FileCode, AlertTriangle, Play, Settings, Server, RefreshCw
+  DollarSign, FileCode, AlertTriangle, Play, Settings, Server, RefreshCw, Rocket
 } from 'lucide-react';
 import BlogCard from '@/components/BlogCard.jsx';
 import pb from '@/lib/pocketbaseClient';
