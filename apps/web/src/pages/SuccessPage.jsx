@@ -80,7 +80,7 @@ const SuccessPage = () => {
                 )
               ) ? (
                 <a 
-                  href="/downloads/toolkit.zip" 
+                  href={`/hcgi/api/stripe/download/${sessionId}`}
                   download="odysseus-launch-kit.zip"
                   className="neo-button bg-[#FF9000] text-black w-full flex items-center justify-center gap-2 mb-6 hover:no-underline shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
                 >
@@ -88,7 +88,7 @@ const SuccessPage = () => {
                 </a>
               ) : (
                 <a 
-                  href="/downloads/hardened-stack.zip" 
+                  href={`/hcgi/api/stripe/download/${sessionId}`}
                   download="hardened-stack.zip"
                   className="neo-button bg-[#FF9000] text-black w-full flex items-center justify-center gap-2 mb-6 hover:no-underline shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
                 >

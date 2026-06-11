@@ -74,9 +74,7 @@ pocketbaseClient.beforeSend = async function (url, options) {
         
         logger.info('PocketBase client initialized successfully');
     } catch (err) {
-        logger.error('Failed to initialize PocketBase client:', err);
-
-        process.exit(1);
+        logger.error('Failed to initialize PocketBase client (API server will remain running in degraded mode):', err);
     }
 })();
 

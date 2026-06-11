@@ -31,7 +31,17 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
   // Handle payment_intent.succeeded
   if (event.type === 'payment_intent.succeeded') {
     const paymentIntent = event.data.object;
-    const { customerId, shippingAddress, billingAddress } = paymentIntent.metadata;
+    const { customerId, shippingAddress, billingAddress, isDigital, productName } = paymentIntent.metadata;
+
+    const isDigitalPurchase = isDigital === 'true' || 
+                             (productName && (productName.toLowerCase().includes('launch kit') || 
+                                              productName.toLowerCase().includes('toolkit') || 
+                                              productName.toLowerCase().includes('hardened stack')));
+
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
+    const downloadUrl = isDigitalPurchase 
+      ? `${frontendUrl}/success?session_id=${paymentIntent.id}`
+      : null;
 
     // Create order record
     const orderRecord = await pb.collection('orders').create({
@@ -52,12 +62,14 @@ router.post('/', express.raw({ type: 'application/json' }), async (req, res) => 
       await sendEmail({
         type: 'order_confirmation',
         orderId: orderRecord.id,
-        customerEmail: paymentIntent.receipt_email || 'customer@example.com',
+        customerEmail: paymentIntent.receipt_email || paymentIntent.billing_details?.email || 'customer@example.com',
         orderData: {
           orderId: orderRecord.id,
           amount: paymentIntent.amount / 100,
           currency: paymentIntent.currency,
-          shippingAddress: JSON.parse(shippingAddress || '{}'),
+          shippingAddress: shippingAddress ? JSON.parse(shippingAddress) : null,
+          isDigital: isDigitalPurchase,
+          downloadUrl: downloadUrl,
         },
       });
     } catch (emailError) {

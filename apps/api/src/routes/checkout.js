@@ -59,6 +59,20 @@ router.post('/', async (req, res) => {
     sessionParams.discounts = [{ coupon: couponCode }];
   }
 
+  // Fallback to Mock Checkout if STRIPE_SECRET_KEY is a placeholder
+  const isPlaceholder = !process.env.STRIPE_SECRET_KEY || 
+                        process.env.STRIPE_SECRET_KEY === 'sk_test_placeholder' || 
+                        process.env.STRIPE_SECRET_KEY.includes('placeholder');
+
+  if (isPlaceholder) {
+    const mockSessionId = `mock_session_cart_${Date.now()}`;
+    const redirectUrl = sessionParams.success_url.replace('{CHECKOUT_SESSION_ID}', mockSessionId);
+    return res.json({
+      sessionId: mockSessionId,
+      url: redirectUrl,
+    });
+  }
+
   try {
     const session = await stripe.checkout.sessions.create(sessionParams);
 
