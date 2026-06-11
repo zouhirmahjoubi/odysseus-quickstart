@@ -5,6 +5,7 @@ import { Search, BookOpen, AlertCircle } from 'lucide-react';
 import pb from '@/lib/pocketbaseClient.js';
 import { Skeleton } from '@/components/ui/skeleton';
 import BlogCard from '@/components/BlogCard.jsx';
+import { fallbackBlogs } from '@/data/fallbackBlogs.js';
 
 const BlogListPage = () => {
   const [posts, setPosts] = useState([]);
@@ -16,17 +17,33 @@ const BlogListPage = () => {
     try {
       setLoading(true);
       setError(null);
-      // Query blog_posts collection for published articles
-      const result = await pb.collection('blog_posts').getList(1, 50, { 
-        filter: 'status="published"',
-        sort: '-publication_date,-created',
-        expand: 'category,tags',
-        $autoCancel: false 
+      
+      let dbItems = [];
+      try {
+        const result = await pb.collection('blog_posts').getList(1, 50, { 
+          filter: 'status="published"',
+          sort: '-publication_date,-created',
+          expand: 'category,tags',
+          $autoCancel: false 
+        });
+        dbItems = result.items || [];
+      } catch (dbErr) {
+        console.warn("Pocketbase fetch failed, utilizing fallback static articles:", dbErr);
+      }
+
+      // Merge unique items by slug, prioritizing database records
+      const combined = [...dbItems];
+      fallbackBlogs.forEach(staticPost => {
+        if (!combined.some(item => item.slug === staticPost.slug)) {
+          combined.push(staticPost);
+        }
       });
-      setPosts(result.items);
+
+      setPosts(combined);
     } catch (err) {
       console.error("Error fetching blogs:", err);
-      setError(err.message || "Failed to load transmissions. Please try again later.");
+      // Fallback directly to static blogs if everything fails
+      setPosts(fallbackBlogs);
     } finally {
       setLoading(false);
     }
@@ -39,7 +56,8 @@ const BlogListPage = () => {
   const filteredPosts = posts.filter(p => 
     (p.title && p.title.toLowerCase().includes(search.toLowerCase())) || 
     (p.excerpt && p.excerpt.toLowerCase().includes(search.toLowerCase())) ||
-    (p.expand?.category && p.expand.category.name.toLowerCase().includes(search.toLowerCase()))
+    (p.expand?.category && p.expand.category.name.toLowerCase().includes(search.toLowerCase())) ||
+    (p.category && p.category.toLowerCase().includes(search.toLowerCase()))
   );
 
   return (
@@ -61,7 +79,7 @@ const BlogListPage = () => {
           </p>
         </div>
         <div className="w-full md:w-auto flex-shrink-0">
-          <BookOpen size={120} strokeWidth={1} className="text-primary hidden md:block opacity-80" />
+          <BookOpen size={120} strokeWidth={1} className="text-primary hidden md:block opacity-80 cute-float" />
         </div>
       </div>
 

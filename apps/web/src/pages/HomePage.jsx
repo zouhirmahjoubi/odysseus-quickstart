@@ -12,6 +12,7 @@ import BlogCard from '@/components/BlogCard.jsx';
 import pb from '@/lib/pocketbaseClient';
 import { Skeleton } from '@/components/ui/skeleton';
 import { toast } from 'sonner';
+import { fallbackBlogs } from '@/data/fallbackBlogs.js';
 
 const OPTIONS = {
   os: [
@@ -147,15 +148,26 @@ const HomePage = () => {
       try {
         setLoadingBlogs(true);
         setBlogError(null);
-        const records = await pb.collection('blog_articles').getList(1, 4, {
-          filter: 'status="published"',
-          sort: '-created_at,-created',
-          $autoCancel: false
-        });
-        setBlogs(records.items);
+        let items = [];
+        try {
+          const records = await pb.collection('blog_articles').getList(1, 4, {
+            filter: 'status="published"',
+            sort: '-created_at,-created',
+            $autoCancel: false
+          });
+          items = records.items || [];
+        } catch (pbErr) {
+          console.warn("Pocketbase homepage blog fetch failed, utilizing fallback:", pbErr);
+        }
+
+        if (items.length === 0) {
+          setBlogs(fallbackBlogs.slice(0, 4));
+        } else {
+          setBlogs(items);
+        }
       } catch (error) {
         console.error("Error fetching blogs for homepage:", error);
-        setBlogError("Could not load latest insights.");
+        setBlogs(fallbackBlogs.slice(0, 4));
       } finally {
         setLoadingBlogs(false);
       }

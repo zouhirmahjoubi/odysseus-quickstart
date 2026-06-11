@@ -8,6 +8,19 @@ import pb from '@/lib/pocketbaseClient.js';
 const BlogCard = ({ title, category, description, author, date, slug, imageRecord }) => {
   const formattedDate = date ? format(new Date(date), 'MMM dd, yyyy') : '';
   
+  // Safe helper to assign cute emojis based on SEO content category
+  const getCategoryEmoji = (cat) => {
+    if (!cat) return '📝';
+    const c = cat.toLowerCase();
+    if (c.includes('install')) return '🚀';
+    if (c.includes('model') || c.includes('llm')) return '🧠';
+    if (c.includes('gpu') || c.includes('tune') || c.includes('tuning')) return '⚡';
+    if (c.includes('hardware')) return '🖥️';
+    if (c.includes('agent')) return '🤖';
+    if (c.includes('db') || c.includes('data')) return '📦';
+    return '📝';
+  };
+
   // Handle image URL generation safely
   const getImageUrl = () => {
     try {
@@ -27,7 +40,7 @@ const BlogCard = ({ title, category, description, author, date, slug, imageRecor
       to={`/blog/${slug}`} 
       className="block group h-full focus:outline-none"
     >
-      <div className="bg-[hsl(var(--light-blue))] border-4 border-black rounded-lg h-full flex flex-col transition-all duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1 group-hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] group-focus-visible:-translate-y-1 group-focus-visible:-translate-x-1 group-focus-visible:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden">
+      <div className="bg-[hsl(var(--light-blue))] border-4 border-black rounded-lg h-full flex flex-col transition-all duration-300 group-hover:-translate-y-1 group-hover:-translate-x-1 group-hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] group-focus-visible:-translate-y-1 group-focus-visible:-translate-x-1 group-focus-visible:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] overflow-hidden cute-wiggle-hover">
         
         {/* Image Area */}
         {imageUrl ? (
@@ -49,8 +62,8 @@ const BlogCard = ({ title, category, description, author, date, slug, imageRecor
         <div className="p-5 md:p-6 flex flex-col flex-grow">
           {/* Category Badge */}
           <div className="mb-4 self-start">
-            <span className="bg-[hsl(var(--badge-green))] text-white border-2 border-black rounded font-black uppercase text-[10px] tracking-widest px-2.5 py-1 inline-block">
-              {category || 'Engineering'}
+            <span className="bg-[hsl(var(--badge-green))] text-white border-2 border-black rounded font-black uppercase text-[10px] tracking-widest px-2.5 py-1 inline-block transition-transform duration-200 group-hover:scale-105">
+              {getCategoryEmoji(category)} {category || 'Engineering'}
             </span>
           </div>
 
@@ -73,7 +86,7 @@ const BlogCard = ({ title, category, description, author, date, slug, imageRecor
             
             {/* Read More Button */}
             <div className="w-10 h-10 bg-accent rounded-lg border-2 border-black flex items-center justify-center transition-transform group-hover:scale-110 group-active:scale-95 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              <ArrowRight className="w-5 h-5 text-black" strokeWidth={2.5} />
+              <ArrowRight className="w-5 h-5 text-black transition-transform duration-200 group-hover:translate-x-0.5" strokeWidth={2.5} />
             </div>
           </div>
         </div>

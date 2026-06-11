@@ -220,4 +220,27 @@
   .touch-target {
     @apply min-h-[40px] min-w-[40px] flex items-center justify-center;
   }
+  
+  /* Nice cute effects */
+  @keyframes cute-wiggle {
+    0% { transform: rotate(-1deg); }
+    100% { transform: rotate(1deg); }
+  }
+  @keyframes cute-float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-6px) rotate(0.5deg); }
+  }
+  .cute-wiggle-hover {
+    transition: transform 0.2s ease;
+  }
+  .cute-wiggle-hover:hover {
+    animation: cute-wiggle 0.15s ease-in-out infinite alternate;
+  }
+  .cute-float {
+    animation: cute-float 4s infinite ease-in-out;
+  }
+  .cute-float-delay {
+    animation: cute-float 4s infinite ease-in-out;
+    animation-delay: 2s;
+  }
 }

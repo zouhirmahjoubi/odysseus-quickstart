@@ -5,6 +5,7 @@ import { useParams, Link } from 'react-router-dom';
 import pb from '@/lib/pocketbaseClient.js';
 import { ArrowLeft, Calendar, User, Tag, AlertCircle, Clock } from 'lucide-react';
 import { Skeleton } from '@/components/ui/skeleton';
+import { fallbackBlogs } from '@/data/fallbackBlogs.js';
 
 const BlogDetailPage = () => {
   const { slug } = useParams();
@@ -17,6 +18,14 @@ const BlogDetailPage = () => {
       try {
         setLoading(true);
         setError(false);
+
+        // Check if this matches a fallback static post first
+        const fallbackPost = fallbackBlogs.find(item => item.slug === slug);
+        if (fallbackPost) {
+          setBlog(fallbackPost);
+          setLoading(false);
+          return;
+        }
         
         // Fetch by slug from blog_posts
         const record = await pb.collection('blog_posts').getFirstListItem(`slug="${slug}"`, {
