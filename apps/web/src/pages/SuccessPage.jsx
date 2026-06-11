@@ -72,9 +72,29 @@ const SuccessPage = () => {
                 </div>
               </div>
 
-              <button className="neo-button bg-[#FF9000] text-black w-full flex items-center justify-center gap-2 mb-4">
-                <Download size={20} /> Download Hardened Stack
-              </button>
+              {(!paymentData?.lineItems || 
+                paymentData.lineItems.length === 0 || 
+                paymentData.lineItems.some(item => 
+                  item.description?.toLowerCase().includes('launch kit') || 
+                  item.description?.toLowerCase().includes('odysseus')
+                )
+              ) ? (
+                <a 
+                  href="/downloads/toolkit.zip" 
+                  download="odysseus-launch-kit.zip"
+                  className="neo-button bg-[#FF9000] text-black w-full flex items-center justify-center gap-2 mb-6 hover:no-underline shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
+                >
+                  <Download size={20} strokeWidth={2.5} /> Download Odysseus Launch Kit
+                </a>
+              ) : (
+                <a 
+                  href="/downloads/hardened-stack.zip" 
+                  download="hardened-stack.zip"
+                  className="neo-button bg-[#FF9000] text-black w-full flex items-center justify-center gap-2 mb-6 hover:no-underline shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
+                >
+                  <Download size={20} strokeWidth={2.5} /> Download Hardened Stack
+                </a>
+              )}
               
               <Link to="/resources" className="font-bold flex items-center justify-center gap-2 hover:underline">
                 View Documentation <ArrowRight size={16} />

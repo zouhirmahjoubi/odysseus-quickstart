@@ -24,7 +24,7 @@ const HardenedStackProduct = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: 7900,
+          amount: 79,
           productName: 'Hardened Stack: Production-Ready Deployment Script',
           successUrl: window.location.origin + '/success?session_id={CHECKOUT_SESSION_ID}',
           cancelUrl: window.location.origin + '/cancel'

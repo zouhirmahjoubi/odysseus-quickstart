@@ -279,9 +279,9 @@ const HomePage = () => {
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-8">
-              <a href="#offer" className="neo-button bg-primary text-black font-black uppercase text-sm px-6 py-4 flex items-center justify-center gap-2">
+              <Link to="/products" className="neo-button bg-primary text-black font-black uppercase text-sm px-6 py-4 flex items-center justify-center gap-2">
                 Get Odysseus Launch Kit – $19 <Rocket size={16} strokeWidth={2.5} />
-              </a>
+              </Link>
               <a href="#checker" className="neo-button bg-[hsl(var(--white))] text-black font-black uppercase text-sm px-6 py-4 text-center">
                 Check My Setup Path – Free
               </a>
@@ -973,12 +973,12 @@ const HomePage = () => {
             </div>
           </div>
 
-          <button 
-            onClick={() => toast.success('Redirecting to secure stripe checkout... 💳')}
-            className="neo-button bg-black text-white hover:bg-[hsl(var(--accent))] hover:text-black font-black uppercase text-base md:text-xl px-10 py-5 w-full max-w-md"
+          <Link 
+            to="/products"
+            className="neo-button bg-black text-white hover:bg-[hsl(var(--accent))] hover:text-black font-black uppercase text-base md:text-xl px-10 py-5 w-full max-w-md hover:no-underline"
           >
             Unlock Launch Kit Now ($19)
-          </button>
+          </Link>
           
           <div className="text-[10px] font-black uppercase text-black/60 tracking-wider mt-4">
             🔒 Secure Stripe checkout • Instant Delivery • 100% Satisfaction Guarantee

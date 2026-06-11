@@ -42,13 +42,16 @@ router.get('/session/:sessionId', async (req, res) => {
     return res.status(400).json({ error: 'Session ID is required' });
   }
 
-  const session = await stripe.checkout.sessions.retrieve(sessionId);
+  const session = await stripe.checkout.sessions.retrieve(sessionId, {
+    expand: ['line_items']
+  });
 
   res.json({
     id: session.id,
     status: session.payment_status,
     amountTotal: session.amount_total,
     customerEmail: session.customer_details?.email,
+    lineItems: session.line_items?.data || [],
   });
 });
 

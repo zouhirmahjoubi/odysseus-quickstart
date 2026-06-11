@@ -1,12 +1,13 @@
 
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Search, ShoppingCart, Filter, Zap, Cpu, MessageSquare, Brain } from 'lucide-react';
+import { Search, ShoppingCart, Filter, Zap, Cpu, MessageSquare, Brain, Rocket, Download, CheckCircle } from 'lucide-react';
 import { useCart } from '@/hooks/useCart.jsx';
 import pb from '@/lib/pocketbaseClient.js';
 import { formatCurrency } from '@/api/EcommerceApi.js';
 import { MODELS } from '@/data/modelDatabase.js';
 import { toast } from 'sonner';
+import apiServerClient from '@/lib/apiServerClient';
 
 const BUNDLES = [
   { id: 'b-rag', name: 'RAG Specialist Bundle', icon: <Zap size={24} />, desc: 'Optimized setup for Retrieval-Augmented Generation workflows.', price: 49900, color: 'bg-primary' },
@@ -20,6 +21,7 @@ const ProductsPage = () => {
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const { addToCart } = useCart();
 
   useEffect(() => {
@@ -62,6 +64,36 @@ const ProductsPage = () => {
     toast.success(`${item.name} added to cart! 🛍️`);
   };
 
+  const handleLaunchKitCheckout = async () => {
+    setIsCheckoutLoading(true);
+    try {
+      const response = await apiServerClient.fetch('/stripe/create-checkout', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: 19,
+          productName: 'Odysseus AI Launch Kit & Toolkit',
+          successUrl: window.location.origin + '/success?session_id={CHECKOUT_SESSION_ID}',
+          cancelUrl: window.location.origin + '/cancel'
+        })
+      });
+
+      if (!response.ok) throw new Error('Checkout failed');
+      const data = await response.json();
+      if (data.url) {
+        window.open(data.url, '_blank');
+        toast.success('Redirecting to secure stripe checkout... 💳');
+      } else {
+        throw new Error('No checkout url returned');
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error('Failed to initiate checkout. Please try again.');
+    } finally {
+      setIsCheckoutLoading(false);
+    }
+  };
+
   return (
     <div className="max-w-7xl mx-auto pb-24 pt-6 md:pt-12 px-4 sm:px-6">
       <Helmet>
@@ -78,6 +110,57 @@ const ProductsPage = () => {
         <p className="text-base md:text-xl font-poppins font-medium max-w-3xl text-foreground/80">
           Premium LLM presets, agent blueprints, and infrastructure configurations. Verified and ready for immediate deployment.
         </p>
+      </div>
+
+      {/* Highlighted Launch Kit Offer */}
+      <div className="neo-card bg-[hsl(var(--primary))] p-6 md:p-10 border-4 border-black mb-12 md:mb-16 relative overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] cute-wiggle-hover">
+        <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-[hsl(var(--accent))] opacity-25"></div>
+        <div className="flex flex-col lg:flex-row gap-8 items-center justify-between relative z-10 text-black">
+          <div className="max-w-2xl text-left">
+            <span className="bg-secondary text-black border-2 border-black px-3 py-1 font-black uppercase tracking-widest mb-4 rounded-md inline-block text-xs cute-float">
+              🔥 Best Value Offer
+            </span>
+            <h2 className="text-2xl md:text-4xl font-black uppercase text-black mb-3">
+              Odysseus AI Launch Kit & Toolkit
+            </h2>
+            <p className="font-poppins text-xs md:text-sm font-semibold text-black/85 mb-6 leading-relaxed">
+              Eliminate terminal loops, SQLite database locks, and port collisions. Get the complete blueprint, pre-configured configs, and automation scripts to run Odysseus AI locally on any hardware.
+            </p>
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-poppins text-xs font-semibold text-black/95">
+              <div className="flex gap-2 items-center">
+                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
+                <span>Pre-configured Docker Compose scripts</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
+                <span>Optimized environment variables</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
+                <span>One-click execution bash/bat files</span>
+              </div>
+              <div className="flex gap-2 items-center">
+                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
+                <span>Diagnostic PDF troubleshooting guide</span>
+              </div>
+            </div>
+          </div>
+          
+          <div className="w-full lg:w-auto flex flex-col items-center justify-center p-6 bg-card border-4 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[260px]">
+            <div className="flex items-baseline gap-2 mb-4">
+              <span className="text-4xl md:text-5xl font-black text-black">$19</span>
+              <span className="text-lg line-through text-black/40 font-bold">$49.99</span>
+            </div>
+            <button
+              onClick={handleLaunchKitCheckout}
+              disabled={isCheckoutLoading}
+              className="neo-button bg-black text-white hover:bg-[hsl(var(--accent))] hover:text-black font-black uppercase text-sm px-6 py-3.5 w-full flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
+            >
+              {isCheckoutLoading ? 'Processing...' : <><Rocket size={16} strokeWidth={2.5} /> Buy Launch Kit</>}
+            </button>
+          </div>
+        </div>
       </div>
 
       {/* Bundles Section */}
