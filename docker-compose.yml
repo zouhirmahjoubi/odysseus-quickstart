@@ -54,3 +54,8 @@ services:
 
 volumes:
   pocketbase_data:
+
+networks:
+  default:
+    name: dokploy-network
+    external: true
