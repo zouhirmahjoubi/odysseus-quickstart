@@ -3,7 +3,7 @@ import { Helmet } from 'react-helmet';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   ArrowRight, Cpu, Database, Shield, Zap, Terminal, Box, BookOpen, AlertCircle,
-  LayoutGrid, ShoppingBag, Calculator, Monitor, FileText, Copy, Check, ChevronDown,
+  LayoutGrid, ShoppingBag, Calculator, Monitor, MonitorPlay, FileText, Copy, Check, ChevronDown,
   HelpCircle, CheckCircle, Laptop, ShieldAlert, ExternalLink, Mail, ArrowUpRight,
   DollarSign, FileCode, AlertTriangle, Play, Settings, Server, RefreshCw
 } from 'lucide-react';
