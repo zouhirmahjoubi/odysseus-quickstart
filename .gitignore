@@ -19,6 +19,10 @@ out/
 # PocketBase local database and binaries
 apps/pocketbase/pb_data/
 apps/pocketbase/pocketbase
+apps/pocketbase/pocketbase.exe
+apps/pocketbase/pb_data_backup/
+apps/pocketbase/CHANGELOG.md
+apps/pocketbase/LICENSE.md
 *.db
 *.db-journal
 *.db-shm
@@ -33,3 +37,9 @@ desktop.ini
 *.tar.gz
 *.zip
 *.rar
+
+# Generated and agent directories
+graphify-out/
+.agent/
+.agents/
+
