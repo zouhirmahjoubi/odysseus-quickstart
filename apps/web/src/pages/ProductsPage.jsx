@@ -78,7 +78,10 @@ const ProductsPage = () => {
         })
       });
 
-      if (!response.ok) throw new Error('Checkout failed');
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.details || errData.error || 'Checkout failed');
+      }
       const data = await response.json();
       if (data.url) {
         window.open(data.url, '_blank');
@@ -88,7 +91,7 @@ const ProductsPage = () => {
       }
     } catch (error) {
       console.error(error);
-      toast.error('Failed to initiate checkout. Please try again.');
+      toast.error(`Checkout error: ${error.message}`);
     } finally {
       setIsCheckoutLoading(false);
     }

@@ -31,13 +31,16 @@ const HardenedStackProduct = () => {
         })
       });
       
-      if (!response.ok) throw new Error('Checkout failed');
+      if (!response.ok) {
+        const errData = await response.json().catch(() => ({}));
+        throw new Error(errData.details || errData.error || 'Checkout failed');
+      }
       
       const data = await response.json();
       window.open(data.url, '_blank');
     } catch (error) {
       console.error('Checkout error:', error);
-      toast.error('Failed to initiate checkout. Please try again.');
+      toast.error(`Checkout error: ${error.message}`);
     } finally {
       setIsLoading(false);
     }

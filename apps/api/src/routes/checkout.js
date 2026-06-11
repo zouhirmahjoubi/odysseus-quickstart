@@ -59,14 +59,22 @@ router.post('/', async (req, res) => {
     sessionParams.discounts = [{ coupon: couponCode }];
   }
 
-  const session = await stripe.checkout.sessions.create(sessionParams);
+  try {
+    const session = await stripe.checkout.sessions.create(sessionParams);
 
-  logger.info(`Created Checkout Session ${session.id} for customer ${customerId || 'guest'}`);
+    logger.info(`Created Checkout Session ${session.id} for customer ${customerId || 'guest'}`);
 
-  res.json({
-    sessionId: session.id,
-    url: session.url,
-  });
+    res.json({
+      sessionId: session.id,
+      url: session.url,
+    });
+  } catch (error) {
+    logger.error(`Stripe Session Creation Error: ${error.message}`);
+    res.status(500).json({
+      error: 'Failed to initiate Stripe checkout',
+      details: error.message
+    });
+  }
 });
 
 export default router;

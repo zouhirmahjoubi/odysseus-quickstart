@@ -12,26 +12,34 @@ router.post('/create-checkout', async (req, res) => {
     return res.status(400).json({ error: 'Missing required fields: amount, productName, successUrl, cancelUrl' });
   }
 
-  const session = await stripe.checkout.sessions.create({
-    payment_method_types: ['card'],
-    line_items: [
-      {
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: productName,
+  try {
+    const session = await stripe.checkout.sessions.create({
+      payment_method_types: ['card'],
+      line_items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: productName,
+            },
+            unit_amount: Math.round(amount * 100),
           },
-          unit_amount: Math.round(amount * 100),
+          quantity: 1,
         },
-        quantity: 1,
-      },
-    ],
-    mode: 'payment',
-    success_url: successUrl,
-    cancel_url: cancelUrl,
-  });
+      ],
+      mode: 'payment',
+      success_url: successUrl,
+      cancel_url: cancelUrl,
+    });
 
-  res.json({ url: session.url });
+    res.json({ url: session.url });
+  } catch (error) {
+    console.error("Stripe Session Creation Error:", error);
+    res.status(500).json({ 
+      error: 'Failed to initiate Stripe checkout',
+      details: error.message 
+    });
+  }
 });
 
 // Retrieve Checkout Session
