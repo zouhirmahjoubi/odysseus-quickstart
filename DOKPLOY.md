@@ -30,9 +30,9 @@ Better Auth and PocketBase require specific production settings. Go to the **Env
 
 | Key | Example Value | Description |
 | :--- | :--- | :--- |
-| `FRONTEND_URL` | `https://odysseus.yourdomain.com` | Your public web application URL. |
-| `CORS_ORIGIN` | `https://odysseus.yourdomain.com` | Allowed CORS origin (should match web URL). |
-| `BETTER_AUTH_URL` | `https://odysseus.yourdomain.com/hcgi/api` | API path where Better Auth endpoints are mounted. |
+| `FRONTEND_URL` | `https://odysseusai.ai` | Your public web application URL. |
+| `CORS_ORIGIN` | `https://odysseusai.ai` | Allowed CORS origin (should match web URL). |
+| `BETTER_AUTH_URL` | `https://odysseusai.ai/hcgi/api/auth` | API path where Better Auth endpoints are mounted (including `/auth`). |
 | `PB_SUPERUSER_EMAIL` | `admin@odysseusai.com` | PocketBase administrator email. |
 | `PB_SUPERUSER_PASSWORD` | `ChooseSecureAdminPass123!` | PocketBase administrator password. |
 | `PB_ENCRYPTION_KEY` | `your-32-character-encryption-key-here` | Encryption key for PocketBase data storage. |
@@ -60,19 +60,19 @@ Better Auth and PocketBase require specific production settings. Go to the **Env
 To enable OAuth login/signup for each provider, you must create developer accounts with them and register the following **Authorized Redirect URIs** (Callbacks):
 
 1. **Google (Google Cloud Console)**:
-   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/google`
+   - **URI**: `https://odysseusai.ai/hcgi/api/auth/callback/google`
    - **Where**: APIs & Services > Credentials > Create Credentials > OAuth client ID > Web application > Authorized redirect URIs.
 
 2. **GitHub (GitHub Developer Settings)**:
-   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/github`
+   - **URI**: `https://odysseusai.ai/hcgi/api/auth/callback/github`
    - **Where**: Settings > Developer settings > OAuth Apps > Register a new application > Authorization callback URL.
 
 3. **Microsoft (Azure Portal)**:
-   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/microsoft`
+   - **URI**: `https://odysseusai.ai/hcgi/api/auth/callback/microsoft`
    - **Where**: Azure Active Directory > App registrations > New registration > Authentication > Add a platform > Web > Redirect URIs.
 
 4. **Apple (Apple Developer Account)**:
-   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/apple`
+   - **URI**: `https://odysseusai.ai/hcgi/api/auth/callback/apple`
    - **Where**: Certificates, Identifiers & Profiles > Identifiers > Services IDs > Enable Sign In with Apple > Configure > Return URLs.
 
 ---
@@ -82,7 +82,7 @@ Dokploy uses Traefik for reverse-proxying.
 1. In your Dokploy Compose service, navigate to the **Domains** tab.
 2. Click **Add Domain**.
 3. Select the `web` service and target port **`80`**.
-4. Enter your public domain (e.g. `odysseus.yourdomain.com`).
+4. Enter your public domain (e.g. `odysseusai.ai`).
 5. Click save. Dokploy will automatically configure SSL certificates and route traffic to the Nginx server on the `web` container.
 
 ---
