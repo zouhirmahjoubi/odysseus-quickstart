@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { FileText, ShoppingBag, Users, Activity, PlusCircle, BarChart, UserPlus, ShoppingCart, Network } from 'lucide-react';
+import { FileText, ShoppingBag, Users, Activity, PlusCircle, BarChart, UserPlus, ShoppingCart, Network, Star } from 'lucide-react';
 import { useAdminAuth } from '@/contexts/AdminAuthContext.jsx';
 import pb from '@/lib/pocketbaseClient';
 import { Link } from 'react-router-dom';
@@ -10,7 +10,7 @@ import NeoBrutalButton from '@/components/NeoBrutalButton.jsx';
 
 const AdminDashboard = () => {
   const { currentAdmin } = useAdminAuth();
-  const [stats, setStats] = useState({ users: 0, products: 0, posts: 0, orders: 0 });
+  const [stats, setStats] = useState({ users: 0, products: 0, posts: 0, orders: 0, testimonials: 0 });
   const [activities, setActivities] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -24,7 +24,8 @@ const AdminDashboard = () => {
           pb.collection('users').getList(1, 1, { $autoCancel: false }),
           pb.collection('products').getList(1, 1, { $autoCancel: false }),
           pb.collection('blogs').getList(1, 1, { $autoCancel: false }),
-          pb.collection('orders').getList(1, 1, { $autoCancel: false })
+          pb.collection('orders').getList(1, 1, { $autoCancel: false }),
+          pb.collection('testimonials').getList(1, 1, { $autoCancel: false })
         ]);
         
         if (!isMounted) return;
@@ -34,6 +35,7 @@ const AdminDashboard = () => {
           products: results[1].status === 'fulfilled' ? results[1].value.totalItems : 0,
           posts: results[2].status === 'fulfilled' ? results[2].value.totalItems : 0,
           orders: results[3].status === 'fulfilled' ? results[3].value.totalItems : 0,
+          testimonials: results[4].status === 'fulfilled' ? results[4].value.totalItems : 0,
         });
         
         setActivities([
@@ -61,6 +63,7 @@ const AdminDashboard = () => {
     { title: 'Total Products', value: stats.products, icon: ShoppingBag, color: 'bg-[hsl(var(--orange))]' },
     { title: 'Total Intel Logs', value: stats.posts, icon: FileText, color: 'bg-[hsl(var(--active-green))]' },
     { title: 'Total Orders', value: stats.orders, icon: ShoppingCart, color: 'bg-[hsl(var(--light-blue))]' },
+    { title: 'Total Testimonials', value: stats.testimonials, icon: Star, color: 'bg-[var(--accent-mint)]' }
   ];
 
   return (
@@ -78,7 +81,7 @@ const AdminDashboard = () => {
         </div>
       </NeoBrutalCard>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-[15px] md:gap-[24px] w-full">
+      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-5 gap-[15px] md:gap-[24px] w-full">
         {statCards.map((stat, i) => (
           <NeoBrutalCard key={i} className={`!p-[20px] md:!p-[24px] ${stat.color} text-black flex flex-col h-full w-full border-[4px] border-black shadow-[4px_4px_0px_0px_#000000]`}>
             <div className="flex justify-between items-start mb-[15px]">
@@ -137,6 +140,11 @@ const AdminDashboard = () => {
               <Link to="/admin/users" className="w-full">
                 <NeoBrutalButton variant="secondary" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px]">
                   <UserPlus size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Provision User
+                </NeoBrutalButton>
+              </Link>
+              <Link to="/admin/testimonials" className="w-full">
+                <NeoBrutalButton variant="primary" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px] bg-yellow-100 text-black hover:bg-yellow-200">
+                  <Star size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Manage Testimonials
                 </NeoBrutalButton>
               </Link>
               <Link to="/admin/analytics" className="w-full">

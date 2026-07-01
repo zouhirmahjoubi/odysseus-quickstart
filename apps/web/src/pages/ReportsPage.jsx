@@ -26,7 +26,10 @@ const ReportsPage = () => {
     }
   };
 
-  useEffect(() => { fetchReports(); }, [user]);
+  useEffect(() => {
+    fetchReports();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this report?')) return;

@@ -1,3 +1,5 @@
+const { heroui } = require("@heroui/react");
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: ["class"],
@@ -6,6 +8,8 @@ module.exports = {
     "./components/**/*.{js,jsx}",
     "./app/**/*.{js,jsx}",
     "./src/**/*.{js,jsx}",
+    "../../node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
+    "../../node_modules/@heroui/react/node_modules/@heroui/theme/dist/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
     container: {
@@ -19,50 +23,57 @@ module.exports = {
       fontFamily: {
         sans: ["var(--font-space-grotesk)", "sans-serif"],
         mono: ["var(--font-jetbrains-mono)", "monospace"],
+        rounded: ["Quicksand", "sans-serif"],
       },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        'wiggle-yellow': "var(--color-accent)",
+        'wiggle-blue': "var(--color-accent-soft)",
+        'wiggle-pink': "var(--color-accent)",
+        'wiggle-dark': "var(--color-text-primary)",
+        'wiggle-cream': "var(--color-bg)",
+        'wiggle-green': "var(--color-matrix)",
+        border: "var(--color-border)",
+        input: "rgba(255, 255, 255, 0.06)",
+        ring: "var(--color-accent)",
+        background: "var(--color-bg)",
+        foreground: "var(--color-text-primary)",
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: "var(--color-accent)",
+          foreground: "var(--color-text-primary)",
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: "var(--color-accent-soft)",
+          foreground: "var(--color-text-primary)",
         },
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: "var(--color-accent)",
+          foreground: "var(--color-text-primary)",
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: "var(--color-surface)",
+          foreground: "var(--color-text-muted)",
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: "var(--color-accent)",
+          foreground: "var(--color-text-primary)",
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: "var(--color-surface)",
+          foreground: "var(--color-text-primary)",
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: "var(--color-surface)",
+          foreground: "var(--color-text-primary)",
         },
         sidebar: {
-          DEFAULT: "hsl(var(--sidebar-background))",
-          foreground: "hsl(var(--sidebar-foreground))",
-          primary: "hsl(var(--sidebar-primary))",
-          "primary-foreground": "hsl(var(--sidebar-primary-foreground))",
-          accent: "hsl(var(--sidebar-accent))",
-          "accent-foreground": "hsl(var(--sidebar-accent-foreground))",
-          border: "hsl(var(--sidebar-border))",
-          ring: "hsl(var(--sidebar-ring))",
+          DEFAULT: "var(--color-bg)",
+          foreground: "var(--color-text-primary)",
+          primary: "var(--color-accent)",
+          "primary-foreground": "var(--color-text-primary)",
+          accent: "var(--color-accent-soft)",
+          "accent-foreground": "var(--color-text-primary)",
+          border: "var(--color-border)",
+          ring: "var(--color-accent)",
         },
       },
       borderRadius: {
@@ -86,5 +97,8 @@ module.exports = {
       },
     },
   },
-  plugins: [require("tailwindcss-animate")],
+  plugins: [
+    require("tailwindcss-animate"),
+    heroui(),
+  ],
 };

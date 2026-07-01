@@ -27,6 +27,7 @@ const ProductManagementPage = () => {
 
   useEffect(() => {
     filterProducts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products, searchTerm, categoryFilter]);
 
   const fetchData = async () => {

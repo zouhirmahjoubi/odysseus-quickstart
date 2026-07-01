@@ -9,6 +9,7 @@ import {
 import { useTheme } from '@/contexts/ThemeContext.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useAdminAuth } from '@/contexts/AdminAuthContext.jsx';
+import LogoComponent from '@/components/LogoComponent.jsx';
 
 const Sidebar = () => {
   const location = useLocation();
@@ -66,7 +67,7 @@ const Sidebar = () => {
       {/* Mobile Hamburger Toggle (Visible only on mobile/tablet) */}
       <button 
         onClick={() => setIsMobileOpen(true)}
-        className="md:hidden fixed top-4 left-4 z-[45] touch-target border-[4px] border-black bg-[hsl(var(--primary))] rounded-[8px] p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none transition-all"
+        className="md:hidden fixed top-4 left-4 z-[45] touch-target border-[4px] border-black bg-[hsl(var(--primary))] rounded-none p-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none transition-all"
         aria-label="Open Menu"
       >
         <Menu size={24} className="text-black" strokeWidth={3} />
@@ -76,28 +77,27 @@ const Sidebar = () => {
       <aside className={`hidden md:flex fixed inset-y-0 left-0 bg-[hsl(var(--primary))] border-r-[4px] border-black z-50 flex-col transition-all duration-300 ${isCollapsed ? 'w-20' : 'w-64 lg:w-72'}`}>
         <div className="h-[70px] p-4 flex items-center justify-between border-b-[4px] border-black bg-[hsl(var(--primary))]">
           {!isCollapsed && (
-            <Link to="/" className="flex items-center gap-2 overflow-hidden">
-              <span className="font-black text-xl tracking-tight leading-none text-black truncate">ODYSSEUS</span>
-              <span className="bg-[hsl(var(--accent))] text-black border-2 border-black rounded-[4px] px-1 py-0.5 font-black text-sm leading-none">AI</span>
-            </Link>
+            <div className="scale-[0.8] origin-left">
+              <LogoComponent />
+            </div>
           )}
           <div className={`flex items-center gap-2 ${isCollapsed ? 'mx-auto flex-col' : ''}`}>
             <button 
               onClick={() => setIsCollapsed(!isCollapsed)}
-              className="w-[40px] h-[40px] border-[4px] border-black bg-[hsl(var(--card))] flex items-center justify-center hover:bg-[hsl(var(--accent))] transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none rounded-[8px]"
+              className="w-[40px] h-[40px] border-[4px] border-black bg-[hsl(var(--card))] flex items-center justify-center hover:bg-[hsl(var(--accent))] transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none rounded-none"
             >
               {isCollapsed ? <Menu size={18} strokeWidth={3} className="text-black" /> : <X size={18} strokeWidth={3} className="text-black" />}
             </button>
             <button 
               onClick={toggleTheme}
-              className="w-[40px] h-[40px] border-[4px] border-black bg-[hsl(var(--card))] flex items-center justify-center hover:bg-[hsl(var(--accent))] transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none rounded-[8px]"
+              className="w-[40px] h-[40px] border-[4px] border-black bg-[hsl(var(--card))] flex items-center justify-center hover:bg-[hsl(var(--accent))] transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none rounded-none"
             >
               {isCyberMode ? <Sun size={18} strokeWidth={3} className="text-black" /> : <Moon size={18} strokeWidth={3} className="text-black" />}
             </button>
           </div>
         </div>
 
-        <nav className="flex-1 overflow-y-auto p-4 flex flex-col gap-6">
+        <nav className="flex-1 overflow-y-auto p-4 flex flex-col gap-6 font-mono">
           <div className="flex flex-col gap-3">
             {menuItems.map((item) => {
               const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -107,7 +107,7 @@ const Sidebar = () => {
                   to={item.path}
                   title={isCollapsed ? item.name : ''}
                   className={`
-                    flex items-center gap-3 px-3 py-3 border-[4px] border-black font-black text-sm lg:text-base transition-all duration-200 uppercase tracking-wide rounded-lg
+                    flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base transition-all duration-200 uppercase tracking-wider rounded-none
                     ${isActive 
                       ? 'bg-[hsl(var(--active-green))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-1 translate-y-1' 
                       : 'bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--light-blue))]'
@@ -123,7 +123,7 @@ const Sidebar = () => {
           </div>
 
           <div>
-            {!isCollapsed && <h3 className="font-black uppercase tracking-widest text-xs mb-3 px-2 border-b-[4px] border-black pb-2 text-black inline-block">Reference</h3>}
+            {!isCollapsed && <h3 className="font-bold uppercase tracking-widest text-xs mb-3 px-2 border-b-[4px] border-black pb-2 text-black inline-block">Reference</h3>}
             <div className="flex flex-col gap-3">
               {referenceItems.map((item) => {
                 const isActive = location.pathname === item.path || location.pathname.startsWith(item.path);
@@ -133,7 +133,7 @@ const Sidebar = () => {
                     to={item.path}
                     title={isCollapsed ? item.name : ''}
                     className={`
-                      flex items-center gap-3 px-3 py-2 border-[4px] border-black font-bold text-xs lg:text-sm transition-all duration-200 uppercase rounded-lg
+                      flex items-center gap-3 px-3 py-2 border-[4px] border-black font-bold text-xs lg:text-sm tracking-wider transition-all duration-200 uppercase rounded-none
                       ${isActive 
                         ? 'bg-[hsl(var(--active-green))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-1 translate-y-1' 
                         : 'bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--light-blue))]'
@@ -156,7 +156,7 @@ const Sidebar = () => {
                 to="/admin"
                 title={isCollapsed ? 'Admin' : ''}
                 className={`
-                  flex items-center gap-3 px-3 py-3 border-[4px] border-black font-black text-sm lg:text-base transition-all duration-200 uppercase tracking-wide rounded-lg
+                  flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
                   bg-[hsl(var(--destructive))] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:brightness-110
                   ${isCollapsed ? 'justify-center' : ''}
                 `}
@@ -171,7 +171,7 @@ const Sidebar = () => {
                 to="/login"
                 title={isCollapsed ? 'Login' : ''}
                 className={`
-                  flex items-center gap-3 px-3 py-3 border-[4px] border-black font-black text-sm lg:text-base transition-all duration-200 uppercase tracking-wide rounded-lg
+                  flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
                   bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--primary))]
                   ${isCollapsed ? 'justify-center' : ''}
                 `}
@@ -185,7 +185,7 @@ const Sidebar = () => {
                   to="/dashboard"
                   title={isCollapsed ? 'Dashboard' : ''}
                   className={`
-                    flex items-center gap-3 px-3 py-3 border-[4px] border-black font-black text-sm lg:text-base transition-all duration-200 uppercase tracking-wide rounded-lg
+                    flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
                     ${location.pathname === '/dashboard' ? 'bg-[hsl(var(--active-green))] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-1 translate-y-1' : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--active-green))]'} text-black
                     ${isCollapsed ? 'justify-center' : ''}
                   `}
@@ -197,7 +197,7 @@ const Sidebar = () => {
                   onClick={handleLogout}
                   title={isCollapsed ? 'Logout' : ''}
                   className={`
-                    flex items-center gap-3 px-3 py-3 border-[4px] border-black font-black text-sm lg:text-base transition-all duration-200 uppercase tracking-wide rounded-lg
+                    flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
                     bg-[hsl(var(--orange))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:brightness-110
                     ${isCollapsed ? 'justify-center' : ''}
                   `}
@@ -224,29 +224,27 @@ const Sidebar = () => {
         className={`fixed top-0 left-0 bottom-0 z-[60] bg-[hsl(var(--sidebar))] border-r-[4px] border-black w-[85vw] max-w-[320px] transition-transform duration-300 md:hidden flex flex-col ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'}`}
       >
         <div className="p-4 border-b-[4px] border-black bg-[hsl(var(--primary))] flex justify-between items-center h-[70px]">
-          <Link to="/" className="flex items-center gap-1.5" onClick={() => setIsMobileOpen(false)}>
-            <span className="font-black text-xl tracking-tighter text-black uppercase leading-none">
-              ODYSSEUS
-            </span>
-          </Link>
+          <div className="scale-[0.8] origin-left">
+            <LogoComponent onClick={() => setIsMobileOpen(false)} />
+          </div>
           
           <div className="flex items-center gap-2">
             <button 
               onClick={toggleTheme}
-              className="w-10 h-10 flex items-center justify-center touch-target bg-[hsl(var(--background))] border-[4px] border-black rounded-[8px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none"
+              className="w-10 h-10 flex items-center justify-center touch-target bg-[hsl(var(--background))] border-[4px] border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none"
             >
               {isCyberMode ? <Sun size={18} strokeWidth={3} className="text-black" /> : <Moon size={18} strokeWidth={3} className="text-black" />}
             </button>
             <button 
               onClick={() => setIsMobileOpen(false)}
-              className="w-10 h-10 flex items-center justify-center touch-target bg-[hsl(var(--card))] border-[4px] border-black rounded-[8px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none"
+              className="w-10 h-10 flex items-center justify-center touch-target bg-[hsl(var(--card))] border-[4px] border-black rounded-none shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-[2px] active:translate-x-[2px] active:shadow-none"
             >
               <X size={18} strokeWidth={3} className="text-black" />
             </button>
           </div>
         </div>
 
-        <nav className="py-4 px-4 overflow-y-auto flex flex-col gap-4 flex-1">
+        <nav className="py-4 px-4 overflow-y-auto flex flex-col gap-4 flex-1 font-mono">
           <div className="flex flex-col gap-3">
             {menuItems.map((item) => {
               const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
@@ -254,7 +252,7 @@ const Sidebar = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm transition-all duration-200 uppercase rounded-lg group ${
+                  className={`flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group ${
                     isActive 
                       ? 'bg-[hsl(var(--active-green))] text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-[2px] translate-x-[2px]' 
                       : 'bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--light-blue))]'
@@ -262,14 +260,14 @@ const Sidebar = () => {
                   onClick={() => setIsMobileOpen(false)}
                 >
                   <item.icon size={20} strokeWidth={2.5} className="flex-shrink-0" />
-                  <span className="flex-1 font-black">{item.name}</span>
+                  <span className="flex-1 font-bold">{item.name}</span>
                   <ChevronRight size={18} strokeWidth={3} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               );
             })}
           </div>
 
-          <h3 className="font-black uppercase tracking-widest text-xs mt-4 px-2 border-b-[4px] border-black pb-2 text-black inline-block">Reference</h3>
+          <h3 className="font-bold uppercase tracking-widest text-xs mt-4 px-2 border-b-[4px] border-black pb-2 text-black inline-block">Reference</h3>
           
           <div className="flex flex-col gap-3 pb-4">
             {referenceItems.map((item) => {
@@ -278,7 +276,7 @@ const Sidebar = () => {
                 <Link
                   key={item.name}
                   to={item.path}
-                  className={`flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm transition-all duration-200 uppercase rounded-lg group ${
+                  className={`flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group ${
                     isActive 
                       ? 'bg-[hsl(var(--active-green))] text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-[2px] translate-x-[2px]' 
                       : 'bg-white text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--light-blue))]'
@@ -286,7 +284,7 @@ const Sidebar = () => {
                   onClick={() => setIsMobileOpen(false)}
                 >
                   <item.icon size={20} strokeWidth={2.5} className="flex-shrink-0" />
-                  <span className="flex-1 font-black">{item.name}</span>
+                  <span className="flex-1 font-bold">{item.name}</span>
                   <ChevronRight size={18} strokeWidth={3} className="opacity-0 group-hover:opacity-100 transition-opacity" />
                 </Link>
               );
@@ -298,7 +296,7 @@ const Sidebar = () => {
             {isAdmin && (
               <Link
                 to="/admin"
-                className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-black text-sm transition-all duration-200 uppercase rounded-lg group bg-[hsl(var(--destructive))] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--destructive))] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 onClick={() => setIsMobileOpen(false)}
               >
                 <ShieldAlert size={20} strokeWidth={3} className="flex-shrink-0" />
@@ -310,7 +308,7 @@ const Sidebar = () => {
             {!isAuthenticated ? (
               <Link
                 to="/login"
-                className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-black text-sm transition-all duration-200 uppercase rounded-lg group bg-[hsl(var(--primary))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--primary))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 onClick={() => setIsMobileOpen(false)}
               >
                 <User size={20} strokeWidth={3} className="flex-shrink-0" />
@@ -321,7 +319,7 @@ const Sidebar = () => {
               <>
                 <Link
                   to="/dashboard"
-                  className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-black text-sm transition-all duration-200 uppercase rounded-lg group bg-[hsl(var(--active-green))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
+                  className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--active-green))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                   onClick={() => setIsMobileOpen(false)}
                 >
                   <LayoutDashboard size={20} strokeWidth={3} className="flex-shrink-0" />
@@ -330,7 +328,7 @@ const Sidebar = () => {
                 </Link>
                 <button
                   onClick={handleLogout}
-                  className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-black text-sm transition-all duration-200 uppercase rounded-lg group bg-[hsl(var(--orange))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-left"
+                  className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--orange))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] text-left"
                 >
                   <LogOut size={20} strokeWidth={3} className="flex-shrink-0" />
                   <span className="flex-1">Logout</span>

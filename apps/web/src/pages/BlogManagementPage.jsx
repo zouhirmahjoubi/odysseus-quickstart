@@ -190,6 +190,7 @@ const BlogManagementPage = () => {
 
   useEffect(() => {
     fetchPosts();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [page, filterStatus]);
 
   const handleDelete = async (id) => {

@@ -59,7 +59,7 @@ const ModelSelector = ({ selectedModelId, onModelSelect }) => {
                     >
                       <div className="flex flex-col">
                         <span className="font-bold text-black text-sm group-hover:underline decoration-2">{model.name}</span>
-                        <span className="text-xs text-muted-foreground font-medium mt-0.5 max-w-[250px] truncate">{model.description}</span>
+                        <span className="text-xs text-black/60 font-medium mt-0.5 max-w-[250px] truncate">{model.description}</span>
                       </div>
                       {selectedModelId === model.id && (
                         <Check className="w-5 h-5 text-black" strokeWidth={3} />

@@ -8,7 +8,7 @@ const HeroSection = () => {
     <section className="flex flex-col lg:flex-row gap-12 lg:gap-8 items-center mt-8 mb-20">
       {/* Left Column (60%) */}
       <div className="w-full lg:w-[60%] flex flex-col items-start">
-        <div className="bg-accent text-accent-foreground neo-border px-4 py-1.5 font-black uppercase tracking-widest mb-8 shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))]">
+        <div className="bg-accent text-accent-foreground neo-border px-4 py-1.5 font-black uppercase tracking-widest mb-8 shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] animate-pulse-glow">
           India's #1 Digital Marketplace
         </div>
         
@@ -34,11 +34,11 @@ const HeroSection = () => {
       </div>
 
       {/* Right Column (40%) */}
-      <div className="w-full lg:w-[40%]">
+      <div className="w-full lg:w-[40%] animate-float">
         <div className="neo-card bg-card p-6 transform transition-transform hover:-translate-y-2 hover:shadow-[8px_8px_0px_0px_hsl(var(--shadow-color))] duration-300">
           {/* Media Container */}
-          <div className="bg-primary neo-border aspect-video flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))]">
-            <Code size={64} strokeWidth={2.5} className="text-primary-foreground opacity-80" />
+          <div className="bg-primary neo-border aspect-video flex items-center justify-center mb-6 shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] overflow-hidden">
+            <Code size={64} strokeWidth={2.5} className="text-primary-foreground opacity-80 animate-spin-slow" />
           </div>
           
           {/* Tags */}

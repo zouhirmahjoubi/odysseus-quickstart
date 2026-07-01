@@ -1,26 +1,71 @@
 
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { Search, ShoppingCart, Filter, Zap, Cpu, MessageSquare, Brain, Rocket, Download, CheckCircle } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import {
+  Search, ShoppingCart, Zap, Cpu, MessageSquare, Brain,
+  Rocket, CheckCircle, Lock, Star, ArrowRight, Filter, X
+} from 'lucide-react';
 import { useCart } from '@/hooks/useCart.jsx';
 import pb from '@/lib/pocketbaseClient.js';
 import { formatCurrency } from '@/api/EcommerceApi.js';
 import { MODELS } from '@/data/modelDatabase.js';
 import { toast } from 'sonner';
 import apiServerClient from '@/lib/apiServerClient';
+import { motion, AnimatePresence } from 'framer-motion';
+import { FadeIn, StaggerContainer, StaggerItem, ScaleIn, Reveal } from '@/components/ScrollAnimations.jsx';
+import FeaturedLaunchKitCard from '@/components/FeaturedLaunchKitCard.jsx';
 
+// ─── Bundle definitions ───
 const BUNDLES = [
-  { id: 'b-rag', name: 'RAG Specialist Bundle', icon: <Zap size={24} />, desc: 'Optimized setup for Retrieval-Augmented Generation workflows.', price: 49900, color: 'bg-primary' },
-  { id: 'b-code', name: 'Code Master Bundle', icon: <Cpu size={24} />, desc: 'Elite code generation and review architecture blueprints.', price: 59900, color: 'bg-secondary' },
-  { id: 'b-chat', name: 'Chat Expert Bundle', icon: <MessageSquare size={24} />, desc: 'High-throughput conversational AI configurations.', price: 39900, color: 'bg-accent' },
-  { id: 'b-reason', name: 'Reasoning Pro Bundle', icon: <Brain size={24} />, desc: 'Heavyweight models for complex logic and math tasks.', price: 89900, color: 'bg-muted' }
+  {
+    id: 'b-rag',
+    name: 'RAG Specialist Bundle',
+    icon: <Zap size={22} />,
+    emoji: '⚡',
+    desc: 'Optimized setup for Retrieval-Augmented Generation workflows.',
+    price: 49900,
+    bg: 'bg-wiggle-blue',
+    tag: 'RAG',
+  },
+  {
+    id: 'b-code',
+    name: 'Code Master Bundle',
+    icon: <Cpu size={22} />,
+    emoji: '💻',
+    desc: 'Elite code generation and review architecture blueprints.',
+    price: 59900,
+    bg: 'bg-wiggle-yellow',
+    tag: 'Coding',
+  },
+  {
+    id: 'b-chat',
+    name: 'Chat Expert Bundle',
+    icon: <MessageSquare size={22} />,
+    emoji: '💬',
+    desc: 'High-throughput conversational AI configurations.',
+    price: 39900,
+    bg: 'bg-wiggle-pink',
+    tag: 'Chat',
+  },
+  {
+    id: 'b-reason',
+    name: 'Reasoning Pro Bundle',
+    icon: <Brain size={22} />,
+    emoji: '🧠',
+    desc: 'Heavyweight models for complex logic and math tasks.',
+    price: 89900,
+    bg: 'bg-wiggle-green',
+    tag: 'Reasoning',
+  },
 ];
 
 const ProductsPage = () => {
+  const navigate = useNavigate();
   const [dbProducts, setDbProducts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
-  const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [activeFilter, setActiveFilter] = useState('all');
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const { addToCart } = useCart();
 
@@ -29,11 +74,11 @@ const ProductsPage = () => {
       try {
         const records = await pb.collection('products').getList(1, 20, {
           filter: 'status="active"',
-          $autoCancel: false
+          $autoCancel: false,
         });
         setDbProducts(records.items);
       } catch (error) {
-        console.error("Error fetching products:", error);
+        console.error('Error fetching products:', error);
       } finally {
         setLoading(false);
       }
@@ -41,233 +86,324 @@ const ProductsPage = () => {
     fetchProducts();
   }, []);
 
-  const displayModels = MODELS.filter(m => m.price).slice(0, 24);
-  const filteredModels = displayModels.filter(p => 
-    p.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-    p.family.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const displayModels = MODELS.filter((m) => m.price).slice(0, 24);
+
+  const filteredModels = displayModels.filter((p) => {
+    const matchSearch =
+      p.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      p.family.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchFilter =
+      activeFilter === 'all' ||
+      (activeFilter === 'popular' && p.is_popular) ||
+      (activeFilter === 'new' && p.is_new) ||
+      p.recommended_for?.some((r) => r.toLowerCase().includes(activeFilter));
+    return matchSearch && matchFilter;
+  });
 
   const handleAddToCart = (item, type = 'model') => {
-    const cartProduct = {
-      id: item.id,
-      title: item.name,
-      image_url: null,
-    };
+    const cartProduct = { id: item.id, title: item.name, image_url: null };
     const variant = {
       id: `${item.id}-default`,
       price_in_cents: item.price || 0,
       title: type === 'bundle' ? 'Bundle' : 'Preset Config',
-      currency_info: { code: 'USD', symbol: '$' }
+      currency_info: { code: 'USD', symbol: '$' },
     };
-    
     addToCart(cartProduct, variant, 1, 999);
     toast.success(`${item.name} added to cart! 🛍️`);
   };
 
-  const handleLaunchKitCheckout = async () => {
-    setIsCheckoutLoading(true);
-    try {
-      const response = await apiServerClient.fetch('/stripe/create-checkout', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          amount: 19,
-          productName: 'Odysseus AI Launch Kit & Toolkit',
-          successUrl: window.location.origin + '/success?session_id={CHECKOUT_SESSION_ID}',
-          cancelUrl: window.location.origin + '/cancel'
-        })
-      });
-
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.details || errData.error || 'Checkout failed');
-      }
-      const data = await response.json();
-      if (data.url) {
-        window.open(data.url, '_blank');
-        toast.success('Redirecting to secure stripe checkout... 💳');
-      } else {
-        throw new Error('No checkout url returned');
-      }
-    } catch (error) {
-      console.error(error);
-      toast.error(`Checkout error: ${error.message}`);
-    } finally {
-      setIsCheckoutLoading(false);
-    }
+  const handleLaunchKitCheckout = () => {
+    navigate('/install-odysseus-pewdiepie');
   };
 
+  const FILTER_PILLS = ['all', 'popular', 'new', 'coding', 'reasoning', 'chat'];
+
   return (
-    <div className="max-w-7xl mx-auto pb-24 pt-6 md:pt-12 px-4 sm:px-6">
+    <div className="max-w-7xl mx-auto px-4 pt-12 pb-24 font-rounded">
       <Helmet>
-        <title>Marketplace | OdysseusAI</title>
+        <title>Marketplace — LLM Presets & AI Bundles | OdysseusAI</title>
+        <meta
+          name="description"
+          content="Premium LLM presets, agent blueprints, and infrastructure configurations. Verified and ready for immediate deployment with Odysseus AI."
+        />
       </Helmet>
 
-      <div className="mb-10 md:mb-16 neo-border bg-card p-6 md:p-8 gradient-bg-cute shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))]">
-        <div className="inline-block bg-primary text-primary-foreground border-2 border-border px-3 py-1 md:px-4 md:py-1 font-black uppercase tracking-widest mb-4 md:mb-6 rounded-[var(--radius-sm)] shadow-sm text-xs md:text-sm">
-          Asset Store
-        </div>
-        <h1 className="text-3xl sm:text-5xl md:text-7xl font-black uppercase leading-none mb-4 md:mb-6 text-balance">
-          Digital Marketplace
-        </h1>
-        <p className="text-base md:text-xl font-poppins font-medium max-w-3xl text-foreground/80">
-          Premium LLM presets, agent blueprints, and infrastructure configurations. Verified and ready for immediate deployment.
-        </p>
+      {/* ── Hero ── */}
+      <div className="text-center mb-14 select-none">
+        <FadeIn direction="down" distance={20} delay={0.05}>
+          <div className="inline-flex items-center gap-2 bg-[#00F0FF]/10 px-4 py-1.5 rounded-full border border-[#00F0FF]/20 text-sm font-bold mb-6">
+            <span className="bg-[#00F0FF] px-2 py-0.5 rounded-full text-xs text-black font-black">
+              STORE
+            </span>
+            <span className="text-gray-300">Premium AI Assets — Presets, Bundles & Blueprints</span>
+          </div>
+        </FadeIn>
+
+        <FadeIn direction="up" distance={30} delay={0.1}>
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+            Digital{' '}
+            <span className="text-[#00F0FF] bg-[#00F0FF]/10 px-4 py-1 border border-[#00F0FF]/20 rounded-3xl inline-block transform -rotate-1 shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+              Marketplace
+            </span>
+          </h1>
+        </FadeIn>
+
+        <FadeIn direction="up" distance={20} delay={0.2}>
+          <p className="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto font-medium leading-relaxed">
+            Premium LLM presets, agent blueprints, and infrastructure configurations. Verified and ready for immediate deployment.
+          </p>
+        </FadeIn>
+
+        {/* Stats strip */}
+        <FadeIn direction="up" distance={16} delay={0.3}>
+          <div className="flex flex-wrap justify-center gap-4 mt-8">
+            {[
+              { icon: '🎁', val: `${BUNDLES.length}`, label: 'Bundles' },
+              { icon: '🤖', val: `${displayModels.length}+`, label: 'Presets' },
+              { icon: '⭐', val: '5/5', label: 'Rating' },
+              { icon: '🔒', val: '100%', label: 'Secure' },
+            ].map((s) => (
+              <div
+                key={s.label}
+                className="bg-white/5 border border-white/10 rounded-2xl px-5 py-3 shadow-md flex items-center gap-3 backdrop-blur-md"
+              >
+                <span className="text-xl">{s.icon}</span>
+                <div className="text-left">
+                  <div className="text-lg font-black text-white leading-none">{s.val}</div>
+                  <div className="text-[10px] uppercase tracking-widest text-gray-400 font-bold">{s.label}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </FadeIn>
       </div>
 
-      {/* Highlighted Launch Kit Offer */}
-      <div className="neo-card bg-[hsl(var(--primary))] p-6 md:p-10 border-4 border-black mb-12 md:mb-16 relative overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] cute-wiggle-hover">
-        <div className="absolute -right-12 -top-12 w-40 h-40 rounded-full bg-[hsl(var(--accent))] opacity-25"></div>
-        <div className="flex flex-col lg:flex-row gap-8 items-center justify-between relative z-10 text-black">
-          <div className="max-w-2xl text-left">
-            <span className="bg-secondary text-black border-2 border-black px-3 py-1 font-black uppercase tracking-widest mb-4 rounded-md inline-block text-xs cute-float">
-              🔥 Best Value Offer
+      {/* ── Featured Launch Kit ── */}
+      <ScaleIn delay={0.1}>
+        <div className="mb-16">
+          <FeaturedLaunchKitCard />
+        </div>
+      </ScaleIn>
+
+      {/* ── Bundles Section ── */}
+      <section className="mb-16">
+        <FadeIn direction="up" distance={20}>
+          <div className="flex items-center gap-3 mb-8">
+            <h2 className="text-2xl md:text-3xl font-black text-white">🎁 Model Starter Packs</h2>
+            <span className="text-xs font-black uppercase tracking-widest bg-[#00F0FF]/10 border border-[#00F0FF]/25 px-3 py-1 rounded-full text-[#00F0FF]">
+              {BUNDLES.length} bundles
             </span>
-            <h2 className="text-2xl md:text-4xl font-black uppercase text-black mb-3">
-              Odysseus AI Launch Kit & Toolkit
-            </h2>
-            <p className="font-poppins text-xs md:text-sm font-semibold text-black/85 mb-6 leading-relaxed">
-              Eliminate terminal loops, SQLite database locks, and port collisions. Get the complete blueprint, pre-configured configs, and automation scripts to run Odysseus AI locally on any hardware.
-            </p>
-            
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3 font-poppins text-xs font-semibold text-black/95">
-              <div className="flex gap-2 items-center">
-                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
-                <span>Pre-configured Docker Compose scripts</span>
-              </div>
-              <div className="flex gap-2 items-center">
-                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
-                <span>Optimized environment variables</span>
-              </div>
-              <div className="flex gap-2 items-center">
-                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
-                <span>One-click execution bash/bat files</span>
-              </div>
-              <div className="flex gap-2 items-center">
-                <CheckCircle size={16} className="text-emerald-800 shrink-0" strokeWidth={2.5} />
-                <span>Diagnostic PDF troubleshooting guide</span>
-              </div>
+          </div>
+        </FadeIn>
+
+        <StaggerContainer className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" staggerDelay={0.08}>
+          {BUNDLES.map((bundle) => (
+            <StaggerItem key={bundle.id}>
+              <motion.div
+                whileHover={{ 
+                  y: -6,
+                  scale: 1.02,
+                  borderColor: 'rgba(0, 240, 255, 0.45)',
+                  boxShadow: '0 15px 30px rgba(0, 240, 255, 0.15)'
+                }}
+                transition={{ type: 'spring', stiffness: 400, damping: 25 }}
+                className="w-full h-full bg-white/5 border border-white/10 rounded-2xl p-6 shadow-md text-left flex flex-col gap-4 backdrop-blur-md group cursor-pointer"
+              >
+                <div className="flex items-start justify-between">
+                  <div className="w-10 h-10 bg-white/5 border border-white/10 rounded-xl flex items-center justify-center text-[#00F0FF] group-hover:scale-110 transition-transform">
+                    {bundle.icon}
+                  </div>
+                  <span className="text-[9px] font-black uppercase tracking-widest bg-white/5 border border-white/10 px-2 py-1 rounded-full text-gray-400 group-hover:border-[#00F0FF]/30 transition-colors">
+                    {bundle.tag}
+                  </span>
+                </div>
+                <div>
+                  <h3 className="text-base font-black text-white leading-tight mb-1 group-hover:text-[#00F0FF] transition-colors">{bundle.name}</h3>
+                  <p className="text-xs font-semibold text-gray-400 leading-relaxed">{bundle.desc}</p>
+                </div>
+              </motion.div>
+            </StaggerItem>
+          ))}
+        </StaggerContainer>
+      </section>
+
+      {/* ── Model Presets Section ── */}
+      <section>
+        <FadeIn direction="up" distance={20}>
+          <div className="flex items-center gap-3 mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 border border-[#00F0FF]/25 bg-[#00F0FF]/10 text-[#00F0FF] font-black text-sm uppercase tracking-widest rounded-xl">
+              <Cpu size={14} /> Model Directory
+            </div>
+            <h2 className="text-2xl md:text-3xl font-black text-white">Individual Model Presets</h2>
+            <span className="text-xs font-black uppercase tracking-widest bg-white/5 border border-white/10 px-3 py-1 rounded-full text-[#00F0FF]">
+              {filteredModels.length} results
+            </span>
+          </div>
+        </FadeIn>
+
+        {/* Search + Filter bar */}
+        <FadeIn direction="up" distance={16} delay={0.1}>
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-4 backdrop-blur-md mb-8 flex flex-col sm:flex-row gap-4 items-center">
+            {/* Search */}
+            <div className="relative flex-1 w-full">
+              <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" strokeWidth={2.5} />
+              <input
+                type="text"
+                placeholder="Search models or families..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-9 pr-9 py-2.5 border border-white/10 rounded-xl bg-white/5 font-bold text-xs text-white outline-none focus:ring-2 focus:ring-[#00F0FF] placeholder:text-gray-500 transition-all"
+              />
+              {searchQuery && (
+                <button
+                  onClick={() => setSearchQuery('')}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-700"
+                >
+                  <X size={14} />
+                </button>
+              )}
+            </div>
+            {/* Filter pills */}
+            <div className="flex flex-wrap gap-2">
+              {FILTER_PILLS.map((f) => (
+                <button
+                  key={f}
+                  onClick={() => setActiveFilter(f)}
+                  className={`px-3 py-1.5 border rounded-xl text-[10px] font-black uppercase tracking-wide transition-all ${
+                    activeFilter === f
+                      ? 'bg-[#00F0FF] text-black border-[#00F0FF]/30 shadow-[0_0_10px_rgba(0,240,255,0.2)]'
+                      : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                  }`}
+                >
+                  {f}
+                </button>
+              ))}
             </div>
           </div>
-          
-          <div className="w-full lg:w-auto flex flex-col items-center justify-center p-6 bg-card border-4 border-black rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] min-w-[260px]">
-            <div className="flex items-baseline gap-2 mb-4">
-              <span className="text-4xl md:text-5xl font-black text-black">$19</span>
-              <span className="text-lg line-through text-black/40 font-bold">$49.99</span>
-            </div>
+        </FadeIn>
+
+        {/* Products grid */}
+        <AnimatePresence mode="wait">
+          {filteredModels.length > 0 ? (
+            <motion.div
+              key="grid"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5"
+            >
+              {filteredModels.map((model, index) => (
+                <motion.div
+                  key={model.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: index * 0.04 }}
+                  className="bg-white/5 border border-white/10 rounded-2xl shadow-md hover:-translate-y-1 hover:border-[#00F0FF]/35 hover:shadow-[0_0_20px_rgba(0,240,255,0.1)] transition-all flex flex-col overflow-hidden group backdrop-blur-md"
+                >
+                  {/* Card top accent */}
+                  <div className="h-1 bg-[#00F0FF]" />
+
+                  <div className="p-5 flex flex-col flex-1">
+                    {/* Header */}
+                    <div className="flex justify-between items-start mb-4">
+                      <span className="text-3xl group-hover:scale-110 transition-transform inline-block">
+                        {model.cute_icon}
+                      </span>
+                      <div className="flex flex-col gap-1 items-end">
+                        {model.is_popular && (
+                          <span className="text-[9px] font-black uppercase tracking-widest bg-[#E73A5A]/10 text-[#E73A5A] px-2 py-0.5 rounded-full border border-[#E73A5A]/20">
+                            🔥 Popular
+                          </span>
+                        )}
+                        {model.is_new && (
+                          <span className="text-[9px] font-black uppercase tracking-widest bg-[#00F0FF]/15 text-[#00F0FF] px-2 py-0.5 rounded-full border border-[#00F0FF]/25">
+                            ✨ New
+                          </span>
+                        )}
+                      </div>
+                    </div>
+
+                    {/* Model info */}
+                    <h3 className="text-base font-black text-white uppercase leading-tight mb-0.5">{model.name}</h3>
+                    <p className="text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-4">{model.family} Family</p>
+
+                    {/* Specs grid */}
+                    <div className="grid grid-cols-2 gap-2 mb-4 py-3 border-y border-white/10 flex-1">
+                      <div>
+                        <div className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-0.5">VRAM</div>
+                        <div className="text-sm font-black text-white">{model.vram} GB</div>
+                      </div>
+                      <div>
+                        <div className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-0.5">PARAMS</div>
+                        <div className="text-sm font-black text-white">{model.parameters}B</div>
+                      </div>
+                      <div className="col-span-2">
+                        <div className="text-[9px] font-black uppercase tracking-widest text-gray-500 mb-1.5">Best For</div>
+                        <div className="flex gap-1 flex-wrap">
+                          {model.recommended_for?.slice(0, 2).map((tag) => (
+                            <span
+                              key={tag}
+                              className="text-[9px] font-bold bg-white/5 border border-white/10 px-2 py-0.5 rounded-lg text-gray-300"
+                            >
+                              {tag}
+                            </span>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+
+
+                  </div>
+                </motion.div>
+              ))}
+            </motion.div>
+          ) : (
+            <motion.div
+              key="empty"
+              initial={{ opacity: 0, scale: 0.97 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="bg-white/5 border border-white/10 rounded-3xl p-16 text-center backdrop-blur-md"
+            >
+              <span className="text-5xl mb-4 block">🔍</span>
+              <h3 className="text-xl font-black text-white uppercase mb-2">No Models Found</h3>
+              <p className="text-sm font-semibold text-gray-400">Try searching for a different family or capability.</p>
+              <button
+                onClick={() => { setSearchQuery(''); setActiveFilter('all'); }}
+                className="mt-6 bg-[#00F0FF] text-black border border-[#00F0FF]/30 px-6 py-2.5 rounded-xl font-black text-sm shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all"
+              >
+                Clear Filters
+              </button>
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
+
+      {/* ── Bottom CTA ── */}
+      <Reveal delay={0.1}>
+        <div className="mt-20 bg-white/5 border border-white/10 rounded-3xl p-8 md:p-12 text-center select-none backdrop-blur-md">
+          <h2 className="text-2xl md:text-3xl font-black text-white mb-3">
+            Need a custom setup?
+          </h2>
+          <p className="text-sm text-gray-400 font-semibold max-w-lg mx-auto mb-6">
+            The Launch Kit includes everything you need. Or browse our install guides to run Odysseus AI for free with Ollama.
+          </p>
+          <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <button
               onClick={handleLaunchKitCheckout}
               disabled={isCheckoutLoading}
-              className="neo-button bg-black text-white hover:bg-[hsl(var(--accent))] hover:text-black font-black uppercase text-sm px-6 py-3.5 w-full flex items-center justify-center gap-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:translate-y-1 active:translate-x-1 active:shadow-none"
+              className="bg-[#00F0FF] text-black px-8 py-4 rounded-2xl font-black text-base border border-[#00F0FF]/30 shadow-[0_0_15px_rgba(0,240,255,0.2)] hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-60"
             >
-              {isCheckoutLoading ? 'Processing...' : <><Rocket size={16} strokeWidth={2.5} /> Buy Launch Kit</>}
+              <Rocket size={18} /> Get Launch Kit — $19.99
             </button>
+            <a
+              href="/odysseus-ai-install"
+              className="bg-white/5 text-white px-8 py-4 rounded-2xl font-black text-base border border-white/10 hover:bg-white/10 transition-all flex items-center justify-center gap-2"
+            >
+              Free Install Guide <ArrowRight size={18} />
+            </a>
           </div>
         </div>
-      </div>
-
-      {/* Bundles Section */}
-      <div className="mb-12 md:mb-20">
-        <h2 className="text-2xl md:text-3xl font-black uppercase mb-6 md:mb-8 flex items-center gap-2 md:gap-3">
-          <span className="text-3xl md:text-4xl">🎁</span> Model Starter Packs
-        </h2>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
-          {BUNDLES.map(bundle => (
-            <div key={bundle.id} className="cute-card flex flex-col h-full p-5 md:p-6 relative overflow-hidden group cursor-pointer" onClick={() => handleAddToCart(bundle, 'bundle')}>
-              <div className={`absolute -right-10 -top-10 w-32 h-32 rounded-full ${bundle.color} opacity-20 group-hover:scale-150 transition-transform duration-500`}></div>
-              <div className={`w-10 h-10 md:w-12 md:h-12 rounded-[var(--radius-md)] ${bundle.color} text-foreground border-2 border-border flex items-center justify-center mb-3 md:mb-4 shadow-sm animate-bounce-hover`}>
-                {bundle.icon}
-              </div>
-              <h3 className="text-lg md:text-xl font-black uppercase mb-2 leading-tight">{bundle.name}</h3>
-              <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 md:mb-6 flex-1">{bundle.desc}</p>
-              <div className="flex items-center justify-between border-t-2 border-border/20 pt-4 mt-auto">
-                <span className="font-black text-base md:text-lg">{formatCurrency(bundle.price, { code: 'USD', symbol: '$' })}</span>
-                <button className="bg-foreground text-background px-3 py-2 md:px-4 md:py-2 font-bold rounded-[var(--radius-sm)] text-xs md:text-sm shadow-sm transition-transform active:scale-95">
-                  Add Bundle
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      {/* Search and Filter */}
-      <div className="flex flex-col md:flex-row gap-4 md:gap-6 mb-8 md:mb-10">
-        <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-muted-foreground" strokeWidth={3} />
-          <input 
-            type="text" 
-            placeholder="Search individual models..." 
-            className="neo-input pl-12 md:pl-14 rounded-[var(--radius-md)] uppercase text-sm md:text-base"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-          />
-        </div>
-        <button 
-          onClick={() => setIsFilterOpen(!isFilterOpen)}
-          className="neo-button bg-secondary text-secondary-foreground w-full md:w-auto rounded-[var(--radius-md)]"
-        >
-          <Filter className="mr-2 w-5 h-5 md:w-6 md:h-6" strokeWidth={3} /> Filters
-        </button>
-      </div>
-
-      {/* Products Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 md:gap-6">
-        {filteredModels.map(model => (
-          <div key={model.id} className="cute-card flex flex-col h-full bg-card p-4 md:p-5 group">
-            <div className="flex justify-between items-start mb-3 md:mb-4">
-              <span className="text-3xl md:text-4xl group-hover:animate-spin-cute inline-block origin-center transition-transform">{model.cute_icon}</span>
-              <div className="flex flex-col gap-1 md:gap-2 items-end">
-                {model.is_popular && <span className="cute-badge bg-secondary text-secondary-foreground text-[8px] md:text-[10px]">🔥 POPULAR</span>}
-                {model.is_new && <span className="cute-badge bg-accent text-accent-foreground text-[8px] md:text-[10px]">✨ NEW</span>}
-              </div>
-            </div>
-            
-            <h3 className="text-lg md:text-xl font-black uppercase leading-tight mb-1">{model.name}</h3>
-            <p className="text-[10px] md:text-xs font-bold text-muted-foreground uppercase mb-3 md:mb-4 tracking-wider">{model.family} Family</p>
-            
-            <div className="grid grid-cols-2 gap-2 mb-4 md:mb-6 font-poppins text-xs md:text-sm border-y-2 border-border/10 py-3 md:py-4 flex-1">
-              <div className="flex flex-col">
-                <span className="text-muted-foreground font-bold text-[10px] md:text-xs">VRAM</span>
-                <span className="font-semibold">{model.vram} GB</span>
-              </div>
-              <div className="flex flex-col">
-                <span className="text-muted-foreground font-bold text-[10px] md:text-xs">PARAMS</span>
-                <span className="font-semibold">{model.parameters} B</span>
-              </div>
-              <div className="col-span-2 flex flex-col mt-2">
-                <span className="text-muted-foreground font-bold text-[10px] md:text-xs mb-1">BEST FOR</span>
-                <div className="flex gap-1 flex-wrap">
-                  {model.recommended_for.slice(0,2).map(tag => (
-                    <span key={tag} className="text-[8px] md:text-[10px] font-bold bg-muted px-2 py-0.5 rounded-[var(--radius-sm)] border border-border/20">{tag}</span>
-                  ))}
-                </div>
-              </div>
-            </div>
-            
-            <div className="flex items-center justify-between mt-auto">
-              <span className="font-black text-lg md:text-xl text-foreground">
-                {formatCurrency(model.price, { code: 'USD', symbol: '$' })}
-              </span>
-              <button 
-                onClick={() => handleAddToCart(model)}
-                className="touch-target bg-primary text-primary-foreground border-2 border-border shadow-sm rounded-[var(--radius-md)] hover:-translate-y-1 hover:shadow-md transition-all active:translate-y-0 active:shadow-none animate-bounce-hover"
-                title="Add to Cart"
-              >
-                <ShoppingCart size={18} md:size={20} strokeWidth={3} />
-              </button>
-            </div>
-          </div>
-        ))}
-      </div>
-      
-      {filteredModels.length === 0 && (
-        <div className="cute-card bg-card p-10 md:p-16 text-center mt-6 md:mt-8">
-          <span className="text-4xl md:text-6xl mb-4 block">🔍</span>
-          <h3 className="text-xl md:text-2xl font-black uppercase mb-2">No Models Found</h3>
-          <p className="font-poppins font-medium text-muted-foreground text-sm md:text-base">Try searching for a different family or capability.</p>
-        </div>
-      )}
+      </Reveal>
     </div>
   );
 };

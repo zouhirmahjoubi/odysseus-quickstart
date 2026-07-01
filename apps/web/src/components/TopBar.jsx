@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 
 const TopBar = ({ toggleSidebar }) => {
   return (
-    <div className="lg:hidden sticky top-0 z-40 w-full h-[50px] md:h-[60px] bg-[#BAE6FD] border-b-[3px] border-black shadow-[4px_4px_0px_0px_#000000] flex items-center justify-between px-[10px] md:px-[15px] transition-all max-w-[100vw] overflow-hidden">
+    <div className="lg:hidden sticky top-0 z-40 w-full h-[50px] md:h-[60px] bg-[#BAE6FD] border-b-[3px] border-[#312E81] shadow-[4px_4px_0px_0px_#312E81] flex items-center justify-between px-[10px] md:px-[15px] transition-all max-w-[100vw] overflow-hidden">
       <button 
         onClick={toggleSidebar}
         className="p-[10px] bg-transparent focus:outline-none flex items-center justify-center text-black active:scale-95 transition-transform min-w-[44px] min-h-[44px]"

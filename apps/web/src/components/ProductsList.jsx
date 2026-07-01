@@ -70,7 +70,7 @@ const ProductsList = () => {
         <p className="text-lg font-bold text-[hsl(var(--muted-foreground))]">Premium resources and blueprints for your local AI infrastructure.</p>
       </div>
 
-      <div className="grid-3-cols-desktop">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {products.map((product) => {
           const variant = product.variants?.[0];
           const price = variant?.price_in_cents || product.price_in_cents || 0;

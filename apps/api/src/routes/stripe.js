@@ -83,12 +83,12 @@ router.get('/session/:sessionId', async (req, res) => {
     return res.json({
       id: sessionId,
       status: 'paid',
-      amountTotal: isLaunchKit ? 1900 : (isCart ? 49900 : 7900),
+      amountTotal: isLaunchKit ? 1999 : (isCart ? 49900 : 7900),
       customerEmail: 'mock-customer@example.com',
       lineItems: [
         {
           description: isLaunchKit ? 'Odysseus AI Launch Kit & Toolkit' : (isCart ? 'Model Starter Pack' : 'Hardened Stack'),
-          amount_total: isLaunchKit ? 1900 : (isCart ? 49900 : 7900),
+          amount_total: isLaunchKit ? 1999 : (isCart ? 49900 : 7900),
           quantity: 1,
         }
       ],

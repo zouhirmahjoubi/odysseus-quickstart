@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Outlet, Navigate } from 'react-router-dom';
 import { Toaster } from 'sonner';
+import ClickEffect from '@/components/ClickEffect.jsx';
 
 // Contexts
 import { AuthProvider } from '@/contexts/AuthContext.jsx';
@@ -12,12 +13,14 @@ import { CartProvider } from '@/hooks/useCart.jsx';
 // Layouts
 import Header from '@/components/Header.jsx';
 import TaglineBanner from '@/components/TaglineBanner.jsx';
-import Sidebar from '@/components/Sidebar.jsx';
+// Sidebar available but rendered contextually
 import Footer from '@/components/Footer.jsx';
 import ShoppingCart from '@/components/ShoppingCart.jsx';
 import AdminLayout from '@/components/AdminLayout.jsx';
 import ProtectedAdminRoute from '@/components/ProtectedAdminRoute.jsx';
 import ProtectedRoute from '@/components/ProtectedRoute.jsx';
+import ErrorBoundary from '@/components/ErrorBoundary.jsx';
+import MatrixBackground from '@/components/MatrixBackground.jsx';
 
 // Public Pages
 import HomePage from '@/pages/HomePage.jsx';
@@ -31,6 +34,16 @@ import LLMDirectoryPage from '@/pages/LLMDirectoryPage.jsx';
 import WorkloadsPage from '@/pages/WorkloadsPage.jsx';
 import TriageWizardPage from '@/pages/TriageWizardPage.jsx';
 import LaunchKitPage from '@/pages/LaunchKitPage.jsx';
+import InstallHubPage from '@/pages/InstallHubPage.jsx';
+import DockerInstallPage from '@/pages/DockerInstallPage.jsx';
+import OllamaInstallPage from '@/pages/OllamaInstallPage.jsx';
+import WindowsInstallPage from '@/pages/WindowsInstallPage.jsx';
+import MacBookInstallPage from '@/pages/MacBookInstallPage.jsx';
+import OdysseusPewdiepieInstallPage from '@/pages/OdysseusPewdiepieInstallPage.jsx';
+import FixPage from '@/pages/FixPage.jsx';
+import BenchmarkPage from '@/pages/BenchmarkPage.jsx';
+import ComparisonPage from '@/pages/ComparisonPage.jsx';
+import PurchaseProPage from '@/pages/PurchaseProPage.jsx';
 
 // Other Existing Pages
 import AboutPage from '@/pages/AboutPage.jsx';
@@ -58,25 +71,24 @@ import UserEditPage from '@/pages/UserEditPage.jsx';
 import AnalyticsDashboard from '@/pages/AnalyticsDashboard.jsx';
 import AdminSettingsPage from '@/pages/AdminSettingsPage.jsx';
 import NeuralGridAdminDashboard from '@/pages/NeuralGridAdminDashboard.jsx';
+import TestimonialsAdminPage from '@/pages/TestimonialsAdminPage.jsx';
 
 const MainLayout = () => {
   const [isCartOpen, setIsCartOpen] = useState(false);
 
   return (
-    <div className="flex min-h-screen w-full bg-background text-foreground font-sans selection:bg-accent selection:text-accent-foreground">
-      {/* Sidebar is mobile nav for normal app usage */}
-      <Sidebar />
-      <div className="flex-1 md:ml-64 lg:ml-72 flex flex-col min-h-screen relative pb-16 md:pb-0">
-        <div className="fixed top-0 left-0 right-0 z-40 flex flex-col">
-          <Header setIsCartOpen={setIsCartOpen} />
-          <TaglineBanner />
-        </div>
-        <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
-        <main className="flex-1 pt-[120px] md:pt-[140px] overflow-x-hidden">
-          <Outlet />
-        </main>
-        <Footer />
+    <div className="flex flex-col min-h-screen w-full bg-transparent text-foreground font-sans selection:bg-accent selection:text-accent-foreground pb-16 md:pb-0">
+      <div id="site-header" className="fixed top-0 left-0 right-0 z-40 flex flex-col">
+        <TaglineBanner />
+        <Header setIsCartOpen={setIsCartOpen} />
       </div>
+      <ShoppingCart isCartOpen={isCartOpen} setIsCartOpen={setIsCartOpen} />
+      <main className="flex-1 pt-[140px] md:pt-[155px]">
+        <ErrorBoundary>
+          <Outlet />
+        </ErrorBoundary>
+      </main>
+      <Footer />
     </div>
   );
 };
@@ -87,8 +99,10 @@ function App() {
       <AuthProvider>
         <AdminAuthProvider>
           <CartProvider>
+            <MatrixBackground />
             <Router>
               <Toaster position="top-right" richColors />
+              <ClickEffect />
               <Routes>
                 {/* Redirects */}
                 <Route path="/home" element={<Navigate to="/" replace />} />
@@ -102,6 +116,9 @@ function App() {
                   <Route path="/admin/neural-grid-dashboard" element={<NeuralGridAdminDashboard />} />
                   <Route element={<AdminLayout />}>
                     <Route path="/admin" element={<AdminDashboard />} />
+                    
+                    {/* Testimonials Admin Route */}
+                    <Route path="/admin/testimonials" element={<TestimonialsAdminPage />} />
                     
                     {/* Blog Admin Routes */}
                     <Route path="/admin/blog" element={<BlogAdminPage />} />
@@ -118,17 +135,32 @@ function App() {
                   </Route>
                 </Route>
 
-                {/* Main App Routes - Wrapped in layout that includes Sidebar & Footer */}
+
+
+                {/* Main App Routes - Wrapped in layout that includes Header, Footer & Banner */}
                 <Route element={<MainLayout />}>
+                  <Route path="/workspace-simulator" element={<WorkspaceSimulatorPage />} />
                   <Route path="/" element={<HomePage />} />
                   <Route path="/products" element={<ProductsPage />} />
                   <Route path="/calculator" element={<CalculatorPage />} />
-                  <Route path="/workspace-simulator" element={<WorkspaceSimulatorPage />} />
                   <Route path="/resources" element={<ResourcesPage />} />
                   <Route path="/triage-wizard" element={<TriageWizardPage />} />
                   <Route path="/launch-kit" element={<LaunchKitPage />} />
                   <Route path="/llm-directory" element={<LLMDirectoryPage />} />
                   <Route path="/workloads" element={<WorkloadsPage />} />
+                  <Route path="/comparison" element={<ComparisonPage />} />
+                  <Route path="/purchase-pro-license" element={<PurchaseProPage />} />
+                  
+                  {/* Newly Integrated Odysseus AI Routes */}
+                  <Route path="/odysseus-ai-install" element={<InstallHubPage />} />
+                  <Route path="/install/docker" element={<DockerInstallPage />} />
+                  <Route path="/install/ollama" element={<OllamaInstallPage />} />
+                  <Route path="/install/windows" element={<WindowsInstallPage />} />
+                  <Route path="/install/macbook" element={<MacBookInstallPage />} />
+                  <Route path="/install-odysseus-pewdiepie" element={<OdysseusPewdiepieInstallPage />} />
+                  <Route path="/fix" element={<FixPage />} />
+                  <Route path="/benchmark" element={<BenchmarkPage />} />
+                  <Route path="/guides/:slug" element={<BlogDetailPage />} />
                   
                   <Route path="/about" element={<AboutPage />} />
                   <Route path="/contact" element={<ContactPage />} />
@@ -145,14 +177,15 @@ function App() {
                   
                   {/* Public Auth Routes */}
                   <Route path="/login" element={<LoginPage />} />
+                  <Route path="/signup" element={<LoginPage />} />
+
+                  {/* User Dashboard Routes (inside MainLayout for header/footer) */}
+                  <Route element={<ProtectedRoute />}>
+                    <Route path="/dashboard" element={<DashboardPage />} />
+                  </Route>
                   
                   {/* Catch-all Not Found */}
                   <Route path="*" element={<NotFoundPage />} />
-                </Route>
-
-                {/* User Dashboard Routes */}
-                <Route element={<ProtectedRoute />}>
-                  <Route path="/dashboard" element={<DashboardPage />} />
                 </Route>
 
               </Routes>

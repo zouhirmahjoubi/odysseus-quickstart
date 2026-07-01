@@ -25,6 +25,7 @@ const OrderManagementPage = () => {
 
   useEffect(() => {
     filterOrders();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [orders, searchTerm, statusFilter]);
 
   const fetchOrders = async () => {

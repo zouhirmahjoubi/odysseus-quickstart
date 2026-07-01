@@ -24,7 +24,10 @@ const MobileDeviceSettingsPage = () => {
     }
   };
 
-  useEffect(() => { fetchDevices(); }, [user]);
+  useEffect(() => {
+    fetchDevices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [user]);
 
   const removeDevice = async (id) => {
     if (!window.confirm('Revoke access for this device?')) return;

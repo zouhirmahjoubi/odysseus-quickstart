@@ -1,112 +1,38 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Link } from 'react-router-dom';
-import { ArrowLeft, Search, HelpCircle } from 'lucide-react';
+import { ArrowLeft, HelpCircle } from 'lucide-react';
 import { Accordion, AccordionItem, AccordionTrigger, AccordionContent } from '@/components/ui/accordion.jsx';
 import PageTransition from '@/components/PageTransition.jsx';
 
 const FAQPage = () => {
   const faqCategories = [
     {
-      title: "Getting Started",
+      title: "Odysseus AI Setup & Install FAQs",
       faqs: [
         {
-          question: "How do I create an account?",
-          answer: "Click the 'Log In' button in the top right corner and select 'Sign Up'. You can register using your email address or connect quickly using Google, GitHub, or Apple OAuth providers."
+          question: "Is this the official Odysseus AI website?",
+          answer: "No. OdysseusAI.ai is an independent, unofficial install and troubleshooting guide resource. We are not affiliated with the official pewdiepie-archdaemon/odysseus GitHub repository structures."
         },
         {
-          question: "Is it free to join the marketplace?",
-          answer: "Yes! Creating a basic account is completely free. You only pay when you purchase premium digital assets or subscribe to advanced platform features."
+          question: "Are you selling raw Odysseus bin weights?",
+          answer: "No. Odysseus AI is completely free and open-source. We do not sell or distribute Odysseus AI itself or any pre-compiled model weights. You should clone and verify the official repository directly from GitHub."
         },
         {
-          question: "How do I set up my profile?",
-          answer: "Once logged in, navigate to 'My Profile' from the user dropdown. Here you can upload an avatar, add your bio, set your preferences, and manage your payment methods."
-        }
-      ]
-    },
-    {
-      title: "Buying",
-      faqs: [
-        {
-          question: "How do I purchase a digital product?",
-          answer: "Browse our Store or use the Search function to find an asset. Click 'Add to Cart', proceed to Checkout, and complete your payment securely. Your files will be available for download immediately."
+          question: "Is the Launch Kit an automated one-click installer app?",
+          answer: "No. The Launch Kit is a custom workbook of environment configurations, Docker Compose templates, PowerShell execution scripts, and diagnostic guides. It helps you avoid hours of troubleshooting local node packages, databases, and network adapters, but it is not a standalone executable file."
         },
         {
-          question: "What payment methods are accepted?",
-          answer: "We accept all major credit and debit cards (Visa, Mastercard, Amex), PayPal, and Apple/Google Pay through our secure Stripe integration."
+          question: "What is the absolute best install route to pick?",
+          answer: "There is no single 'best' route; it depends on your machine and preferences. We recommend Docker Compose for most Windows and Linux users because it isolates dependencies and manages PocketBase SQLite databases out-of-the-box. If you want maximum local GPU performance on Apple Silicon, native macOS execution is preferred."
         },
         {
-          question: "Where do I find my purchased items?",
-          answer: "All your purchased digital assets are stored in your Dashboard under 'My Downloads' or 'Order History'. You have lifetime access to re-download files you've bought."
+          question: "Do I need Docker installed on my computer?",
+          answer: "Only if you choose the Docker Compose installation route. If you choose to run natively via our PowerShell or macOS launcher scripts, you do not need Docker; you will only need Git and Python 3.10+ installed on your host system."
         },
         {
-          question: "What do the different licenses mean?",
-          answer: "A Standard License allows use in one personal or commercial project where end-users don't pay. An Extended License is required if you are building a product where end-users will be charged."
-        }
-      ]
-    },
-    {
-      title: "Selling",
-      faqs: [
-        {
-          question: "How can I become a seller?",
-          answer: "Navigate to your Dashboard and click 'Apply to Sell'. Our team reviews applications within 48 hours to ensure our marketplace maintains high quality standards."
-        },
-        {
-          question: "What are the fees for selling?",
-          answer: "We charge a competitive 15% platform fee on all sales. The remaining 85% goes directly to you. High-volume sellers may qualify for reduced commission rates."
-        },
-        {
-          question: "When and how do I get paid?",
-          answer: "Earnings are accumulated in your seller account and paid out automatically on the 1st and 15th of every month via PayPal or direct bank transfer (Stripe Connect)."
-        }
-      ]
-    },
-    {
-      title: "Payment & Refunds",
-      faqs: [
-        {
-          question: "Are my payment details secure?",
-          answer: "Absolutely. We do not store your credit card information. All transactions are encrypted and processed through industry-leading payment gateways (Stripe and PayPal)."
-        },
-        {
-          question: "Can I get a refund for a digital download?",
-          answer: "Because digital goods cannot be returned, refunds are only issued if the product is fundamentally flawed, misrepresented, or completely broken, and you request it within 14 days."
-        },
-        {
-          question: "How do I request a refund?",
-          answer: "Go to your Order History, select the specific order, and click 'Request Refund'. Provide a detailed explanation and any relevant screenshots so our mediation team can review it."
-        }
-      ]
-    },
-    {
-      title: "Account & Security",
-      faqs: [
-        {
-          question: "How do I reset my password?",
-          answer: "On the login page, click 'Forgot Password'. Enter your registered email, and we will send you a secure link to reset your credentials."
-        },
-        {
-          question: "Do you support Two-Factor Authentication (2FA)?",
-          answer: "Yes. We highly recommend enabling 2FA for extra security. You can toggle this on in your Profile Settings under the 'Security' tab."
-        },
-        {
-          question: "How do I delete my account?",
-          answer: "You can permanently delete your account from the Security tab in your Profile Settings. Please note this action is irreversible and you will lose access to all past purchases."
-        }
-      ]
-    },
-    {
-      title: "Technical Support",
-      faqs: [
-        {
-          question: "An asset I bought isn't working. What should I do?",
-          answer: "First, check the documentation provided by the author. If you still have issues, use the 'Contact Author' button on the product page to request direct support."
-        },
-        {
-          question: "How do I contact platform support?",
-          answer: "For platform-wide issues (billing, account access, reporting), use our Contact page or email support@odysseusai.ai directly. We typically respond within 24 hours."
+          question: "Do I absolutely need Ollama operational?",
+          answer: "Not necessarily, but it is highly recommended if you want a 100% private and offline workspace. Odysseus acts as the frontend interface; it does not contain a built-in LLM. You can either connect to local models using Ollama, or enter API credentials for cloud models like OpenRouter, OpenAI, or Anthropic."
         }
       ]
     }
@@ -115,31 +41,31 @@ const FAQPage = () => {
   return (
     <PageTransition>
       <Helmet>
-        <title>Frequently Asked Questions | Odysseusai.ai</title>
-        <meta name="description" content="Find answers to common questions about buying, selling, and managing your account on Odysseusai.ai." />
+        <title>Frequently Asked Questions | Odysseus AI</title>
+        <meta name="description" content="Find official answers to frequently asked questions about Odysseus AI installations, Docker, Ollama, and Launch Kits." />
       </Helmet>
 
-      <div className="min-h-screen bg-[hsl(var(--background))] py-12 px-4 md:px-8">
-        <div className="max-w-4xl mx-auto">
+      <div className="min-h-screen bg-[#fefaf0] py-12 px-4 md:px-8 font-sans text-[#1A2333]">
+        <div className="max-w-4xl mx-auto pt-6">
           
           {/* Header */}
           <div className="mb-12 text-center md:text-left">
             <div className="flex justify-center md:justify-start mb-8">
-              <Link to="/" className="inline-flex items-center gap-2 font-bold hover:text-[hsl(var(--primary))] transition-colors">
-                <ArrowLeft size={20} />
+              <Link to="/" className="inline-flex items-center gap-2 font-black text-xs uppercase tracking-wider hover:text-[#ff2c36] transition-colors">
+                <ArrowLeft size={16} />
                 Back to Home
               </Link>
             </div>
             
-            <div className="bg-[hsl(var(--card))] border-[4px] border-[hsl(var(--border))] shadow-[12px_12px_0px_0px_hsl(var(--border))] p-8 md:p-12 relative overflow-hidden">
+            <div className="neo-card bg-white p-8 md:p-12 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none hidden md:block">
-                <HelpCircle size={180} />
+                <HelpCircle size={150} className="text-black" />
               </div>
-              <h1 className="text-4xl md:text-5xl font-black space-grotesk mb-4 relative z-10 text-[hsl(var(--foreground))]">
-                Frequently Asked <span className="text-[hsl(var(--primary))]">Questions</span>
+              <h1 className="text-4xl md:text-5xl font-black mb-4 relative z-10 text-[#1A2333] uppercase">
+                Frequently Asked <span className="underline decoration-wavy decoration-[#ff2c36]">Questions</span>
               </h1>
-              <p className="text-lg md:text-xl font-medium relative z-10 text-[hsl(var(--muted-foreground))] text-gray-700 max-w-2xl">
-                Need help? Find quick answers to your questions about our marketplace, purchasing assets, selling, and platform features.
+              <p className="text-base md:text-lg font-medium relative z-10 text-[#475569] max-w-2xl leading-relaxed">
+                Find quick answers to common questions about Odysseus AI installations, local model configurations, and our independent guides resource.
               </p>
             </div>
           </div>
@@ -148,7 +74,7 @@ const FAQPage = () => {
           <div className="space-y-12">
             {faqCategories.map((category, catIdx) => (
               <section key={catIdx} className="scroll-mt-24">
-                <h2 className="text-2xl md:text-3xl font-black space-grotesk mb-6 text-[hsl(var(--foreground))] border-b-[4px] border-[hsl(var(--secondary))] inline-block pb-1">
+                <h2 className="text-2xl font-black mb-6 text-[#1A2333] uppercase tracking-tight">
                   {category.title}
                 </h2>
                 
@@ -157,12 +83,12 @@ const FAQPage = () => {
                     <AccordionItem 
                       key={faqIdx} 
                       value={`item-${catIdx}-${faqIdx}`}
-                      className="border-[3px] border-[hsl(var(--border))] bg-[hsl(var(--card))] shadow-[4px_4px_0px_0px_hsl(var(--border))] rounded-none data-[state=open]:bg-[hsl(var(--background))] transition-colors"
+                      className="border-[4px] border-[#1A2333] bg-white shadow-[4px_4px_0px_0px_#1A2333] rounded-[16px] overflow-hidden data-[state=open]:bg-[#fffdfa] transition-all"
                     >
-                      <AccordionTrigger className="px-6 py-4 font-bold text-lg text-left hover:no-underline hover:text-[hsl(var(--primary))] transition-colors data-[state=open]:border-b-[3px] data-[state=open]:border-[hsl(var(--border))]">
+                      <AccordionTrigger className="px-6 py-4 font-black text-sm uppercase tracking-wider text-[#1A2333] hover:no-underline hover:text-[#ff2c36] transition-colors border-none">
                         {faq.question}
                       </AccordionTrigger>
-                      <AccordionContent className="px-6 py-4 text-base font-medium leading-relaxed bg-[hsl(var(--card))] border-t-0">
+                      <AccordionContent className="px-6 py-4 text-sm font-semibold leading-relaxed bg-[#fffdfb] border-t-2 border-[#1A2333]">
                         {faq.answer}
                       </AccordionContent>
                     </AccordionItem>
@@ -173,13 +99,13 @@ const FAQPage = () => {
           </div>
 
           {/* Still Need Help CTA */}
-          <div className="mt-16 bg-[hsl(var(--secondary))] border-[4px] border-[hsl(var(--border))] shadow-[8px_8px_0px_0px_hsl(var(--border))] p-8 md:p-12 text-center">
-            <h3 className="text-2xl md:text-3xl font-black space-grotesk mb-4 text-[hsl(var(--foreground))]">Still have questions?</h3>
-            <p className="text-lg font-medium mb-8 max-w-xl mx-auto text-[hsl(var(--foreground))]">
-              Can't find the answer you're looking for? Our dedicated support team is here to help you out.
+          <div className="mt-16 bg-[#fff5ea] neo-card p-8 md:p-12 text-center">
+            <h3 className="text-2xl md:text-3xl font-black mb-4 uppercase text-[#1A2333]">Still have questions?</h3>
+            <p className="text-sm md:text-base font-semibold mb-8 max-w-xl mx-auto text-[#475569] leading-relaxed">
+              If your install setup is still failing or your uvicorn server has port conflicts, check out our Error Doctor.
             </p>
-            <Link to="/contact" className="inline-block border-[3px] border-[hsl(var(--border))] shadow-[4px_4px_0px_0px_hsl(var(--border))] bg-[hsl(var(--primary))] text-[hsl(var(--primary-foreground))] font-bold px-8 py-4 hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_hsl(var(--border))] transition-transform text-lg space-grotesk">
-              Contact Support
+            <Link to="/fix" className="neo-button bg-[#ffeb3b] text-black">
+              Fix Problems Now
             </Link>
           </div>
 

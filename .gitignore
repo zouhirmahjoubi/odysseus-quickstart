@@ -42,4 +42,11 @@ desktop.ini
 graphify-out/
 .agent/
 .agents/
+.cursor/
+.gemini/
+
+# Temporary compiler text dumps
+homepage_committed.txt
+homepage_compiled.txt
+homepage_diff.txt
 

@@ -1,39 +1,61 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
-import BreadcrumbNav from '@/components/BreadcrumbNav.jsx';
+import { ShieldCheck } from 'lucide-react';
 
 const PrivacyPage = () => {
   return (
-    <div className="min-h-screen bg-background pt-24 pb-20">
+    <div className="min-h-screen py-12 px-4 md:px-8 font-rounded text-white select-none">
       <Helmet>
-        <title>Privacy Policy | OdysseusAI</title>
+        <title>Privacy Policy | Odysseus AI</title>
+        <meta name="description" content="Read the Odysseus AI privacy commitment. We offer a 100% local-first workspace. No cloud data harvesting or telemetry tracking of prompts." />
       </Helmet>
       
-      <div className="container max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <BreadcrumbNav />
+      <div className="max-w-4xl mx-auto pt-6">
+        <h1 className="text-4xl md:text-5xl font-black mb-4 uppercase text-center text-white">
+          PRIVACY <span className="underline decoration-wavy decoration-[#00F0FF]">POLICY</span>
+        </h1>
+        <p className="text-center text-sm font-black text-gray-500 uppercase tracking-widest mb-12">
+          Last updated: June 14, 2026
+        </p>
         
-        <h1 className="text-4xl md:text-5xl font-extrabold mb-8 text-balance">Privacy Policy</h1>
-        
-        <div className="prose prose-slate prose-lg max-w-none text-foreground">
-          <p className="text-xl text-muted-foreground mb-10 leading-relaxed font-medium">
-            Last updated: June 8, 2026. Welcome to OdysseusAI, the World #1 Digital Marketplace. We rigorously respect your data sovereignty and adhere to the highest standards of privacy protection.
-          </p>
+        {/* Core Privacy Promise */}
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 mb-8 flex gap-4 items-start backdrop-blur-md">
+          <ShieldCheck className="w-10 h-10 text-[#00F0FF] flex-shrink-0" />
+          <div>
+            <h4 className="font-black text-lg text-white mb-1">Our Local-First Privacy Promise</h4>
+            <p className="text-sm text-gray-400 font-semibold leading-relaxed">
+              Odysseus AI is designed to run 100% locally on your computer. Your conversations, prompts, system keys, vector databases, and document chunks never leave your machine. We do not run tracking telemetry or cloud pipelines to harvest your work.
+            </p>
+          </div>
+        </div>
 
-          <h2 className="text-2xl font-bold mt-12 mb-4">1. Telemetry and Information Collection</h2>
-          <p className="mb-6 text-muted-foreground leading-relaxed">
-            We collect precise technical information required to validate hardware configurations and manage asset licensing. This includes account credentials, transactional histories, and opt-in diagnostic logs when utilizing our workspace simulator. We explicitly do not log prompt content or model outputs during simulator execution unless you enable persistent session history.
-          </p>
+        <div className="bg-white/5 border border-white/10 rounded-3xl p-6 md:p-8 space-y-8 backdrop-blur-md shadow-[0_0_20px_rgba(0,0,0,0.3)]">
+          <div>
+            <h2 className="text-2xl font-black mb-3 uppercase tracking-tight text-[#00F0FF]">
+              1. Information We Collect
+            </h2>
+            <p className="text-sm md:text-base text-gray-400 font-medium leading-relaxed">
+              Because our app is run locally, we collect zero prompt details. The only information processed by our website is standard web traffic analytics and checkout records managed securely by our payment merchant, Stripe, during premium Launch Kit transactions.
+            </p>
+          </div>
 
-          <h2 className="text-2xl font-bold mt-12 mb-4">2. Utilization of Data</h2>
-          <p className="mb-6 text-muted-foreground leading-relaxed">
-            Collected data powers core marketplace functionality: verifying licensing entitlements, delivering localized content via our CDN edge nodes, calculating accurate hardware recommendations, and processing secure payments. Anonymized aggregate metrics are used to rank products and establish baseline VRAM requirements for new AI architectures.
-          </p>
+          <div>
+            <h2 className="text-2xl font-black mb-3 uppercase tracking-tight text-[#00F0FF]">
+              2. Environment Variables & Keys
+            </h2>
+            <p className="text-sm md:text-base text-gray-400 font-medium leading-relaxed">
+              Any credentials, API tokens (e.g. OpenAI or OpenRouter keys), and database configuration details you configure are saved purely within your local <code>.env</code> settings files on your machine. Our server code has no methods for transmuting or caching these secrets remotely.
+            </p>
+          </div>
 
-          <h2 className="text-2xl font-bold mt-12 mb-4">3. Enterprise Security Infrastructure</h2>
-          <p className="mb-6 text-muted-foreground leading-relaxed">
-            Your data rests on SOC2 Type II compliant infrastructure. All credentials, API keys, and payment tokens are hashed and encrypted at rest utilizing AES-256 standards. We implement continuous automated vulnerability scanning and enforce mandatory multi-factor authentication for administrative access. We do not sell your personal identifying information to third-party data brokers under any circumstances.
-          </p>
+          <div>
+            <h2 className="text-2xl font-black mb-3 uppercase tracking-tight text-[#00F0FF]">
+              3. Secure Log Sanitization
+            </h2>
+            <p className="text-sm md:text-base text-gray-400 font-medium leading-relaxed">
+              If you utilize our Error Doctor log sanitizer, all redaction regex searches execute entirely inside your local browser memory space. The log inputs are never posted to a backend server.
+            </p>
+          </div>
         </div>
       </div>
     </div>

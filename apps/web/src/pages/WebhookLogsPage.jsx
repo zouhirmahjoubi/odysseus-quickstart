@@ -31,6 +31,7 @@ const WebhookLogsPage = () => {
   useEffect(() => {
     if (webhookId) fetchLogs();
     else toast.error('Webhook ID required for logs');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [webhookId]);
 
   const handleRetry = async (logId) => {

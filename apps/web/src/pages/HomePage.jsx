@@ -1,148 +1,99 @@
 import React, { useState, useEffect } from 'react';
 import { Helmet } from 'react-helmet';
-import { Link, useLocation } from 'react-router-dom';
-import { motion, AnimatePresence } from 'framer-motion';
-import { 
-  ArrowRight, Cpu, Database, Shield, Zap, Terminal, Box, BookOpen, AlertCircle,
-  LayoutGrid, ShoppingBag, Calculator, Monitor, MonitorPlay, FileText, Copy, Check, ChevronDown,
-  HelpCircle, CheckCircle, Laptop, ShieldAlert, ExternalLink, Mail, ArrowUpRight,
-  DollarSign, FileCode, AlertTriangle, Play, Settings, Server, RefreshCw, Rocket
-} from 'lucide-react';
+import { Link, useNavigate } from 'react-router-dom';
+import { CheckCircle, ArrowRight, BookOpen, AlertCircle, Copy, Check, Terminal, Shield, Sparkles, Rocket, Star } from 'lucide-react';
+import { Chip } from '@heroui/react';
+import { motion } from 'framer-motion';
 import BlogCard from '@/components/BlogCard.jsx';
 import pb from '@/lib/pocketbaseClient';
 import { Skeleton } from '@/components/ui/skeleton';
-import { toast } from 'sonner';
 import { fallbackBlogs } from '@/data/fallbackBlogs.js';
-import { SquigglyText } from '@/components/ui/squiggly-text';
+import { toast } from 'sonner';
+import apiServerClient from '@/lib/apiServerClient';
 
-const OPTIONS = {
-  os: [
-    { label: 'macOS Silicon', value: 'macos_silicon' },
-    { label: 'macOS Intel', value: 'macos_intel' },
-    { label: 'Windows', value: 'windows' },
-    { label: 'Linux', value: 'linux' }
-  ],
-  installRoute: [
-    { label: 'macOS Native', value: 'macos_native' },
-    { label: 'Docker', value: 'docker' },
-    { label: 'Source', value: 'source' }
-  ],
-  stage: [
-    { label: 'Runtime', value: 'runtime' },
-    { label: 'Post-Installation', value: 'post_install' },
-    { label: 'Model Loading', value: 'model_loading' }
-  ],
-  category: [
-    { label: 'Ollama Missing', value: 'ollama_missing' },
-    { label: 'Network Timeout', value: 'network_timeout' },
-    { label: 'GPU/VRAM / CUDA Error', value: 'cuda_error' }
-  ]
+import TestimonialsSection from '@/components/TestimonialsSection.jsx';
+import { FadeIn, ScaleIn, StaggerContainer, StaggerItem, Parallax, Float, Reveal } from '@/components/ScrollAnimations.jsx';
+
+const HERO_WORDS = ["safest", "fastest", "easiest"];
+
+const TypewriterHero = () => {
+  const [currentWordIndex, setCurrentWordIndex] = useState(0);
+  const [currentText, setCurrentText] = useState('');
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [typingSpeed, setTypingSpeed] = useState(150);
+
+  useEffect(() => {
+    let timer;
+    const fullWord = HERO_WORDS[currentWordIndex];
+
+    const handleType = () => {
+      if (!isDeleting) {
+        // Typing character
+        setCurrentText(fullWord.substring(0, currentText.length + 1));
+        setTypingSpeed(100);
+
+        if (currentText === fullWord) {
+          // Pause before deleting
+          setTypingSpeed(1500);
+          setIsDeleting(true);
+        }
+      } else {
+        // Deleting character
+        setCurrentText(fullWord.substring(0, currentText.length - 1));
+        setTypingSpeed(50);
+
+        if (currentText === '') {
+          setIsDeleting(false);
+          setCurrentWordIndex((prev) => (prev + 1) % HERO_WORDS.length);
+          setTypingSpeed(500); // pause before typing next word
+        }
+      }
+    };
+
+    timer = setTimeout(handleType, typingSpeed);
+    return () => clearTimeout(timer);
+  }, [currentText, isDeleting, currentWordIndex, typingSpeed]);
+
+  return (
+    <div className="flex flex-wrap justify-center items-center gap-x-2 py-2">
+      <span>the</span>
+      <span className="text-primary underline decoration-primary/30 min-w-[130px] md:min-w-[160px] inline-block text-center font-extrabold relative">
+        {currentText}
+        <span className="absolute ml-0.5 animate-pulse text-primary font-light">|</span>
+      </span>
+      <span>way!</span>
+    </div>
+  );
 };
 
-const PATH_MATRIX = [
-  {
-    path: 'Docker Compose (Recommended)',
-    chooseIf: 'You want a clean, isolated environment with zero system pollution.',
-    doNotChooseIf: 'You have restricted Docker daemon permissions on your machine.',
-    command: 'docker compose up -d',
-    trap: 'Forgetting to map port 11434 to host.docker.internal.',
-    highlighted: true
-  },
-  {
-    path: 'Native Windows',
-    chooseIf: 'You want maximum performance on a Windows machine with an NVIDIA GPU.',
-    doNotChooseIf: 'You are uncomfortable configuring environment system variables.',
-    command: 'python main.py',
-    trap: 'Missing CUDA toolkit paths or C++ compiler dependencies.',
-    highlighted: false
-  },
-  {
-    path: 'Native Apple Silicon',
-    chooseIf: 'You have an M1/M2/M3 Mac and want native Metal API acceleration.',
-    doNotChooseIf: 'You want an isolated container setup without local Python envs.',
-    command: 'ollama run llama3',
-    trap: 'Ollama application not permitted in macOS background permissions.',
-    highlighted: false
-  },
-  {
-    path: 'Ollama Connection',
-    chooseIf: 'You want to query local models running on your system.',
-    doNotChooseIf: 'You are using a remote server without SSH port forwarding.',
-    command: 'curl http://localhost:11434/api/tags',
-    trap: 'Binding host to 127.0.0.1 instead of 0.0.0.0 for container networks.',
-    highlighted: false
-  },
-  {
-    path: 'API-Backed Setup',
-    chooseIf: 'You have low RAM/VRAM and prefer OpenRouter, OpenAI, or Anthropic.',
-    doNotChooseIf: 'You want offline operation and 100% data privacy.',
-    command: 'export OPENROUTER_API_KEY="..."',
-    trap: 'Setting blank local endpoints while expecting cloud routing.',
-    highlighted: false
-  },
-  {
-    path: 'Troubleshooting First',
-    chooseIf: 'You are hitting SQLite locks or NPM peer dependency errors.',
-    doNotChooseIf: 'Your system builds cleanly without locks.',
-    command: 'rm -rf node_modules package-lock.json',
-    trap: 'Running npm install in the sub-apps instead of the root workspace.',
-    highlighted: false
-  }
-];
-
-const WORKFLOWS = [
-  {
-    id: 'research',
-    title: 'Research Agent Starter',
-    desc: 'Deep search agent configured with web search capabilities and output structuring.',
-    code: `import { Agent } from 'odysseus';\n\nconst researcher = new Agent({\n  name: 'Scholar',\n  role: 'Academic Researcher',\n  goal: 'Aggregate and cross-reference local research papers.',\n  tools: ['pdf-reader', 'google-scholar-api'],\n  verbose: true\n});`
-  },
-  {
-    id: 'seo',
-    title: 'SEO Content Specialist',
-    desc: 'Analyzes keyword search volume and constructs optimal semantic drafts.',
-    code: `import { Crew } from 'odysseus-swarms';\n\nconst seoCrew = new Crew({\n  agents: [keywordAnalyst, contentWriter],\n  tasks: [analyzeTrends, draftOptimizedArticle],\n  process: 'sequential'\n});`
-  },
-  {
-    id: 'debug',
-    title: 'Coding Debug Assistant',
-    desc: 'Injects code files, executes sandboxed test suites, and drafts patches.',
-    code: `# Run Debugger Swarm\nnpx odysseus-cli debug --path ./src --issue "Fix Stripe webhook signature verification"`
-  },
-  {
-    id: 'qa',
-    title: 'Local Documents Q&A',
-    desc: 'High-speed local vector query pipeline using GGUF embeddings.',
-    code: `# Query local index database\nodysseus-rag ingest --source ./docs\nodysseus-rag query "What are the Q3 API rate limits?"`
-  }
-];
-
 const HomePage = () => {
+  const navigate = useNavigate();
   const [blogs, setBlogs] = useState([]);
   const [loadingBlogs, setLoadingBlogs] = useState(true);
   const [blogError, setBlogError] = useState(null);
-  const location = useLocation();
 
-  // Quiz Selections
-  const [quizSelections, setQuizSelections] = useState({
-    os: '',
-    route: '',
-    engine: '',
-    state: ''
-  });
-  const [emailInput, setEmailInput] = useState('');
-  
-  // Docker vs Ollama Tabs State
-  const [activeTab, setActiveTab] = useState('docker');
+  // Setup Path Checker State
+  const [checkerOS, setCheckerOS] = useState('');
+  const [checkerRoute, setCheckerRoute] = useState('');
+  const [checkerModel, setCheckerModel] = useState('');
+  const [checkerState, setCheckerState] = useState('');
+  const [checkerEmail, setCheckerEmail] = useState('');
 
-  // Diagnostics state
-  const [activeError, setActiveError] = useState(null);
+  // Endpoint Resolver State
+  const [resolverMode, setResolverMode] = useState('Docker Container (Compose/Run flow)');
+  const [resolverOllamaLoc, setResolverOllamaLoc] = useState('Directly on my host PC while Odysseus is in Docker');
 
-  // Workflow tab states
-  const [activeWorkflowTab, setActiveWorkflowTab] = useState('research');
+  // Error Diagnosis State
+  const [activeErrorDiag, setActiveErrorDiag] = useState('Cannot find admin password');
 
-  // UI interaction copy statuses
-  const [copiedState, setCopiedState] = useState({});
+  // Copied state for code blocks
+  const [copiedDocker, setCopiedDocker] = useState(false);
+  const [copiedPrompt, setCopiedPrompt] = useState({});
+  const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
+
+  const handleLaunchKitCheckout = () => {
+    navigate('/install-odysseus-pewdiepie');
+  };
 
   useEffect(() => {
     const fetchBlogs = async () => {
@@ -151,7 +102,7 @@ const HomePage = () => {
         setBlogError(null);
         let items = [];
         try {
-          const records = await pb.collection('blog_articles').getList(1, 4, {
+          const records = await pb.collection('blog_articles').getList(1, 2, {
             filter: 'status="published"',
             sort: '-created_at,-created',
             $autoCancel: false
@@ -162,13 +113,13 @@ const HomePage = () => {
         }
 
         if (items.length === 0) {
-          setBlogs(fallbackBlogs.slice(0, 4));
+          setBlogs(fallbackBlogs.slice(0, 2));
         } else {
           setBlogs(items);
         }
       } catch (error) {
         console.error("Error fetching blogs for homepage:", error);
-        setBlogs(fallbackBlogs.slice(0, 4));
+        setBlogs(fallbackBlogs.slice(0, 2));
       } finally {
         setLoadingBlogs(false);
       }
@@ -177,892 +128,1314 @@ const HomePage = () => {
     fetchBlogs();
   }, []);
 
-  const handleCopy = (text, key) => {
+  const handleCopyText = (text, callback) => {
     navigator.clipboard.writeText(text);
-    setCopiedState(prev => ({ ...prev, [key]: true }));
     toast.success('Copied to clipboard');
-    setTimeout(() => {
-      setCopiedState(prev => ({ ...prev, [key]: false }));
-    }, 2000);
+    callback(true);
+    setTimeout(() => callback(false), 2000);
   };
 
-  const handleQuizSelect = (field, value) => {
-    setQuizSelections(prev => ({ ...prev, [field]: value }));
+  const handleScrollToId = (id) => {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
   };
 
-  const isQuizComplete = quizSelections.os && quizSelections.route && quizSelections.engine && quizSelections.state;
+  // Get dynamic endpoint recommendation
+  const getRecommendedEndpoint = () => {
+    if (resolverMode.includes('Docker') && resolverOllamaLoc.includes('PC')) {
+      return 'http://host.docker.internal:11434/v1';
+    }
+    if (resolverMode.includes('Natively') && resolverOllamaLoc.includes('PC')) {
+      return 'http://localhost:11434/v1';
+    }
+    return 'http://192.168.1.XX:11434/v1'; // LAN fallback representation
+  };
 
-  const handleEmailSubmit = (e) => {
+  // Setup plan submit
+  const handleEmailSetupPlan = (e) => {
     e.preventDefault();
-    if (!emailInput) {
+    if (!checkerEmail.trim() || !checkerEmail.includes('@')) {
       toast.error('Please enter a valid email address.');
       return;
     }
-    toast.success(`Setup plan sent to ${emailInput}! Check your inbox soon. 📧`);
-    setEmailInput('');
+    toast.success(`Custom setup plan successfully sent to ${checkerEmail}!`);
+    setCheckerEmail('');
   };
 
-  const getQuizRecommendation = () => {
-    const { os, route, engine, state } = quizSelections;
-    
-    if (route === 'docker' || os === 'linux') {
+  const dockerCommandString = `git clone https://github.com/pewdiepie-archdaemon/odysseus.git
+cd odysseus
+cp .env.example .env  # Edit .env file with your API keys
+docker compose up -d --build`;
+
+  // Get dynamic setup recommendation
+  const getSetupRecommendation = () => {
+    if (checkerState === 'localhost is broken' || checkerState === 'Ollama is not detected') {
       return {
-        title: "Docker Compose is your safest Odysseus AI install path",
-        subtitle: "High confidence for most Windows, Linux, and beginner installs.",
-        why: "Docker isolates Python runtimes and Node packages, meaning local package-lock sync errors or Python path issues will not corrupt your system.",
-        prereqs: "Docker Desktop installed, Git, at least 8GB of free RAM.",
-        commands: `git clone https://github.com/pewdiepie-archdaemon/odysseus.git\ncd odysseus\ndocker compose up -d --build`,
-        avoid: "Do not run local Node/npm install commands concurrently with Docker execution, as lockfiles will sync and cause container build failures."
-      };
-    } else if (os === 'macos_silicon' && route === 'native') {
-      return {
-        title: "Native Apple Silicon Python / Ollama Pipeline",
-        subtitle: "Best performance for macOS M1/M2/M3 with Metal Acceleration.",
-        why: "Native macOS execution allows Ollama and PyTorch to direct-access unified Apple Silicon memory, bypass Docker VM overhead, and speed up token generation by up to 2.5x.",
-        prereqs: "macOS Silicon, Python 3.10+, Ollama for Mac installed locally.",
-        commands: `git clone https://github.com/pewdiepie-archdaemon/odysseus.git\ncd odysseus\nnpm run install-all\nexport OLLAMA_HOST="127.0.0.1:11434"\nnpm run dev`,
-        avoid: "Avoid using virtual machines or Rosetta 2 x86 emulation, as they bypass Metal API hardware acceleration entirely."
-      };
-    } else if (engine === 'api') {
-      return {
-        title: "API-Backed Cloud LLM Routing Setup",
-        subtitle: "Ideal for low-spec systems or cloud-native setups.",
-        why: "Running Odysseus with OpenRouter or OpenAI keys bypasses all local VRAM requirements, allowing even weak laptops to orchestrate advanced workflows.",
-        prereqs: "An active OpenRouter or OpenAI API key, Node.js installed.",
-        commands: `git clone https://github.com/pewdiepie-archdaemon/odysseus.git\ncd odysseus/apps/api\ncp .env.example .env\n# Edit .env with your OPENROUTER_API_KEY\nnpm run start`,
-        avoid: "Do not leave default endpoints enabled if no local Ollama service is running, otherwise the client will throw immediate 502/504 gateways."
-      };
-    } else {
-      return {
-        title: "Deterministic Git-to-Local Development Setup",
-        subtitle: "Standard local development workspace workflow.",
-        why: "Cloning the repository and executing a local npm workspace allows full customization of frontend assets and API endpoints directly.",
-        prereqs: "Node.js 18+, Python 3.10+, Git installed.",
-        commands: `git clone https://github.com/pewdiepie-archdaemon/odysseus.git\ncd odysseus\nnpm install\nnpm run build\nnpm run start`,
-        avoid: "Do not run npm install inside individual subfolders; run it once in the root folder so npm workspaces can handle dependencies."
+        title: "Troubleshooting & Log Recovery is your recommended route",
+        desc: "Do not reinstall from scratch just yet. Re-running compose files without analyzing locks can duplicate active volumes.",
+        firstCmd: "docker compose ps\ndocker compose logs --tail=100 odysseus",
+        trap: "Pasten raw passwords or unredacted .env files into public Discord servers."
       };
     }
+    if (checkerOS === 'macOS Apple Silicon' && checkerRoute === 'Native install') {
+      return {
+        title: "Native Apple Silicon (Metal API) is your safest install path",
+        desc: "Running natively on macOS M1/M2/M3 chips grants Metal framework GPU acceleration, bypassing Docker's virtual CPU constraints.",
+        firstCmd: "./start-macos.sh",
+        trap: "Running via Docker Desktop on macOS while expecting direct hardware Metal access."
+      };
+    }
+    if (checkerOS === 'Windows' && checkerRoute === 'Native install') {
+      return {
+        title: "Native Windows PowerShell is your safest install path",
+        desc: "Ideal when you want direct PowerShell process control and have Python 3.11+ configured on your host system.",
+        firstCmd: "powershell -ExecutionPolicy Bypass -File .\\launch-windows.ps1",
+        trap: "Executing the launcher from an unzipped directory without initializing virtual environments."
+      };
+    }
+    // Default
+    return {
+      title: "Docker Compose is your safest Odysseus AI install path",
+      desc: "Docker keeps Odysseus, ChromaDB, SearXNG, ntfy, and the app runtime in a contained setup. It is the easiest route when you want a repeatable install without manually managing Python dependencies.",
+      firstCmd: "git clone https://github.com/pewdiepie-archdaemon/odysseus.git\ncd odysseus\ncp .env.example .env\ndocker compose up -d --build",
+      trap: "Do not expose APP_BIND=0.0.0.0 just to make localhost work. First confirm container health with docker compose ps and keep the app bound to localhost unless you intentionally want trusted LAN or reverse-proxy access."
+    };
   };
 
-  const recommendation = getQuizRecommendation();
-
-  const mobileNavItems = [
-    { name: 'HOME', icon: LayoutGrid, path: '/' },
-    { name: 'MARKETPLACE', icon: ShoppingBag, path: '/products' },
-    { name: 'CALCULATOR', icon: Calculator, path: '/calculator' },
-    { name: 'SIMULATOR', icon: MonitorPlay, path: '/workspace-simulator' },
-    { name: 'BLOG', icon: FileText, path: '/blog' }
-  ];
+  const recommendation = getSetupRecommendation();
 
   return (
-    <div className="max-w-7xl mx-auto space-y-16 md:space-y-24 pt-6 md:pt-12 px-4 sm:px-6 pb-[120px] md:pb-24">
+    <>
       <Helmet>
-        <title>OdysseusAI | Local AI Installation Launch Kit</title>
-        <meta name="description" content="The easiest way to configure and deploy Odysseus AI locally. One strong Toolkit offer to get started instantly." />
+        <title>Odysseus AI Quickstart — Install Without Fighting</title>
+        <meta name="description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
+        <script type="application/ld+json">
+          {JSON.stringify({
+            "@context": "https://schema.org",
+            "@graph": [
+              {
+                "@type": "WebPage",
+                "@id": "https://odysseusai.ai/#webpage",
+                "url": "https://odysseusai.ai/",
+                "name": "Odysseus AI Quickstart & Installation Triage Hub",
+                "description": "Independent configuration, setup guides, and interactive tools for deploying the open-source Odysseus AI workspace via Docker, Windows, and macOS."
+              },
+              {
+                "@type": "WebApplication",
+                "@id": "https://odysseusai.ai/#webapp",
+                "name": "Odysseus AI Error Doctor & Setup Triage Suite",
+                "applicationCategory": "DeveloperApplication",
+                "operatingSystem": "Windows, macOS, Linux",
+                "description": "Interactive web utilities featuring log analysis, hardware requirement recommendations, and network endpoint path verification for local AI tools.",
+                "browserRequirements": "Requires an HTML5-compliant web browser."
+              },
+              {
+                "@type": "HowTo",
+                "@id": "https://odysseusai.ai/#howto-docker",
+                "name": "How to Install Odysseus AI Using Docker Compose",
+                "description": "Step-by-step instructions for a secure, localized container deployment of the Odysseus repository.",
+                "step": [
+                  {
+                    "@type": "HowToStep",
+                    "text": "Clone the repository using the terminal command: git clone https://github.com/pewdiepie-archdaemon/odysseus.git"
+                  },
+                  {
+                    "@type": "HowToStep",
+                    "text": "Navigate to the folder and initialize configuration variables by duplicating the template: cp .env.example .env"
+                  },
+                  {
+                    "@type": "HowToStep",
+                    "text": "Launch the containers in detached mode to open port 7000: docker compose up -d --build"
+                  }
+                ]
+              },
+              {
+                "@type": "Product",
+                "@id": "https://odysseusai.ai/#product-launchkit",
+                "name": "Odysseus AI Launch Kit",
+                "description": "An independent technical setup workbook, diagnostic checklist, and workflow template companion package.",
+                "offers": {
+                  "@type": "Offer",
+                  "price": "19.00",
+                  "priceCurrency": "USD",
+                  "availability": "https://schema.org/InStock",
+                  "url": "https://odysseusai.ai/#pricing"
+                }
+              }
+            ]
+          })}
+        </script>
       </Helmet>
 
-      {/* --- 1. HERO SECTION --- */}
-      <section className="relative w-full">
-        <div className="neo-card bg-[hsl(var(--white))] p-8 md:p-[60px_40px] flex flex-col lg:flex-row items-center gap-12 relative overflow-hidden min-h-[450px]">
-          {/* Left Column */}
-          <div className="flex-1 flex flex-col items-start text-left z-10">
-            <div className="inline-block bg-[hsl(var(--accent))] text-black border-4 border-black px-[16px] py-[8px] font-black uppercase tracking-widest mb-6 shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-xs md:text-sm">
-              Odysseus AI Quickstart — Install Without Fighting
-            </div>
-            
-            <h1 className="text-3xl sm:text-5xl lg:text-6xl font-black uppercase leading-[1.1] mb-6 text-black dark:text-white">
-              The safest, <SquigglyText stepDuration={70} scale={[4, 6]} className="text-primary">fastest</SquigglyText>, and most beginner-friendly way to run Odysseus locally.
-            </h1>
-            
-            <p className="text-base sm:text-lg font-bold text-muted-foreground max-w-2xl mb-8 leading-relaxed">
-              Odysseus AI is a free, open-source AI interface created by PewDiePie. This independent Launch Kit eliminates terminal errors and configuration loops.
+      <div className="max-w-5xl mx-auto px-4 pt-12 pb-20 text-center relative select-none">
+        {/* Radial gradient background glow */}
+        <div 
+          className="absolute inset-0 pointer-events-none -z-10" 
+          style={{
+            background: 'radial-gradient(circle at center, rgba(231, 58, 90, 0.15) 0%, transparent 70%)',
+            transform: 'scale(1.2)'
+          }}
+        />
+        {/* Floating decorative elements */}
+        <Float amplitude={12} duration={3}><div className="absolute top-10 left-10 text-[#E73A5A] opacity-35 text-2xl">★</div></Float>
+        <Float amplitude={8} duration={5} delay={1}><div className="absolute top-20 right-10 text-[#E73A5A] opacity-40 text-xl">✦</div></Float>
+        <Float amplitude={10} duration={4} delay={2}><div className="absolute bottom-20 left-20 text-[#E73A5A] opacity-35 text-xl">✦</div></Float>
+        
+        {/* Announcement Badge */}
+        <FadeIn delay={0.1} direction="down" distance={20}>
+        <div className="inline-flex items-center gap-2 bg-[#E73A5A]/10 px-4 py-1.5 rounded-full border border-[#E73A5A]/20 text-sm font-semibold mb-8">
+          <span className="bg-[#E73A5A] text-white px-2.5 py-0.5 rounded-full text-xs font-bold">DOCKER</span>
+          <span className="text-gray-400">Install Without Fighting • Docker, Python or Ollama</span>
+        </div>
+        </FadeIn>
+
+        {/* Hero Title */}
+        <FadeIn delay={0.2} direction="up" distance={30}>
+        <h1 className="text-4xl md:text-6xl font-bold mb-8 flex flex-col items-center gap-4 text-white leading-tight">
+          <span>Odysseus AI</span>
+          <TypewriterHero />
+        </h1>
+        </FadeIn>
+
+        <FadeIn delay={0.35} direction="up" distance={20}>
+        <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 leading-relaxed font-medium">
+          Odysseus AI functions purely as a self-hosted workspace cockpit interface; it is not an AI model engine itself. Odysseus AI native installation requires Python 3.11+ and Git for Windows or macOS. This Launch Kit gives you the safest, fastest and most beginner-friendly way to install and run it on your own machine.
+        </p>
+        </FadeIn>
+
+        {/* Hero Actions */}
+        <FadeIn delay={0.5} direction="up" distance={20}>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
+          <button 
+            onClick={() => handleScrollToId('offer')}
+            className="bg-[#E73A5A] text-white px-8 py-4 rounded-full font-bold text-lg shadow-[0_0_20px_rgba(231, 58, 90,0.4)] flex items-center gap-2 hover:scale-[1.03] hover:brightness-112 transition-all"
+          >
+            Get Launch Kit – $19.99 🚀
+          </button>
+          <button 
+            onClick={() => handleScrollToId('checker')}
+            className="bg-white/5 border border-white/10 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-white/10 transition-all flex items-center gap-2"
+          >
+            Check My Setup Path – Free 👀
+          </button>
+        </div>
+        </FadeIn>
+
+        {/* Trust indicators */}
+        <div className="space-y-6">
+          <div className="space-y-2">
+            <p className="text-xs font-bold text-gray-500 uppercase tracking-widest">
+              Windows • Mac • Linux • Docker & Ollama Ready • Secure & Localhost-First
             </p>
-            
-            <div className="flex flex-col sm:flex-row gap-4 w-full sm:w-auto mb-8">
-              <Link to="/products" className="neo-button bg-primary text-black font-black uppercase text-sm px-6 py-4 flex items-center justify-center gap-2">
-                Get Odysseus Launch Kit – $19 <Rocket size={16} strokeWidth={2.5} />
-              </Link>
-              <a href="#checker" className="neo-button bg-[hsl(var(--white))] text-black font-black uppercase text-sm px-6 py-4 text-center">
-                Check My Setup Path – Free
-              </a>
-            </div>
-
-            {/* Grid of 4 Feature Badges */}
-            <div className="grid grid-cols-2 gap-3 w-full border-t-2 border-black/10 pt-6">
-              {[
-                { title: 'Windows • Mac • Linux', desc: 'Cross-platform support' },
-                { title: 'Docker & Ollama Ready', desc: 'Optimized containers' },
-                { title: 'Beginner Friendly', desc: 'No terminal friction' },
-                { title: 'Secure & Localhost-First', desc: '100% private vectors' }
-              ].map((b, idx) => (
-                <div key={idx} className="flex flex-col">
-                  <span className="text-xs font-black uppercase text-black dark:text-white">{b.title}</span>
-                  <span className="text-[10px] uppercase font-bold text-muted-foreground">{b.desc}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right Column */}
-          <div className="w-full lg:w-[40%] flex-shrink-0 z-10">
-            <div className="neo-card bg-card p-4 relative shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))] cute-wiggle-hover">
-              <div className="flex items-center gap-1.5 mb-3 border-b-2 border-black/10 pb-3">
-                <span className="w-3 h-3 rounded-full bg-red-500/85"></span>
-                <span className="w-3 h-3 rounded-full bg-yellow-500/85"></span>
-                <span className="w-3 h-3 rounded-full bg-green-500/85"></span>
-                <span className="text-[9px] text-muted-foreground font-mono ml-2">pewdiepie-archdaemon/odysseus</span>
-              </div>
-              <div className="aspect-video w-full bg-black/5 dark:bg-black/60 rounded border-2 border-black border-dashed flex flex-col items-center justify-center p-6 text-center">
-                <Terminal size={36} className="text-primary mb-2 cute-float" strokeWidth={2.5} />
-                <span className="text-xs font-black uppercase text-black dark:text-white leading-tight">Official Workspace Blueprint</span>
-                <span className="text-[9px] font-mono text-muted-foreground mt-1">Ref: Github Repository Source</span>
-              </div>
-              <div className="absolute -bottom-3 -right-3 bg-[hsl(var(--accent))] text-black border-2 border-black px-2 py-0.5 font-black text-[9px] uppercase shadow">
-                WORKSPACE ACTIVE
-              </div>
-            </div>
           </div>
         </div>
-      </section>
+      </div>
 
-      {/* --- 2. CORE SEGMENTATION --- */}
-      <section id="install">
-        <h2 className="text-2xl md:text-4xl font-black uppercase mb-2 inline-block border-b-4 border-black pb-2">What is the Odysseus AI Quickstart?</h2>
-        <p className="text-muted-foreground font-bold text-sm md:text-base mb-8">Choose your current status to inspect setup commands and targeted checklists.</p>
-        
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-          {/* Col 1 */}
-          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card cute-wiggle-hover">
-            <div>
-              <div className="w-10 h-10 bg-primary/20 text-black border-2 border-black rounded-[8px] flex items-center justify-center mb-4">
-                <BookOpen size={20} className="cute-float" strokeWidth={2.5} />
-              </div>
-              <h3 className="text-lg md:text-xl font-black uppercase mb-2">I haven't installed Odysseus AI yet</h3>
-              <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 leading-relaxed">
-                Start by verifying the official GitHub repository, then choose Docker, Windows native, macOS native, or API-backed setup.
-              </p>
-              <div className="relative bg-black/5 dark:bg-black/40 border-2 border-black p-3 rounded font-mono text-[11px] text-emerald-600 dark:text-emerald-400 mb-6">
-                <code>git clone https://github.com/pewdiepie-archdaemon/odysseus.git</code>
-                <button 
-                  onClick={() => handleCopy('git clone https://github.com/pewdiepie-archdaemon/odysseus.git', 'clone')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-neutral-800 hover:bg-neutral-100 border border-black p-1 rounded transition-all"
-                >
-                  {copiedState['clone'] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 pt-4 border-t-2 border-black/5">
-              <a href="#checker" className="neo-button bg-primary text-black text-xs uppercase py-2 text-center">Check My Install Path</a>
-              <a href="https://github.com/pewdiepie-archdaemon/odysseus" target="_blank" rel="noopener noreferrer" className="neo-button bg-[hsl(var(--white))] text-black text-xs uppercase py-2 text-center">Read full install hub</a>
-            </div>
-          </div>
-
-          {/* Col 2 */}
-          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card cute-wiggle-hover">
-            <div>
-              <div className="w-10 h-10 bg-secondary/20 text-black border-2 border-black rounded-[8px] flex items-center justify-center mb-4">
-                <Laptop size={20} className="cute-float-delay" strokeWidth={2.5} />
-              </div>
-              <h3 className="text-lg md:text-xl font-black uppercase mb-2">I need Docker or Ollama setup</h3>
-              <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 leading-relaxed">
-                Most Docker problems are not Odysseus problems. They are port, .env, container health, or Ollama endpoint mapping problems.
-              </p>
-              <div className="relative bg-black/5 dark:bg-black/40 border-2 border-black p-3 rounded font-mono text-[11px] text-emerald-600 dark:text-emerald-400 mb-6">
-                <code>http://host.docker.internal:11434/v1</code>
-                <button 
-                  onClick={() => handleCopy('http://host.docker.internal:11434/v1', 'docker-endpoint')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-neutral-800 hover:bg-neutral-100 border border-black p-1 rounded transition-all"
-                >
-                  {copiedState['docker-endpoint'] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 pt-4 border-t-2 border-black/5">
-              <a href="#docker-ollama" className="neo-button bg-primary text-black text-xs uppercase py-2 text-center">Resolve My Ollama Endpoint</a>
-              <a href="#matrix" className="neo-button bg-[hsl(var(--white))] text-black text-xs uppercase py-2 text-center">Open Docker setup guide</a>
-            </div>
-          </div>
-
-          {/* Col 3 */}
-          <div className="neo-card p-6 flex flex-col justify-between h-full bg-card cute-wiggle-hover">
-            <div>
-              <div className="w-10 h-10 bg-accent/20 text-black border-2 border-black rounded-[8px] flex items-center justify-center mb-4">
-                <ShieldAlert size={20} className="cute-float" strokeWidth={2.5} />
-              </div>
-              <h3 className="text-lg md:text-xl font-black uppercase mb-2">Odysseus AI is already not working</h3>
-              <p className="font-poppins text-xs md:text-sm text-muted-foreground mb-4 leading-relaxed">
-                Do not delete folders or disable auth. First classify the error: admin password, localhost:7000, Docker Compose, or GPU.
-              </p>
-              <div className="relative bg-black/5 dark:bg-black/40 border-2 border-black p-3 rounded font-mono text-[11px] text-emerald-600 dark:text-emerald-400 mb-6">
-                <code>docker compose ps</code>
-                <button 
-                  onClick={() => handleCopy('docker compose ps', 'ps-cmd')}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 bg-white dark:bg-neutral-800 hover:bg-neutral-100 border border-black p-1 rounded transition-all"
-                >
-                  {copiedState['ps-cmd'] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                </button>
-              </div>
-            </div>
-            <div className="flex flex-col gap-2 pt-4 border-t-2 border-black/5">
-              <a href="#diagnostics" className="neo-button bg-primary text-black text-xs uppercase py-2 text-center">Diagnose My Error</a>
-              <a href="#diagnostics" className="neo-button bg-[hsl(var(--white))] text-black text-xs uppercase py-2 text-center">Open Error Doctor</a>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* --- 3. INTERACTIVE SETUP PATH CHECKER --- */}
-      <section id="checker">
-        <h2 className="text-2xl md:text-4xl font-black uppercase mb-2 inline-block border-b-4 border-black pb-2">Interactive Setup Path Checker</h2>
-        <p className="text-muted-foreground font-bold text-sm md:text-base mb-8">Answer these questions to compile your recommended local setup instructions.</p>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          {/* Controls */}
-          <div className="lg:col-span-5 bg-card border-4 border-black p-6 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] space-y-6">
-            {/* Q1 */}
-            <div>
-              <span className="block text-xs font-black uppercase tracking-wider text-black dark:text-white mb-2.5">
-                Q1: What machine are you using?
-              </span>
-              <div className="grid grid-cols-2 gap-2">
-                {[
-                  { value: 'windows', label: 'Windows PC' },
-                  { value: 'macos_silicon', label: 'Mac Apple Silicon' },
-                  { value: 'macos_intel', label: 'Mac Intel' },
-                  { value: 'linux', label: 'Linux OS' }
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => handleQuizSelect('os', opt.value)}
-                    className={`p-2.5 text-xs font-bold border-2 border-black rounded transition-all text-center uppercase ${
-                      quizSelections.os === opt.value 
-                        ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                        : 'bg-white dark:bg-neutral-800 text-black dark:text-neutral-300'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Q2 */}
-            <div>
-              <span className="block text-xs font-black uppercase tracking-wider text-black dark:text-white mb-2.5">
-                Q2: What setup route do you prefer?
-              </span>
-              <div className="grid grid-cols-3 gap-2">
-                {[
-                  { value: 'docker', label: 'Docker' },
-                  { value: 'native', label: 'Native' },
-                  { value: 'not_sure', label: 'Not Sure' }
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => handleQuizSelect('route', opt.value)}
-                    className={`p-2.5 text-[10px] font-bold border-2 border-black rounded transition-all text-center uppercase ${
-                      quizSelections.route === opt.value 
-                        ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                        : 'bg-white dark:bg-neutral-800 text-black dark:text-neutral-300'
-                    }`}
-                  >
-                    {opt.label}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Q3 */}
-            <div>
-              <span className="block text-xs font-black uppercase tracking-wider text-black dark:text-white mb-2.5">
-                Q3: Models Source Preference?
-              </span>
-              <div className="space-y-2">
-                {[
-                  { value: 'ollama', label: 'Local Ollama Models' },
-                  { value: 'api', label: 'API-Backed (OpenRouter/OpenAI)' },
-                  { value: 'cookbook', label: 'Custom GPU cookbook serving' }
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => handleQuizSelect('engine', opt.value)}
-                    className={`p-2.5 w-full text-xs font-bold border-2 border-black rounded transition-all text-left uppercase flex justify-between items-center ${
-                      quizSelections.engine === opt.value 
-                        ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                        : 'bg-white dark:bg-neutral-800 text-black dark:text-neutral-300'
-                    }`}
-                  >
-                    {opt.label}
-                    {quizSelections.engine === opt.value && <CheckCircle size={14} />}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Q4 */}
-            <div>
-              <span className="block text-xs font-black uppercase tracking-wider text-black dark:text-white mb-2.5">
-                Q4: What is your current state?
-              </span>
-              <div className="space-y-2">
-                {[
-                  { value: 'fresh', label: 'Fresh install (Nothing setup)' },
-                  { value: 'cloned', label: 'Repo is already cloned' },
-                  { value: 'docker_running', label: 'Docker container is running' },
-                  { value: 'ollama_missing', label: 'Ollama not detected' }
-                ].map(opt => (
-                  <button
-                    key={opt.value}
-                    onClick={() => handleQuizSelect('state', opt.value)}
-                    className={`p-2.5 w-full text-xs font-bold border-2 border-black rounded transition-all text-left uppercase flex justify-between items-center ${
-                      quizSelections.state === opt.value 
-                        ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                        : 'bg-white dark:bg-neutral-800 text-black dark:text-neutral-300'
-                    }`}
-                  >
-                    {opt.label}
-                    {quizSelections.state === opt.value && <CheckCircle size={14} />}
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* Results Output */}
-          <div className="lg:col-span-7">
-            <AnimatePresence mode="wait">
-              {!isQuizComplete ? (
-                <div className="neo-card p-8 bg-card border-dashed flex flex-col items-center justify-center text-center h-full min-h-[350px]">
-                  <HelpCircle size={40} className="text-muted-foreground mb-4 animate-bounce" />
-                  <h3 className="text-lg font-black uppercase mb-1">Recipe Pending</h3>
-                  <p className="text-xs font-poppins text-neutral-500 max-w-xs uppercase leading-relaxed font-bold">
-                    Select answers to all 4 questions on the left to compile your recommended local setup path.
-                  </p>
-                </div>
-              ) : (
-                <motion.div
-                  key="output"
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="neo-card bg-card p-6 md:p-8 flex flex-col justify-between h-full shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
-                >
-                  <div>
-                    <span className="bg-secondary text-black border-2 border-black font-black uppercase text-[10px] px-2.5 py-1 rounded inline-block mb-4 shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)]">
-                      Recommended install recipe
-                    </span>
-                    <h3 className="text-xl md:text-3xl font-black uppercase mb-1 text-black dark:text-white">
-                      {recommendation.title}
-                    </h3>
-                    <p className="text-xs font-poppins font-black text-muted-foreground mb-6 uppercase tracking-wider">
-                      {recommendation.subtitle}
-                    </p>
-
-                    <div className="space-y-6">
-                      <div>
-                        <h4 className="text-xs font-black uppercase text-primary mb-1 tracking-wider">Why this path:</h4>
-                        <p className="text-xs font-poppins font-semibold text-foreground/80 leading-relaxed">{recommendation.why}</p>
-                      </div>
-
-                      <div>
-                        <h4 className="text-xs font-black uppercase text-primary mb-1 tracking-wider">Prerequisites:</h4>
-                        <p className="text-xs font-poppins font-semibold text-foreground/80 leading-relaxed">{recommendation.prereqs}</p>
-                      </div>
-
-                      <div>
-                        <div className="flex justify-between items-center mb-2">
-                          <h4 className="text-xs font-black uppercase text-primary tracking-wider">First commands:</h4>
-                          <button 
-                            onClick={() => handleCopy(recommendation.commands, 'quiz-code')}
-                            className="bg-white dark:bg-neutral-800 hover:bg-slate-55 text-black dark:text-white font-black uppercase text-[10px] px-2.5 py-1 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 transition-all"
-                          >
-                            {copiedState['quiz-code'] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                            Copy
-                          </button>
-                        </div>
-                        <pre className="bg-black/5 dark:bg-black/50 border-2 border-black p-4 rounded text-left font-mono text-xs text-emerald-600 dark:text-emerald-400 overflow-x-auto leading-relaxed">
-                          <code>{recommendation.commands}</code>
-                        </pre>
-                      </div>
-
-                      <div className="bg-red-500/10 border-2 border-red-500 p-4 rounded text-left flex gap-3 items-start">
-                        <AlertTriangle className="text-red-500 shrink-0 mt-0.5" size={16} />
-                        <div>
-                          <div className="text-xs font-black text-red-600 dark:text-red-400 uppercase tracking-wide mb-1">Avoid this mistake:</div>
-                          <p className="text-[11px] text-black dark:text-red-100 font-poppins font-semibold leading-relaxed">{recommendation.avoid}</p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <form onSubmit={handleEmailSubmit} className="mt-8 pt-6 border-t-2 border-black/10 flex flex-col sm:flex-row gap-2">
-                    <input 
-                      type="email" 
-                      placeholder="Enter your email to receive this plan..." 
-                      className="bg-white dark:bg-neutral-800 text-black dark:text-white border-2 border-black text-xs px-4 py-3 rounded outline-none placeholder:text-neutral-500 font-black uppercase flex-1 focus:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all"
-                      value={emailInput}
-                      onChange={(e) => setEmailInput(e.target.value)}
-                    />
-                    <button 
-                      type="submit" 
-                      className="neo-button bg-primary text-black text-xs px-6 py-3"
-                    >
-                      Email Plan <Mail size={12} className="ml-1.5" />
-                    </button>
-                  </form>
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </div>
-        </div>
-      </section>
-
-      {/* --- 4. INSTALL PATH DECISION MATRIX --- */}
-      <section id="matrix">
-        <h2 className="text-2xl md:text-4xl font-black uppercase mb-2 inline-block border-b-4 border-black pb-2">Install Path Decision Matrix</h2>
-        <p className="text-muted-foreground font-bold text-sm md:text-base mb-8">Compare local deployment options, first instructions, and failure traps.</p>
-        
-        <div className="neo-card bg-card overflow-hidden shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] max-w-full">
-          <div className="overflow-x-auto">
-            <table className="w-full text-left border-collapse min-w-[900px]">
-              <thead>
-                <tr className="bg-primary/20 border-b-4 border-black font-black uppercase text-xs tracking-wider text-black dark:text-white">
-                  <th className="p-4 border-r-2 border-black">Path Name</th>
-                  <th className="p-4 border-r-2 border-black">Choose This If</th>
-                  <th className="p-4 border-r-2 border-black">Do Not Choose This If</th>
-                  <th className="p-4 border-r-2 border-black">First Command / Endpoint</th>
-                  <th className="p-4 border-r-2 border-black text-red-500">Common Trap</th>
-                  <th className="p-4 text-center">Action</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y-2 divide-black/10 font-poppins text-xs font-semibold text-foreground/80">
-                {PATH_MATRIX.map((row, idx) => (
-                  <tr key={idx} className={`hover:bg-black/5 transition-colors ${row.highlighted ? 'bg-[hsl(var(--primary))]/5' : ''}`}>
-                    <td className="p-4 font-black uppercase tracking-wide border-r-2 border-black/10 text-black dark:text-white">
-                      {row.path}
-                      {row.highlighted && <span className="block text-[8px] bg-secondary text-black font-black px-1.5 py-0.5 rounded w-fit mt-1 shadow-sm">RECOMMENDED</span>}
-                    </td>
-                    <td className="p-4 border-r-2 border-black/10 leading-relaxed">{row.chooseIf}</td>
-                    <td className="p-4 border-r-2 border-black/10 text-muted-foreground leading-relaxed">{row.doNotChooseIf}</td>
-                    <td className="p-4 border-r-2 border-black/10 font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
-                      <code>{row.command}</code>
-                    </td>
-                    <td className="p-4 border-r-2 border-black/10 text-red-600 dark:text-red-400 bg-red-500/5 leading-relaxed">{row.trap}</td>
-                    <td className="p-4 text-center">
-                      <a href="#offer" className="bg-white dark:bg-neutral-850 hover:bg-slate-50 text-black dark:text-white font-black uppercase text-[10px] px-3 py-2 border-2 border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rounded transition-all inline-block whitespace-nowrap">
-                        Configure
-                      </a>
-                    </td>
-                  </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* --- 5. DOCKER QUICK PATH & OLLAMA ROUTING --- */}
-      <section id="docker-ollama">
-        <h2 className="text-2xl md:text-4xl font-black uppercase mb-2 inline-block border-b-4 border-black pb-2">Docker Quick Path & Ollama Routing</h2>
-        <p className="text-muted-foreground font-bold text-sm md:text-base mb-8">Cheat sheet configurations for Docker container building and Ollama daemon endpoints.</p>
-
-        {/* Tab Controls */}
-        <div className="flex gap-3 mb-6 border-b-2 border-black/10 pb-3">
-          <button
-            onClick={() => setActiveTab('docker')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider border-2 border-black rounded transition-all ${
-              activeTab === 'docker' 
-                ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                : 'bg-white dark:bg-neutral-900 text-black dark:text-neutral-400'
-            }`}
-          >
-            🐳 Docker Quick Path
-          </button>
-          <button
-            onClick={() => setActiveTab('ollama')}
-            className={`px-5 py-2.5 text-xs font-black uppercase tracking-wider border-2 border-black rounded transition-all ${
-              activeTab === 'ollama' 
-                ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                : 'bg-white dark:bg-neutral-900 text-black dark:text-neutral-400'
-            }`}
-          >
-            🦙 Ollama Routing Tables
-          </button>
-        </div>
-
-        {/* Tab Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {activeTab === 'docker' ? (
-            <>
-              {/* Docker Content */}
-              <div className="lg:col-span-6 bg-card border-4 border-black p-6 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
-                <div>
-                  <h3 className="text-lg font-black uppercase text-black dark:text-white mb-2">Build and Start Docker Swarm</h3>
-                  <p className="text-xs font-poppins text-muted-foreground mb-6 leading-relaxed">
-                    Instantly compile individual front/back containers within the workspace using the default configuration file.
-                  </p>
-                  
-                  <div className="space-y-4">
-                    {[
-                      { label: 'Step 1: Check Docker state', cmd: 'docker info' },
-                      { label: 'Step 2: Start compose bundle', cmd: 'docker compose up -d --build' },
-                      { label: 'Step 3: Verify container statuses', cmd: 'docker compose ps' }
-                    ].map((step, idx) => (
-                      <div key={idx} className="bg-black/5 dark:bg-black/40 border-2 border-black/10 rounded p-3 text-left">
-                        <div className="text-[10px] font-black uppercase text-primary mb-1">{step.label}</div>
-                        <div className="font-mono text-xs text-emerald-600 dark:text-emerald-400 flex justify-between items-center">
-                          <code>{step.cmd}</code>
-                          <button 
-                            onClick={() => handleCopy(step.cmd, `docker-cmd-${idx}`)}
-                            className="bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 border border-black p-1 rounded transition-colors"
-                          >
-                            {copiedState[`docker-cmd-${idx}`] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="lg:col-span-6 bg-card border-4 border-black p-6 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] flex flex-col justify-between">
-                <div>
-                  <h3 className="text-lg font-black uppercase text-black dark:text-white mb-2">Clean Container Cache</h3>
-                  <p className="text-xs font-poppins text-muted-foreground mb-6 leading-relaxed">
-                    Prune dangling layers, delete unlinked volumes, and force rebuild containers to resolve lockfile and package issues.
-                  </p>
-
-                  <div className="space-y-4">
-                    {[
-                      { label: 'Stop and prune containers', cmd: 'docker compose down --v' },
-                      { label: 'Prune unused build caching layers', cmd: 'docker builder prune -f' },
-                      { label: 'Force build clean workspace', cmd: 'docker compose build --no-cache' }
-                    ].map((step, idx) => (
-                      <div key={idx} className="bg-black/5 dark:bg-black/40 border-2 border-black/10 rounded p-3 text-left">
-                        <div className="text-[10px] font-black uppercase text-primary mb-1">{step.label}</div>
-                        <div className="font-mono text-xs text-emerald-600 dark:text-emerald-400 flex justify-between items-center">
-                          <code>{step.cmd}</code>
-                          <button 
-                            onClick={() => handleCopy(step.cmd, `docker-clean-${idx}`)}
-                            className="bg-white dark:bg-neutral-800 hover:bg-neutral-100 dark:hover:bg-neutral-700 border border-black p-1 rounded transition-colors"
-                          >
-                            {copiedState[`docker-clean-${idx}`] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                          </button>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </>
-          ) : (
-            <>
-              {/* Ollama Content */}
-              <div className="lg:col-span-12 bg-card border-4 border-black rounded-xl overflow-hidden shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-                <div className="overflow-x-auto">
-                  <table className="w-full text-left border-collapse min-w-[700px]">
-                    <thead>
-                      <tr className="bg-primary/20 border-b-2 border-black font-black uppercase text-xs tracking-wider text-black dark:text-white">
-                        <th className="p-4 border-r-2 border-black">Run Mode</th>
-                        <th className="p-4 border-r-2 border-black">Endpoint URL Base</th>
-                        <th className="p-4 border-r-2 border-black">Ollama Env Variable binding</th>
-                        <th className="p-4 text-center">Diagnostics Ping</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-black/10 font-poppins text-xs font-semibold text-foreground/80">
-                      {[
-                        {
-                          mode: 'Docker Container to Local Host Ollama',
-                          url: 'http://host.docker.internal:11434/v1',
-                          binding: 'OLLAMA_HOST="0.0.0.0:11434"',
-                          ping: 'curl http://host.docker.internal:11434/api/tags'
-                        },
-                        {
-                          mode: 'Local Host Node APP to Native Local Ollama',
-                          url: 'http://localhost:11434/v1',
-                          binding: 'OLLAMA_HOST="127.0.0.1:11434"',
-                          ping: 'curl http://localhost:11434/api/tags'
-                        },
-                        {
-                          mode: 'Container to Container (Docker Network)',
-                          url: 'http://ollama-container:11434/v1',
-                          binding: 'OLLAMA_HOST="0.0.0.0:11434"',
-                          ping: 'ping ollama-container'
-                        },
-                        {
-                          mode: 'Remote Server / Public Reverse Proxy Tunnel',
-                          url: 'https://ollama.yourdomain.com/v1',
-                          binding: 'OLLAMA_HOST="0.0.0.0:11434"',
-                          ping: 'curl -I https://ollama.yourdomain.com/api/tags'
-                        }
-                      ].map((item, i) => (
-                        <tr key={i} className="hover:bg-black/5">
-                          <td className="p-4 border-r border-black/10 font-black uppercase text-black dark:text-white">{item.mode}</td>
-                          <td className="p-4 border-r border-black/10 font-mono text-[11px] text-emerald-600 dark:text-emerald-400">{item.url}</td>
-                          <td className="p-4 border-r border-black/10 font-mono text-muted-foreground">{item.binding}</td>
-                          <td className="p-4 text-center">
-                            <button 
-                              onClick={() => handleCopy(item.ping, `ping-cmd-${i}`)}
-                              className="bg-white dark:bg-neutral-800 hover:bg-slate-50 text-black dark:text-white font-black uppercase text-[10px] px-3 py-1.5 border-2 border-black rounded transition-all inline-flex items-center gap-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95"
-                            >
-                              {copiedState[`ping-cmd-${i}`] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                              Copy
-                            </button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </>
-          )}
-        </div>
-      </section>
-
-      {/* --- 6. INTERACTIVE DIAGNOSTIC HUB & FAQ ACCORDION --- */}
-      <section id="diagnostics">
-        <h2 className="text-2xl md:text-4xl font-black uppercase mb-2 inline-block border-b-4 border-black pb-2">Diagnostics Hub & FAQ</h2>
-        <p className="text-muted-foreground font-bold text-sm md:text-base mb-8">Inspect common local developer errors and run immediate diagnostic shell check commands.</p>
-        
-        {/* Direct Answers Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8 mb-8">
-          {[
-            {
-              title: "Where is the admin password?",
-              ans: "When first running Odysseus, check container logs or startup stdout. Look for lines containing 'Temporary Admin Password'. Do not restart the container, or it will generate a new one.",
-              cmd: "docker compose logs | grep -i password"
-            },
-            {
-              title: "Why does localhost:7000 not open?",
-              ans: "Port 7000 might be bound by macOS AirPlay Receiver, or the container crashed. Verify port allocations using the terminal check, and disable macOS AirPlay receiver if necessary.",
-              cmd: "sudo lsof -i :7000"
-            },
-            {
-              title: "Is it safe to expose publicly?",
-              ans: "No. Odysseus local has zero default authentication rate limits or endpoint encryption. Do not expose host 7000 to the public WAN without setting up a reverse proxy with TLS/SSL authentication.",
-              cmd: "ufw status verbose"
-            }
-          ].map((card, i) => (
-            <div key={i} className="neo-card p-6 bg-card">
-              <h3 className="text-lg font-black uppercase mb-2 text-black dark:text-white">{card.title}</h3>
-              <p className="text-xs font-poppins text-muted-foreground mb-4 leading-relaxed font-semibold">{card.ans}</p>
-              
-              <div className="bg-black/5 dark:bg-black/40 border-2 border-black p-2.5 flex justify-between items-center">
-                <code className="font-mono text-[10px] text-emerald-600 dark:text-emerald-400">{card.cmd}</code>
-                <button 
-                  onClick={() => handleCopy(card.cmd, `faq-cmd-${i}`)}
-                  className="bg-white dark:bg-neutral-800 hover:bg-neutral-100 border border-black p-1 rounded transition-colors"
-                >
-                  {copiedState[`faq-cmd-${i}`] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                </button>
-              </div>
-            </div>
-          ))}
-        </div>
-
-        {/* Collapsible Accordion Errors */}
-        <div className="space-y-4">
-          {[
-            {
-              id: 'err1',
-              title: 'Cannot find admin password / SQLite locks',
-              desc: 'SQLite databases locks occur when two node threads access the db file concurrently. To fix, close active developer processes and remove the lockfile.',
-              solution: 'rm -f apps/pocketbase/pb_data/*.db-journal'
-            },
-            {
-              id: 'err2',
-              title: 'Local Ollama not detected (502 / 504 Gateway)',
-              desc: 'Docker containers resolve localhost internally. You must bind the API server to look at host.docker.internal inside container networks.',
-              solution: 'export OLLAMA_HOST="0.0.0.0:11434"'
-            },
-            {
-              id: 'err3',
-              title: 'CUDA out-of-memory / Offloading failure',
-              desc: 'If model size exceeds GPU RAM, execution collapses. Force partial CPU offloading or load Q4 GGUF models.',
-              solution: 'ollama run llama3:8b-instruct-q4_K_M'
-            }
-          ].map(err => {
-            const isOpen = activeError === err.id;
-            return (
-              <div 
-                key={err.id} 
-                className="border-4 border-black bg-card rounded-xl overflow-hidden transition-all duration-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-              >
-                <button
-                  onClick={() => setActiveError(isOpen ? null : err.id)}
-                  className="w-full p-4 flex justify-between items-center text-left hover:bg-black/5 text-black dark:text-white"
-                >
-                  <span className="font-black text-sm uppercase tracking-wide flex items-center gap-2">
-                    <span className="text-red-500 font-bold">⚠️</span> {err.title}
-                  </span>
-                  <ChevronDown className={`transform transition-transform ${isOpen ? 'rotate-180' : ''}`} size={16} strokeWidth={2.5} />
-                </button>
-                
-                <AnimatePresence>
-                  {isOpen && (
-                    <motion.div
-                      initial={{ height: 0 }}
-                      animate={{ height: 'auto' }}
-                      exit={{ height: 0 }}
-                      className="overflow-hidden border-t-2 border-black"
-                    >
-                      <div className="p-4 bg-black/5 dark:bg-black/50 text-xs font-semibold leading-relaxed space-y-4 font-poppins text-muted-foreground">
-                        <p>{err.desc}</p>
-                        
-                        <div className="bg-black/5 dark:bg-black/80 border-2 border-black p-3 rounded flex justify-between items-center font-mono text-emerald-600 dark:text-emerald-400">
-                          <code>{err.solution}</code>
-                          <button 
-                            onClick={() => handleCopy(err.solution, `err-sol-${err.id}`)}
-                            className="bg-white dark:bg-neutral-800 hover:bg-neutral-100 border border-black p-1 rounded transition-colors"
-                          >
-                            {copiedState[`err-sol-${err.id}`] ? <Check size={10} className="text-green-600" /> : <Copy size={10} />}
-                          </button>
-                        </div>
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-              </div>
-            );
-          })}
-        </div>
-      </section>
-
-      {/* --- 7. TIERED PRICING - ONE STRONG TOOLKIT OFFER --- */}
-      <section id="offer" className="flex justify-center">
-        <div className="neo-card bg-[hsl(var(--primary))] p-8 md:p-12 border-4 border-black max-w-3xl w-full text-center relative overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] cute-wiggle-hover">
-          <div className="absolute -right-16 -top-16 w-48 h-48 rounded-full bg-[hsl(var(--accent))] opacity-25"></div>
-          
-          <span className="bg-secondary text-black border-4 border-black px-4 py-1.5 font-black uppercase tracking-widest mb-6 rounded-lg inline-block shadow-[3px_3px_0px_0px_rgba(0,0,0,1)] text-xs cute-float">
-            🌟 Special Early Access Bundle
-          </span>
-          
-          <h2 className="text-3xl md:text-5xl font-black uppercase text-black mb-3">
-            Odysseus AI <SquigglyText stepDuration={70} scale={[5, 7]} className="text-[hsl(var(--accent))]">Launch Kit</SquigglyText> & Toolkit
+      <section id="tools" className="w-full">
+      {/* Cute Platform Selector Cards Section */}
+      <section className="bg-white/5 border-t border-b border-white/10 py-12 px-4 select-none">
+        <div className="max-w-5xl mx-auto text-center">
+          <h2 className="text-2xl md:text-3xl font-bold text-white mb-2 uppercase tracking-wider">
+            Choose Your Installation Platform
           </h2>
-          <p className="text-sm font-black uppercase tracking-wide text-black/70 mb-8 max-w-xl mx-auto">
-            The ultimate local deployment template bundle, startup scripts, and configurations to run Odysseus locally without fighting errors.
+          <p className="text-xs md:text-sm font-bold text-gray-500 max-w-xl mx-auto mb-8 uppercase tracking-wide">
+            Select a target to launch PewDiePie's Odysseus AI offline on your machine
           </p>
 
-          <div className="flex justify-center items-baseline gap-3 mb-8">
-            <span className="text-5xl md:text-7xl font-black text-black">$19</span>
-            <span className="text-lg md:text-2xl line-through text-black/40 font-black">$49.99</span>
-          </div>
+          <StaggerContainer className="grid grid-cols-2 md:grid-cols-3 gap-6 md:gap-8 justify-center items-center" staggerDelay={0.08}>
+            {/* Windows Card */}
+            <StaggerItem>
+            <Link
+              to="/install/windows"
+              title="NVIDIA CUDA GPU acceleration setup instructions"
+              className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
+            >
+              <div className="text-[#E73A5A] mb-3 flex items-center justify-center">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="20" height="14" x="2" y="3" rx="2" />
+                  <line x1="8" x2="16" y1="21" y2="21" />
+                  <line x1="12" x2="12" y1="17" y2="21" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">
+                Windows
+              </span>
+            </Link>
+            </StaggerItem>
 
-          <div className="max-w-md mx-auto text-left space-y-4 mb-8 bg-card border-4 border-black p-6 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] font-poppins text-xs font-semibold text-foreground/80">
-            <div className="flex gap-2.5 items-start">
-              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" strokeWidth={2.5} />
-              <span><strong>Pre-configured Compose:</strong> Error-free Docker Compose YAML linking back, front, and database.</span>
-            </div>
-            <div className="flex gap-2.5 items-start">
-              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" strokeWidth={2.5} />
-              <span><strong>Optimized Environments:</strong> Pre-built .env templates ready for instant model mapping.</span>
-            </div>
-            <div className="flex gap-2.5 items-start">
-              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" strokeWidth={2.5} />
-              <span><strong>1-Click Scripts:</strong> Execution shell scripts (run.sh / batch files) bypassing Python path errors.</span>
-            </div>
-            <div className="flex gap-2.5 items-start">
-              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" strokeWidth={2.5} />
-              <span><strong>Diagnostic Manual PDF:</strong> Full guide resolving SQLite locks, VRAM, and Docker permissions.</span>
-            </div>
-            <div className="flex gap-2.5 items-start">
-              <CheckCircle size={16} className="text-emerald-600 shrink-0 mt-0.5" strokeWidth={2.5} />
-              <span><strong>Workflow Starters:</strong> CrewAI and AutoGen code presets to launch specialist agents.</span>
-            </div>
-          </div>
+            {/* macOS Card */}
+            <StaggerItem>
+            <Link
+              to="/install/macbook"
+              title="Apple Silicon Metal framework acceleration configuration"
+              className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
+            >
+              <div className="text-[#E73A5A] mb-3 flex items-center justify-center">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="18" height="12" x="3" y="4" rx="2" />
+                  <line x1="2" x2="22" y1="20" y2="20" />
+                  <line x1="5" x2="19" y1="16" y2="16" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">
+                macOS
+              </span>
+            </Link>
+            </StaggerItem>
 
-          <Link 
-            to="/products"
-            className="neo-button bg-black text-white hover:bg-[hsl(var(--accent))] hover:text-black font-black uppercase text-base md:text-xl px-10 py-5 w-full max-w-md hover:no-underline"
-          >
-            Unlock Launch Kit Now ($19)
-          </Link>
-          
-          <div className="text-[10px] font-black uppercase text-black/60 tracking-wider mt-4">
-            🔒 Secure Stripe checkout • Instant Delivery • 100% Satisfaction Guarantee
-          </div>
+            {/* Linux Card */}
+            <StaggerItem>
+            <Link
+              to="/odysseus-ai-install"
+              title="Private docker container & native uvicorn hook blueprints"
+              className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
+            >
+              <div className="text-[#E73A5A] mb-3 flex items-center justify-center">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <polyline points="4 17 10 11 4 5" />
+                  <line x1="12" x2="20" y1="19" y2="19" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">
+                Linux
+              </span>
+            </Link>
+            </StaggerItem>
+
+            {/* Docker Card */}
+            <StaggerItem>
+            <Link
+              to="/install/docker"
+              title="Deploy repeatable isolated service container clusters"
+              className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
+            >
+              <div className="text-[#E73A5A] mb-3 flex items-center justify-center">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M22 7.6L19 4H5L2 7.6c-.5.6-.5 1.4-.2 2l2.7 5.4c.5 1 1.5 1.6 2.7 1.6h9.6c1.2 0 2.2-.6 2.7-1.6l2.7-5.4c.3-.6.3-1.4-.2-2z" />
+                  <path d="M12 4v13" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">
+                Docker
+              </span>
+            </Link>
+            </StaggerItem>
+
+            {/* Ollama Card */}
+            <StaggerItem>
+            <Link
+              to="/install/ollama"
+              title="Integrate local LLM model engines (Llama 3.2, Qwen 2.5)"
+              className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
+            >
+              <div className="text-[#E73A5A] mb-3 flex items-center justify-center">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <rect width="16" height="16" x="4" y="4" rx="2" />
+                  <rect width="6" height="6" x="9" y="9" rx="1" />
+                  <path d="M9 1v3" />
+                  <path d="M15 1v3" />
+                  <path d="M9 20v3" />
+                  <path d="M15 20v3" />
+                  <path d="M20 9h3" />
+                  <path d="M20 15h3" />
+                  <path d="M1 9h3" />
+                  <path d="M1 15h3" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">
+                Ollama
+              </span>
+            </Link>
+            </StaggerItem>
+
+            {/* Install Hub Card */}
+            <StaggerItem>
+            <Link
+              to="/odysseus-ai-install"
+              title="View all 100% offline private setup blueprints"
+              className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
+            >
+              <div className="text-[#E73A5A] mb-3 flex items-center justify-center">
+                <svg className="w-10 h-10" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
+                </svg>
+              </div>
+              <span className="font-bold text-xs md:text-sm uppercase tracking-widest text-white">
+                Install Hub
+              </span>
+            </Link>
+            </StaggerItem>
+          </StaggerContainer>
         </div>
       </section>
 
-      {/* --- 8. WORKFLOW STARTER CODE SNIPPETS --- */}
-      <section id="snippets">
-        <h2 className="text-2xl md:text-4xl font-black uppercase mb-2 inline-block border-b-4 border-black pb-2">Workflow Starter Code Snippets</h2>
-        <p className="text-muted-foreground font-bold text-sm md:text-base mb-8">Copy configured code blocks to initialize specialized CrewAI agents inside your workspace.</p>
-
-        {/* Tab Selection */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
-          {WORKFLOWS.map(w => (
-            <button
-              key={w.id}
-              onClick={() => setActiveWorkflowTab(w.id)}
-              className={`p-3 text-xs font-black uppercase border-2 border-black rounded transition-all text-center ${
-                activeWorkflowTab === w.id 
-                  ? 'bg-primary text-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] translate-y-0.5' 
-                  : 'bg-white dark:bg-neutral-900 text-black dark:text-neutral-400'
-              }`}
+      {/* What is Odysseus AI Quickstart Section */}
+      <section className="max-w-5xl mx-auto px-4 py-16 select-none">
+        <FadeIn direction="up" distance={30}>
+        <h2 className="text-3xl md:text-4xl text-center font-bold mb-4 text-white">
+          What is the Odysseus AI Quickstart?
+        </h2>
+        <p className="text-center text-gray-400 max-w-xl mx-auto mb-16 font-medium">
+          An Odysseus AI install is not one single download. Your safest next step depends on whether you are starting fresh, configuring Docker and Ollama, or fixing a broken localhost, login, or model connection.
+        </p>
+        </FadeIn>
+        
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-3 gap-8" staggerDelay={0.15}>
+          {/* Column 1 */}
+          <StaggerItem><div className="glass-card p-8 flex flex-col justify-between gap-6">
+            <div className="space-y-4">
+              <div className="text-4xl">📂</div>
+              <h3 className="text-xl font-bold leading-tight text-white">I haven't installed Odysseus AI yet</h3>
+              <p className="text-sm leading-relaxed text-gray-400 font-medium">
+                Start by cloning the official repository, then choose Docker, Windows native, macOS native, or API-backed setup.
+              </p>
+              <pre className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/10 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 overflow-x-auto">
+                git clone https://github.com/pewdiepie-archdaemon/odysseus.git
+              </pre>
+            </div>
+            <button 
+              onClick={() => handleScrollToId('checker')}
+              className="w-full bg-transparent border border-[#E73A5A] text-[#E73A5A] hover:bg-[#E73A5A] hover:text-white py-2.5 rounded-full font-bold transition-all text-xs"
             >
-              {w.title}
+              Check My Install Path
             </button>
-          ))}
-        </div>
+          </div></StaggerItem>
 
-        {/* Tab Content Display */}
-        <AnimatePresence mode="wait">
-          {WORKFLOWS.map(w => {
-            if (w.id !== activeWorkflowTab) return null;
-            return (
-              <motion.div
-                key={w.id}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                exit={{ opacity: 0, y: -10 }}
-                className="neo-card bg-card p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] relative"
-              >
-                <div className="flex justify-between items-start mb-4 border-b border-black/10 pb-4">
-                  <div>
-                    <h3 className="text-lg font-black uppercase text-black dark:text-white">{w.title}</h3>
-                    <p className="text-xs font-poppins text-muted-foreground mt-1 font-semibold">{w.desc}</p>
-                  </div>
+          {/* Column 2 */}
+          <StaggerItem><div className="glass-card p-8 flex flex-col justify-between gap-6">
+            <div className="space-y-4">
+              <div className="text-4xl">🐳</div>
+              <h3 className="text-xl font-bold leading-tight text-white">I need Docker or Ollama setup</h3>
+              <p className="text-sm leading-relaxed text-gray-400 font-medium">
+                Most Docker problems are not Odysseus problems. They are port, .env, container health, or Ollama endpoint mapping problems.
+              </p>
+              <pre className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/10 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 overflow-x-auto">
+                http://host.docker.internal:11434/v1
+              </pre>
+            </div>
+            <button 
+              onClick={() => handleScrollToId('ollama-guide')}
+              className="w-full bg-transparent border border-[#E73A5A] text-[#E73A5A] hover:bg-[#E73A5A] hover:text-white py-2.5 rounded-full font-bold transition-all text-xs"
+            >
+              Resolve My Ollama Endpoint
+            </button>
+          </div></StaggerItem>
+
+          {/* Column 3 */}
+          <StaggerItem><div className="glass-card p-8 flex flex-col justify-between gap-6">
+            <div className="space-y-4">
+              <div className="text-4xl">🛠️</div>
+              <h3 className="text-xl font-bold leading-tight text-white">Odysseus AI is already not working</h3>
+              <p className="text-sm leading-relaxed text-gray-400 font-medium">
+                Do not delete folders, disable auth, expose ports, or paste raw logs. First classify the error: ports, Compose, Ollama, GPU or admin keys.
+              </p>
+              <pre className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/10 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 overflow-x-auto">
+                docker compose ps
+              </pre>
+            </div>
+            <button 
+              onClick={() => handleScrollToId('error-diagnosis')}
+              className="w-full bg-transparent border border-[#E73A5A] text-[#E73A5A] hover:bg-[#E73A5A] hover:text-white py-2.5 rounded-full font-bold transition-all text-xs"
+            >
+              Diagnose My Error
+            </button>
+          </div></StaggerItem>
+        </StaggerContainer>
+      </section>
+
+      {/* Setup Path Checker Section */}
+      <section id="checker" className="max-w-5xl mx-auto px-4 py-16 select-none">
+        <ScaleIn><div className="glass-card p-8 md:p-12">
+          <div className="mb-8">
+            <span className="bg-[#E73A5A]/10 text-[#E73A5A] border border-[#E73A5A]/20 px-4 py-1.5 font-bold uppercase tracking-wider mb-4 rounded-full inline-block text-xs">
+              🤖 Interactive Quiz helper
+            </span>
+            <h2 className="text-3xl md:text-4xl font-bold text-white leading-tight">
+              Setup Path Checker
+            </h2>
+            <p className="text-sm font-medium text-gray-400 mt-2">
+              Get your recommended Odysseus AI install path by answering 4 quick questions.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 text-left border-t border-white/10 pt-8">
+            {/* Quiz Fields */}
+            <div className="space-y-6">
+              {/* Question 1 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">
+                  1. What machine are you using?
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {['Windows', 'macOS Apple Silicon', 'macOS Intel', 'Linux', 'Not sure'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setCheckerOS(option)}
+                      className={`px-3 py-1.5 border font-bold text-xs rounded-xl transition-all ${
+                        checkerOS === option 
+                          ? 'bg-[#E73A5A] text-white border-[#E73A5A]' 
+                          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Question 2 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">
+                  2. What setup route do you prefer?
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {['Docker Compose', 'Native install', 'Not sure'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setCheckerRoute(option)}
+                      className={`px-3 py-1.5 border font-bold text-xs rounded-xl transition-all ${
+                        checkerRoute === option 
+                          ? 'bg-[#E73A5A] text-white border-[#E73A5A]' 
+                          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Question 3 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">
+                  3. What do you want Odysseus to use for models?
+                </label>
+                <div className="flex flex-wrap gap-2">
+                  {['Local Ollama models', 'API-backed models', 'Cookbook / GPU serving', 'Not sure'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setCheckerModel(option)}
+                      className={`px-3 py-1.5 border font-bold text-xs rounded-xl transition-all ${
+                        checkerModel === option 
+                          ? 'bg-[#E73A5A] text-white border-[#E73A5A]' 
+                          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Question 4 */}
+              <div>
+                <label className="block text-xs font-bold text-gray-500 uppercase tracking-widest mb-2">
+                  4. What is your current state?
+                </label>
+                <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
+                  {['Fresh install', 'Already cloned the repo', 'Docker is running', 'Login page is open', 'Ollama is not detected', 'localhost is broken'].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setCheckerState(option)}
+                      className={`px-2 py-1.5 border font-bold text-[10px] rounded-xl transition-all text-center leading-tight ${
+                        checkerState === option 
+                          ? 'bg-[#E73A5A] text-white border-[#E73A5A]' 
+                          : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Recommendation Result Card */}
+            <div className="checkout-card p-6 rounded-2xl flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Recommended Route</span>
+                <h3 className="text-lg font-bold text-white mt-1 mb-3">
+                  {recommendation.title}
+                </h3>
+                <p className="text-xs text-gray-400 mb-4 font-semibold leading-relaxed">
+                  {recommendation.desc}
+                </p>
+                
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">First Command</span>
+                <pre className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/10 font-mono text-[11px] text-emerald-600 dark:text-emerald-400 overflow-x-auto leading-relaxed mb-4">
+                  {recommendation.firstCmd}
+                </pre>
+
+                <span className="text-[10px] font-bold text-red-500 uppercase tracking-widest block mb-1">Avoid This Mistake</span>
+                <p className="text-xs text-gray-400 font-medium leading-relaxed italic border-l-2 border-red-400 pl-2">
+                  {recommendation.trap}
+                </p>
+              </div>
+
+              {/* Email Subscription form */}
+              <form onSubmit={handleEmailSetupPlan} className="mt-6 border-t border-white/10 pt-4 space-y-2">
+                <label className="block text-[10px] font-bold text-gray-400 uppercase tracking-widest">
+                  Send this route to my inbox
+                </label>
+                <div className="flex gap-2">
+                  <input
+                    type="email"
+                    placeholder="you@example.com"
+                    value={checkerEmail}
+                    onChange={(e) => setCheckerEmail(e.target.value)}
+                    className="flex-grow bg-white/5 border border-white/10 px-3 py-1.5 rounded-xl font-bold text-xs text-white outline-none focus:ring-1 focus:ring-[#E73A5A] focus:border-[#E73A5A] placeholder:text-gray-500"
+                  />
                   <button 
-                    onClick={() => handleCopy(w.code, `workflow-snippet-${w.id}`)}
-                    className="bg-primary text-black border-2 border-black font-black uppercase text-xs px-4 py-2 flex items-center gap-1.5 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] active:scale-95 transition-all rounded"
+                    type="submit"
+                    className="bg-[#E73A5A] hover:bg-[#E73A5A]/80 text-white px-4 py-1.5 rounded-xl font-bold text-xs transition-all"
                   >
-                    {copiedState[`workflow-snippet-${w.id}`] ? <Check size={12} className="text-green-600" /> : <Copy size={12} />}
-                    Copy Code
+                    Email Plan
                   </button>
                 </div>
-                <pre className="bg-black/5 dark:bg-black/60 border-2 border-black p-5 rounded-lg font-mono text-xs text-emerald-600 dark:text-emerald-400 overflow-x-auto leading-relaxed">
-                  <code>{w.code}</code>
-                </pre>
-              </motion.div>
-            );
-          })}
-        </AnimatePresence>
+                <span className="block text-[8px] text-gray-500 font-medium">We do not collect passwords or .env configurations.</span>
+              </form>
+            </div>
+          </div>
+        </div></ScaleIn>
       </section>
 
-      {/* --- 9. LATEST INSIGHTS (BLOGS) --- */}
-      <section>
-        <div className="flex items-center justify-between mb-6 md:mb-10 border-b-4 border-black pb-2">
-          <h2 className="text-2xl md:text-4xl font-black uppercase inline-block">Latest Insights</h2>
-          <Link to="/blog" className="hidden sm:flex items-center text-sm md:text-base font-black uppercase tracking-widest hover:text-primary transition-colors">
-            View All <ArrowRight className="ml-2 w-5 h-5" />
-          </Link>
+      {/* Decision Matrix Table */}
+      <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none">
+        <FadeIn direction="up" distance={30}>
+        <h2 className="text-2xl md:text-3xl font-black text-center text-white mb-4">
+          Install Path Decision Matrix
+        </h2>
+        <p className="text-center text-gray-400 text-sm max-w-2xl mx-auto mb-10 font-semibold">
+          Docker Compose is the most repeatable path for many users. Native Windows is useful when you want direct PowerShell control. Native Apple Silicon is better for local model performance.
+        </p>
+        </FadeIn>
+
+        <FadeIn direction="up" delay={0.2}><div className="overflow-x-auto rounded-2xl border border-white/10 bg-white/5 backdrop-blur-md">
+          <table className="w-full text-left text-xs bg-transparent min-w-[800px]">
+            <thead className="bg-white/5 border-b border-white/10 font-bold uppercase text-[10px] tracking-wider text-white">
+              <tr>
+                <th className="p-4 border-r border-white/10">Path</th>
+                <th className="p-4 border-r border-white/10">Choose this if</th>
+                <th className="p-4 border-r border-white/10">Do not choose this if</th>
+                <th className="p-4 border-r border-white/10">First command / Endpoint</th>
+                <th className="p-4 border-r border-white/10">Common trap</th>
+                <th className="p-4">Action</th>
+              </tr>
+            </thead>
+            <tbody className="font-medium text-gray-300 divide-y divide-white/10">
+              {/* Matrix Row 1 */}
+              <tr>
+                <td className="p-4 font-bold border-r border-white/10 bg-[#E73A5A]/10 text-white">Docker Compose</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You want the most repeatable Odysseus AI install path and do not want to manage Python/ntfy manually.</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You are on Apple Silicon and your main goal is Metal-accelerated local model serving.</td>
+                <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">docker compose up -d --build</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Using localhost:11434 inside Docker. Use host.docker.internal instead.</td>
+                <td className="p-4">
+                  <Link to="/install/docker" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Docker Guide</Link>
+                </td>
+              </tr>
+              {/* Matrix Row 2 */}
+              <tr>
+                <td className="p-4 font-bold border-r border-white/10 bg-[#E73A5A]/5 text-white">Native Windows</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You are on Windows, have Python 3.11+ and Git, and want direct PowerShell scripts.</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You are not comfortable with PowerShell or Python dependency errors.</td>
+                <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">.\launch-windows.ps1</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Running the script from the wrong folder or using older Python interpreters.</td>
+                <td className="p-4">
+                  <Link to="/install/windows" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Windows Guide</Link>
+                </td>
+              </tr>
+              {/* Matrix Row 3 */}
+              <tr>
+                <td className="p-4 font-bold border-r border-white/10 bg-[#E73A5A]/10 text-white">Native Apple Silicon</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You use an M-series Mac and want local model speed through native Metal framework.</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You mainly want isolated containers and do not care about local acceleration.</td>
+                <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">./start-macos.sh</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Expecting Docker Desktop on macOS to provide native Metal GPU acceleration.</td>
+                <td className="p-4">
+                  <Link to="/install/macbook" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Mac Guide</Link>
+                </td>
+              </tr>
+              {/* Matrix Row 4 */}
+              <tr>
+                <td className="p-4 font-bold border-r border-white/10 bg-white/5 text-white">Ollama Connection</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">Odysseus is already running and you need local models to appear inside Settings.</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed">You have not installed or started Odysseus yet.</td>
+                <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">http://host.docker.internal:11434/v1</td>
+                <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Forgetting the /v1 suffix or assuming Docker localhost means host machine.</td>
+                <td className="p-4">
+                  <Link to="/install/ollama" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Ollama Resolver</Link>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div></FadeIn>
+      </section>
+
+      {/* Docker Quick Path */}
+      <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none">
+        <FadeIn direction="left" distance={50}><div className="workflow-card p-6 md:p-8 rounded-3xl space-y-6">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-white/10 pb-4">
+            <div>
+              <h2 className="text-xl font-bold text-white">Docker Quick Path</h2>
+              <p className="text-xs text-gray-400">Fastest and most stable way to spin up Odysseus compose network</p>
+            </div>
+            <button 
+              onClick={() => handleCopyText(dockerCommandString, setCopiedDocker)}
+              className="bg-[#E73A5A] text-white hover:bg-[#E73A5A]/80 font-bold uppercase text-xs px-4 py-2 flex items-center gap-1.5 transition-all rounded-xl focus:outline-none"
+            >
+              {copiedDocker ? <Check size={12} className="text-green-400" /> : <Copy size={12} />}
+              COPY COMMANDS
+            </button>
+          </div>
+          
+          <pre className="p-4 bg-black/5 dark:bg-black/40 rounded-xl border border-black/5 dark:border-white/10 text-xs font-mono text-emerald-600 dark:text-emerald-400 overflow-x-auto leading-relaxed">
+            <code>{dockerCommandString}</code>
+          </pre>
+          
+          <p className="text-[10px] text-gray-400 italic">
+            ⚠️ Warning: Ensure APP_BIND=0.0.0.0 is properly configured inside your copied local .env path if you need LAN access. Default mappings bind internally to localhost:7000.
+          </p>
+        </div></FadeIn>
+      </section>
+
+      {/* Interactive Endpoint Resolver */}
+      <section id="ollama-guide" className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none text-left">
+        <FadeIn direction="right" distance={50}><div className="workflow-card p-8 rounded-3xl">
+          <div className="mb-6">
+            <span className="bg-[#E73A5A]/10 text-[#E73A5A] border border-[#E73A5A]/20 px-4 py-1.5 font-bold uppercase tracking-widest mb-4 rounded-full inline-block text-xs">
+              🔌 Connection Helper
+            </span>
+            <h2 className="text-2xl md:text-3xl font-black text-white">Ollama Connection Guide</h2>
+            <p className="text-xs text-gray-400 mt-1">
+              Many Odysseus install problems are really Ollama endpoint config bugs. Use these routing parameters.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Select Options */}
+            <div className="space-y-4">
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">
+                  1. How is Odysseus running?
+                </label>
+                <div className="space-y-2">
+                  {[
+                    'Inside Docker Container (Compose/Run flow)',
+                    'Natively on host PC'
+                  ].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setResolverMode(option)}
+                      className={`w-full p-2.5 border font-bold text-xs rounded-xl text-left transition-all ${
+                        resolverMode === option 
+                          ? 'bg-[#E73A5A] border-[#E73A5A] text-white' 
+                          : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="block text-[10px] font-bold text-gray-500 uppercase tracking-widest mb-2">
+                  2. Where is Ollama running?
+                </label>
+                <div className="space-y-2">
+                  {[
+                    'Directly on my host PC while Odysseus is in Docker',
+                    'Inside Docker container',
+                    'On another local machine'
+                  ].map((option) => (
+                    <button
+                      key={option}
+                      type="button"
+                      onClick={() => setResolverOllamaLoc(option)}
+                      className={`w-full p-2.5 border font-bold text-xs rounded-xl text-left transition-all ${
+                        resolverOllamaLoc === option 
+                          ? 'bg-[#E73A5A] border-[#E73A5A] text-white' 
+                          : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
+                      }`}
+                    >
+                      {option}
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Resolved URL Card */}
+            <div className="checkout-card p-6 rounded-2xl flex flex-col justify-between">
+              <div>
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Recommended Endpoint Base URL</span>
+                <div className="flex gap-2 items-center mt-2 mb-4 bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/10">
+                  <span className="font-mono text-xs text-emerald-600 dark:text-emerald-400 break-all select-all flex-grow">
+                    {getRecommendedEndpoint()}
+                  </span>
+                  <button 
+                    onClick={() => handleCopyText(getRecommendedEndpoint(), () => {})}
+                    className="p-1.5 bg-white/5 hover:bg-white/10 border border-white/10 rounded-lg text-white"
+                    title="Copy URL"
+                  >
+                    <Copy size={12} />
+                  </button>
+                </div>
+                
+                <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Why:</span>
+                <p className="text-xs text-gray-400 mt-1 leading-relaxed font-semibold">
+                  {resolverMode.includes('Docker') && resolverOllamaLoc.includes('PC') 
+                    ? "When running Odysseus AI inside a Docker container while Ollama runs directly on your host operating system, you must map the endpoint URL Base to http://host.docker.internal:11434/v1 instead of localhost."
+                    : "Since both applications are running on the same network environment or host operating system, they can directly bind and query local network loopbacks."}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div></FadeIn>
+      </section>
+
+      {/* Error Diagnosis Interactive Section */}
+      <section id="error-diagnosis" className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none text-left">
+        <FadeIn direction="up" distance={30}>
+        <h2 className="text-2xl md:text-3xl font-black text-center text-white mb-4">Error Diagnosis</h2>
+        <p className="text-center text-gray-400 text-xs max-w-xl mx-auto mb-10 font-bold">
+          Click on any common installer error to reveal the likely cause and instant troubleshooting command.
+        </p>
+        </FadeIn>
+
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+          {/* Menu Buttons list */}
+          <div className="md:col-span-5 flex flex-col gap-2">
+            {[
+              'Cannot find admin password',
+              'localhost:7000 failing to open',
+              'Is it safe to expose publicly?',
+              'Local Ollama not detected',
+              'Docker compose build failed',
+              'PowerShell script blocks',
+              'GPU appears isolated (CPU only)',
+              'Mobile LAN/WiFi connecting issue'
+            ].map((diag) => (
+              <button
+                key={diag}
+                onClick={() => setActiveErrorDiag(diag)}
+                className={`w-full p-3 border font-bold text-xs rounded-xl text-left transition-all ${
+                  activeErrorDiag === diag
+                    ? 'bg-[#E73A5A] border-[#E73A5A] text-white shadow-[0_0_15px_rgba(231, 58, 90,0.25)]'
+                    : 'bg-white/5 border-white/10 text-gray-300 hover:bg-white/10'
+                }`}
+              >
+                {diag}
+              </button>
+            ))}
+          </div>
+
+          {/* Diagnosis result */}
+          <div className="md:col-span-7 checkout-card p-6 rounded-3xl space-y-4">
+            <h3 className="text-lg font-bold text-white border-b border-white/10 pb-2">
+              {activeErrorDiag}
+            </h3>
+
+            {activeErrorDiag === 'Cannot find admin password' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed text-left">
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider">Where is the temporary Odysseus AI admin password located?</h4>
+                <p><strong>The temporary admin password for your first login is generated automatically on application initialization.</strong> You can instantly extract this password by opening your terminal or command line and inspecting your container state with the command <code>docker compose logs odysseus</code>.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">Command to run:</span>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    docker compose logs odysseus
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeErrorDiag === 'localhost:7000 failing to open' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed text-left">
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider">Why does localhost:7000 fail to open in the browser?</h4>
+                <p><strong>This failure usually indicates a local port collision or an uninitialized container stack.</strong> Instead of altering your root network settings, you can resolve the block by navigating to your copied .env file and altering the configuration to APP_PORT=7001 to bind to an open port.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">Resolution command:</span>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    docker compose down && docker compose up -d
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeErrorDiag === 'Is it safe to expose publicly?' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed text-left">
+                <h4 className="text-sm font-bold text-white uppercase tracking-wider">Is it safe to expose your Odysseus AI environment to a public domain?</h4>
+                <p><strong>No, it is highly unsafe to expose your local instance publicly without an authenticated access proxy.</strong> Because Odysseus contains powerful administrative tools with direct local file system access, it should always be kept localhost-first or bound behind a private tunnel layer like Tailscale or Cloudflare Access.</p>
+              </div>
+            )}
+
+            {activeErrorDiag === 'Local Ollama not detected' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed">
+                <p><strong>Likely cause:</strong> Docker container isolation blocks connection to 'localhost' endpoints. You must tell Docker to resolve Ollama via host network addresses.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">First check:</span>
+                  <p className="mb-2 text-gray-400">Change the Ollama connection base endpoint inside settings to:</p>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    http://host.docker.internal:11434/v1
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeErrorDiag === 'Docker compose build failed' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed">
+                <p><strong>Likely cause:</strong> Stale Docker caches, locked database volumes, or missing compose dependencies.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">Diagnostic command:</span>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    docker compose build --no-cache && docker compose up -d
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeErrorDiag === 'PowerShell script blocks' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed">
+                <p><strong>Likely cause:</strong> Windows Execution Policy restricts running unsigned PowerShell scripts by default.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">Diagnostic command:</span>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    Set-ExecutionPolicy -Scope Process -ExecutionPolicy Bypass
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeErrorDiag === 'GPU appears isolated (CPU only)' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed">
+                <p><strong>Likely cause:</strong> Host NVIDIA CUDA Toolkit drivers or GPU container pass-through settings are not configured in your system runtime.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">Verify CUDA drivers:</span>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    nvidia-smi
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            {activeErrorDiag === 'Mobile LAN/WiFi connecting issue' && (
+              <div className="space-y-4 text-xs font-semibold text-gray-300 leading-relaxed">
+                <p><strong>Likely cause:</strong> Default bindings are restricted to loopback address (127.0.0.1). You must configure APP_BIND to accept local network handshakes.</p>
+                <div>
+                  <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest block mb-1">Resolution:</span>
+                  <p className="mb-2 text-gray-400">Update `.env` configuration to bind to all interfaces and restart:</p>
+                  <pre className="bg-black/5 dark:bg-black/40 p-3 border border-black/5 dark:border-white/10 rounded-xl font-mono text-[11px] text-emerald-600 dark:text-emerald-400">
+                    APP_BIND=0.0.0.0
+                  </pre>
+                </div>
+              </div>
+            )}
+
+            <div className="pt-2 flex justify-end">
+              <Link 
+                to="/triage-wizard" 
+                className="inline-flex items-center gap-1 bg-[#E73A5A] hover:bg-[#E73A5A]/80 text-white px-4 py-2 rounded-xl font-bold text-xs transition-all"
+              >
+                Go to Triage Wizard <ArrowRight size={12} />
+              </Link>
+            </div>
+          </div>
         </div>
+      </section>
+      </section>
+
+      {/* Official Source & Safe Download Section */}
+      <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none text-left">
+        <ScaleIn><div className="workflow-card p-8 rounded-3xl">
+          <div className="max-w-3xl">
+            <span className="text-[10px] font-bold text-gray-500 uppercase tracking-widest">Official Source & Safe Download</span>
+            <h2 className="text-2xl md:text-3xl font-black text-white mt-1 mb-4">
+              Always verify the official GitHub repository before you install
+            </h2>
+            <p className="text-xs text-gray-400 font-semibold leading-relaxed mb-6">
+              Because Odysseus AI became popular quickly, users may see GitHub mirrors, low-quality tutorials, fake download pages, or random installer files. The safest way to begin an Odysseus AI install is to verify the official GitHub source first.
+            </p>
+
+            <div className="checkout-card flex flex-col sm:flex-row gap-6 items-start sm:items-center p-6 rounded-3xl relative overflow-hidden">
+              <div className="absolute -right-10 -top-10 w-24 h-24 bg-[#E73A5A]/10 rounded-full blur-2xl"></div>
+              <div className="p-3 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center text-white">
+                <span className="material-symbols-outlined text-3xl">code</span>
+              </div>
+              <div className="flex-grow space-y-2">
+                <div className="flex items-center gap-2">
+                  <span className="font-extrabold text-base text-white">pewdiepie-archdaemon/odysseus</span>
+                  <span className="bg-[#E73A5A]/20 text-[#E73A5A] text-[9px] font-bold px-2 py-0.5 border border-[#E73A5A]/30 rounded-full uppercase">
+                    Verified
+                  </span>
+                </div>
+                <p className="text-[11px] text-gray-400 font-medium">Clone with Git:</p>
+                <pre className="bg-black/5 dark:bg-black/20 p-2.5 rounded-lg border border-black/5 dark:border-white/10 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 overflow-x-auto select-all">
+                  git clone https://github.com/pewdiepie-archdaemon/odysseus.git && cd odysseus
+                </pre>
+              </div>
+              <a 
+                href="https://github.com/pewdiepie-archdaemon/odysseus" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="bg-[#E73A5A] text-white hover:bg-[#E73A5A]/80 px-6 py-2.5 rounded-2xl font-bold text-xs transition-all whitespace-nowrap self-end sm:self-center"
+              >
+                Open GitHub →
+              </a>
+            </div>
+            <p className="text-[9px] font-semibold text-[#E73A5A] mt-3 flex items-center gap-1 uppercase tracking-wider">
+              ⚠️ Never download Odysseus from random websites or mirrors.
+            </p>
+          </div>
+        </div></ScaleIn>
+      </section>
+
+      {/* Facts Card list */}
+      <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none">
+        <Reveal><h2 className="text-3xl font-black text-center text-white mb-16">Quick Facts</h2></Reveal>
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-4 gap-8" staggerDelay={0.1}>
+          <StaggerItem><div className="bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-md flex flex-col gap-3">
+            <span className="text-2xl">🆓</span>
+            <h3 className="font-bold text-base text-white">100% Free & Open Source</h3>
+            <p className="text-xs text-gray-400 font-medium leading-relaxed">
+              You get the source code for free. This site only helps you complete the install shortcut and tools.
+            </p>
+          </div></StaggerItem>
+          <StaggerItem><div className="bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-md flex flex-col gap-3">
+            <span className="text-2xl">🧠</span>
+            <h3 className="font-bold text-base text-white">You Need a Model</h3>
+            <p className="text-xs text-gray-400 font-medium leading-relaxed">
+              Odysseus is just the interface. Connect it to Ollama or other cloud model API providers inside settings.
+            </p>
+          </div></StaggerItem>
+          <StaggerItem><div className="bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-md flex flex-col gap-3">
+            <span className="text-2xl">🔒</span>
+            <h3 className="font-bold text-base text-white">Localhost-First</h3>
+            <p className="text-xs text-gray-400 font-medium leading-relaxed">
+              Run locally on your machine. Don't expose ports or API keys to the public without proxy configurations.
+            </p>
+          </div></StaggerItem>
+          <StaggerItem><div className="bg-white/5 p-6 rounded-3xl border border-white/10 backdrop-blur-md flex flex-col gap-3">
+            <span className="text-2xl">🤝</span>
+            <h3 className="font-bold text-base text-white">Official Source Only</h3>
+            <p className="text-xs text-gray-400 font-medium leading-relaxed">
+              Always verify the GitHub repository before you download or clone installer packages.
+            </p>
+          </div></StaggerItem>
+        </StaggerContainer>
+      </section>
+
+      {/* Testimonials and Stats Section */}
+      <TestimonialsSection />
+
+      {/* Pricing / Launch Kit Offer Section */}
+      <section id="offer" className="max-w-6xl mx-auto px-4 py-16 font-rounded">
+        <div className="text-center max-w-3xl mx-auto mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+          >
+            <Chip
+              variant="flat"
+              startContent={<Sparkles className="w-4 h-4 text-[#E73A5A]" />}
+              classNames={{
+                base: 'bg-[#E73A5A]/10 border border-[#E73A5A]/20 px-5 py-2 shadow-[0_0_15px_rgba(231,58,90,0.2)] mb-6 h-auto',
+                content: 'font-black text-white text-xs md:text-sm tracking-wide',
+              }}
+            >
+              PREMIUM SHORTCUT OFFER
+            </Chip>
+          </motion.div>
+
+          <motion.h2 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.15, duration: 0.5 }}
+            className="text-3xl md:text-5xl font-black text-white mb-6 leading-tight"
+          >
+            The "Zero-Headache" Odysseus{' '}
+            <span className="text-[#E73A5A] bg-[#E73A5A]/10 px-4 py-1 border border-[#E73A5A]/30 rounded-3xl inline-block transform -rotate-1 shadow-[0_0_20px_rgba(231,58,90,0.2)]">
+              Launch Kit
+            </span>
+          </motion.h2>
+
+          <motion.h3 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.25, duration: 0.5 }}
+            className="text-lg md:text-xl font-bold text-[#E73A5A] mb-6"
+          >
+            Skip the terminal loops. Launch in 5 minutes. Save your night.
+          </motion.h3>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.35, duration: 0.5 }}
+            className="text-sm md:text-base text-gray-300 font-medium leading-relaxed"
+          >
+            Odysseus AI is an incredible piece of software—but local deployment is a minefield. One wrong <code className="bg-white/10 px-1.5 py-0.5 rounded text-white font-mono text-xs">.env</code> edit, a silent port conflict on <code className="bg-white/10 px-1.5 py-0.5 rounded text-white font-mono text-xs">localhost:7000</code>, or a mismatched Docker-to-host Ollama endpoint, and you’re trapped reading cryptic GitHub issues until 2 AM.
+          </motion.p>
+
+          <motion.p 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.45, duration: 0.5 }}
+            className="text-sm md:text-base text-gray-300 font-medium leading-relaxed mt-4"
+          >
+            The Launch Kit turns an unpredictable, fragile installation process into a <strong className="text-white">one-click, bulletproof launch</strong>.
+          </motion.p>
+        </div>
+
+        <ScaleIn>
+          <div className="bg-white/5 border border-[#E73A5A]/30 rounded-3xl p-6 md:p-10 shadow-[0_0_25px_rgba(231,58,90,0.15)] relative backdrop-blur-md">
+            {/* Corner badges */}
+            <div className="absolute -top-3 -left-3 bg-[#E73A5A] text-white border border-[#E73A5A]/30 px-4 py-1.5 font-black text-[10px] tracking-widest uppercase transform -rotate-6 rounded-full z-10 shadow-[0_0_12px_rgba(231,58,90,0.4)]">
+              🔥 Hot Selling
+            </div>
+            <div className="absolute -top-3 -right-3 bg-red-600 text-white border border-red-500/30 px-4 py-1.5 font-black text-[10px] tracking-widest uppercase transform rotate-6 rounded-full z-10 shadow-[0_0_12px_rgba(220,38,38,0.5)]">
+              ⏰ Limited Time
+            </div>
+
+            {/* Decorative blobs */}
+            <div className="absolute inset-0 rounded-3xl overflow-hidden pointer-events-none z-0">
+              <div className="absolute -right-10 -bottom-10 w-40 h-40 bg-[#E73A5A]/15 rounded-full blur-3xl" />
+              <div className="absolute left-20 -top-6 w-24 h-24 bg-[#E73A5A]/5 rounded-full blur-2xl" />
+            </div>
+
+            <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              {/* Left Column: What You Get & Guarantee (7/12 cols) */}
+              <div className="lg:col-span-7 space-y-8 text-left">
+                {/* Reviews star rating */}
+                <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-0.5">
+                    {[...Array(5)].map((_, i) => (
+                      <Star key={i} size={14} className="fill-[#E73A5A] text-[#E73A5A]" />
+                    ))}
+                  </div>
+                  <span className="text-xs font-bold text-gray-300 ml-1">5/5 (180+ reviews)</span>
+                </div>
+
+                {/* What you get */}
+                <div className="space-y-4">
+                  <h4 className="text-lg font-black text-white flex items-center gap-2">
+                    <span className="text-[#E73A5A]">⚡</span> What You Get inside the $19.99 Package:
+                  </h4>
+                  <div className="grid grid-cols-1 gap-4">
+                    {[
+                      {
+                        title: 'The One-Command Auto-Runner',
+                        desc: 'A transparent, secure script that auto-clones the official repository, sets up your local environment, handles preflight checks, and spins up your UI without breaking a sweat.'
+                      },
+                      {
+                        title: 'The Ollama Endpoint Matrix',
+                        desc: 'No more guessing games. Instant copy-paste configurations for Docker-to-host routing, native execution, or local LAN sharing.'
+                      },
+                      {
+                        title: 'The Port 7000 "First Aid" Diagnostics',
+                        desc: 'If a background process locks your port or your admin password vanishes into background logs, this surgical checklist recovers your system in under 60 seconds.'
+                      },
+                      {
+                        title: 'The Day-One Workflow Engine',
+                        desc: "Don't start with a blank screen. Get 5 pre-configured, production-ready workspace prompts (Deep Research, Code Debugging, SEO Strategy, Local Document Q&A, and Executive Briefings) ready to drive value immediately."
+                      }
+                    ].map((item, idx) => (
+                      <div key={idx} className="bg-white/5 border border-white/5 rounded-2xl p-4 hover:border-[#E73A5A]/30 transition-all">
+                        <h5 className="font-bold text-sm text-white flex items-center gap-2 mb-1">
+                          <span className="text-[#E73A5A] text-xs">●</span> {item.title}
+                        </h5>
+                        <p className="text-xs text-gray-400 font-medium leading-relaxed">{item.desc}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Guarantee */}
+                <div className="bg-gradient-to-r from-red-950/20 to-rose-950/5 border border-red-500/20 rounded-2xl p-6 relative overflow-hidden">
+                  <div className="absolute right-4 top-4 text-3xl opacity-20">💎</div>
+                  <h4 className="font-black text-sm md:text-base text-white flex items-center gap-2 mb-2">
+                    💎 The "Save Your Night" Guarantee
+                  </h4>
+                  <p className="text-xs text-gray-300 font-semibold leading-relaxed mb-3">
+                    We don't sell Odysseus AI—it is free, open-source, and always will be. We sell <strong className="text-white">speed, security, and sanity</strong>.
+                  </p>
+                  <p className="text-xs text-gray-400 font-medium leading-relaxed">
+                    If the Launch Kit doesn't save you at least two hours of painful manual debugging, or if your local setup isn't up and running flawlessly on your machine, just send a blank email within 14 days for a <strong className="text-white">100% no-questions-asked refund</strong>.
+                  </p>
+                </div>
+              </div>
+
+              {/* Right Column: Preview Image & CTA Card (5/12 cols) */}
+              <div className="lg:col-span-5 space-y-6 w-full">
+                {/* The Preview Image */}
+                <div className="relative group overflow-hidden rounded-2xl shadow-[0_0_20px_rgba(231,58,90,0.15)] checkout-card">
+                  <img 
+                    src="/odysseus_launch_kit_preview.png" 
+                    alt="Odysseus Workspace Preview" 
+                    className="w-full h-auto object-cover transform group-hover:scale-[1.03] transition-all duration-500"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent flex items-end p-4">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-[#E73A5A] bg-[#E73A5A]/10 border border-[#E73A5A]/30 px-3 py-1 rounded-full backdrop-blur-md">
+                      Odysseus Dashboard Preview
+                    </span>
+                  </div>
+                </div>
+
+                {/* Checkout Action Card */}
+                <div className="checkout-card rounded-2xl p-6 shadow-[0_0_15px_rgba(0,0,0,0.3)] flex flex-col justify-between items-center text-center gap-4 relative overflow-hidden">
+                  <div className="absolute -left-16 -top-16 w-32 h-32 bg-[#E73A5A]/5 rounded-full blur-3xl" />
+                  <div className="relative z-10 w-full space-y-4">
+                    <div>
+                      <h4 className="text-base md:text-lg font-black text-white mb-1">Get Instant Access Now</h4>
+                      <p className="text-[10px] md:text-[11px] text-gray-400 font-bold uppercase tracking-wider">
+                        Stop fighting your environment. Start building your vision.
+                      </p>
+                    </div>
+
+                    <div className="py-3 border-y border-white/5">
+                      <span className="text-[9px] font-black text-gray-500 uppercase tracking-widest block mb-1">ONE-TIME SHORTCUT</span>
+                      <div className="flex items-baseline justify-center gap-2">
+                        <span className="text-4xl font-black text-white">$19.99</span>
+                        <span className="text-sm font-bold text-gray-500 line-through">($49.00)</span>
+                      </div>
+                      <span className="text-[9px] font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md uppercase tracking-wider inline-block mt-1">
+                        Save 60% Today
+                      </span>
+                    </div>
+
+                    <button 
+                      onClick={handleLaunchKitCheckout}
+                      disabled={isCheckoutLoading}
+                      className="w-full bg-[#E73A5A] hover:bg-[#E73A5A]/90 py-3.5 rounded-xl font-black transition-all text-xs md:text-sm text-center flex items-center justify-center gap-2 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
+                    >
+                      {isCheckoutLoading ? (
+                        'Processing secure checkout...'
+                      ) : (
+                        <>
+                          <Rocket size={14} strokeWidth={2.5} /> Lock in the Launch Kit Shortcut – $19.99
+                        </>
+                      )}
+                    </button>
+
+                    <div className="space-y-1">
+                      <p className="text-[9px] font-medium text-gray-500 leading-normal">
+                        Immediate digital download. Secure checkout via Stripe.
+                      </p>
+                      <p className="text-[9px] font-medium text-gray-500 leading-normal">
+                        No API keys or passwords required.
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Compare Your Options Table */}
+            <div className="relative z-10 mt-12 border-t border-white/10 pt-10">
+              <h4 className="text-lg font-black text-white text-center mb-6">Compare Your Options</h4>
+              <div className="checkout-card rounded-2xl overflow-hidden shadow-[0_0_15px_rgba(0,0,0,0.1)]">
+                <div className="grid grid-cols-2 bg-white/5 border-b border-white/10 py-4 px-4 md:px-6 text-center text-xs md:text-sm font-bold tracking-wider">
+                  <div className="text-gray-400">THE HARD WAY ($0)</div>
+                  <div className="text-[#E73A5A]">THE LAUNCH KIT ($19.99)</div>
+                </div>
+                <div className="divide-y divide-white/5">
+                  {[
+                    { hard: '❌ Manually hunting through GitHub issues', easy: '✨ Bulletproof, step-by-step setup wizard' },
+                    { hard: '❌ Wrestling with Docker network isolation errors', easy: '✨ Instant, pre-mapped host-to-container routing' },
+                    { hard: '❌ Losing the generated admin password in hidden logs', easy: '✨ Fail-safe credential checklist' },
+                    { hard: '❌ Staring at a blank UI wondering what to type', easy: '✨ 5 pre-tuned, high-value templates' },
+                  ].map((row, idx) => (
+                    <div key={idx} className="grid grid-cols-2 py-4 px-4 md:px-6 text-xs md:text-sm font-semibold text-left">
+                      <div className="border-r border-white/5 pr-2 md:pr-4 text-gray-400 flex items-center gap-1.5">{row.hard}</div>
+                      <div className="pl-2 md:pl-4 text-gray-200 flex items-center gap-1.5">{row.easy}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          </div>
+        </ScaleIn>
+      </section>
+
+      {/* Workflow Starters Section */}
+      <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none text-left">
+        <FadeIn direction="up" distance={30}>
+        <h2 className="text-2xl md:text-3xl font-black text-center text-white mb-4">Workflow Starters</h2>
+        <p className="text-center text-gray-400 text-xs max-w-xl mx-auto mb-12 font-bold">
+          What can you do after your Odysseus AI install? Deep-tune the workspace capability using our preloaded diagnostic model assistant prompt configurations.
+        </p>
+        </FadeIn>
+
+        <StaggerContainer className="grid grid-cols-1 md:grid-cols-2 gap-8" staggerDelay={0.12}>
+          {[
+            {
+              title: "Research Agent Starter",
+              useCase: "Isolate claims, collect sources, and summarize papers.",
+              prompt: "You are custom research agent template. Analyze and organize claims from sources."
+            },
+            {
+              title: "SEO Content Specialist",
+              useCase: "Construct high-ranking page briefs and outline layouts.",
+              prompt: "You are specialized SEO copy strategist. Evaluate target structural entities."
+            },
+            {
+              title: "Coding Debug Assistant",
+              useCase: "Explain error logs, test logic flaws, inspect container status.",
+              prompt: "You are professional software engineer. Isolate log error loop causes."
+            },
+            {
+              title: "Local Documents Q&A",
+              useCase: "Discuss locally private directories and confidential files securely.",
+              prompt: "You are local offline intelligence model. Rely strictly on contextual blocks."
+            }
+          ].map((item, idx) => (
+            <StaggerItem key={idx}><div className="workflow-card p-6 rounded-3xl flex flex-col justify-between gap-4">
+              <div>
+                <h3 className="font-bold text-base text-white">{item.title}</h3>
+                <span className="text-[10px] text-gray-400 font-bold uppercase tracking-wider block mb-2">{item.useCase}</span>
+                <pre className="bg-black/5 dark:bg-black/40 p-3 rounded-xl border border-black/5 dark:border-white/10 font-mono text-[10px] text-emerald-600 dark:text-emerald-400 select-all overflow-x-auto">
+                  {item.prompt}
+                </pre>
+              </div>
+              <button
+                onClick={() => handleCopyText(item.prompt, (state) => setCopiedPrompt(prev => ({ ...prev, [idx]: state })))}
+                className="w-full bg-[#E73A5A] hover:bg-[#E73A5A]/80 font-bold uppercase text-[10px] py-2 rounded-xl flex items-center justify-center gap-1.5 transition-all focus:outline-none"
+              >
+                {copiedPrompt[idx] ? <Check size={10} className="text-green-400" /> : <Copy size={10} />}
+                COPY STARTER PROMPT
+              </button>
+            </div></StaggerItem>
+          ))}
+        </StaggerContainer>
+      </section>
+
+      {/* Parent Guides / Latest Insights Section */}
+      <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none">
+        <FadeIn direction="up" distance={20}><div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-white">Parent Guides & Updates</h2>
+          <Link to="/blog" className="hidden sm:flex items-center text-sm font-bold tracking-widest text-white hover:text-[#E73A5A] transition-colors">
+            View All Guides <ArrowRight className="ml-2 w-5 h-5 text-[#E73A5A]" />
+          </Link>
+        </div></FadeIn>
         
         {blogError ? (
-          <div className="neo-card bg-destructive/10 border-destructive p-8 flex items-center gap-4 text-destructive font-bold">
+          <div className="bg-red-950/25 border border-red-500/25 p-8 flex items-center gap-4 text-red-400 font-bold rounded-2xl">
             <AlertCircle size={32} />
             <p>{blogError}</p>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {loadingBlogs ? (
-              Array.from({ length: 4 }).map((_, i) => (
-                <div key={i} className="border-4 border-black rounded-lg overflow-hidden h-[400px] flex flex-col">
+              Array.from({ length: 2 }).map((_, i) => (
+                <div key={i} className="border border-white/10 bg-white/5 rounded-3xl overflow-hidden h-[400px] flex flex-col">
                   <Skeleton className="h-48 w-full rounded-none" />
-                  <div className="p-6 flex flex-col flex-grow bg-card gap-4">
+                  <div className="p-6 flex flex-col flex-grow bg-transparent gap-4">
                     <Skeleton className="h-6 w-24" />
                     <Skeleton className="h-8 w-3/4" />
                     <Skeleton className="h-20 w-full" />
@@ -1074,124 +1447,31 @@ const HomePage = () => {
                 <BlogCard
                   key={blog.id}
                   title={blog.title}
-                  category={blog.category || 'Engineering'}
-                  description={blog.excerpt || blog.content?.replace(/<[^>]*>?/gm, '').substring(0, 150) + '...'}
-                  author={blog.author || 'Odysseus Team'}
+                  category={blog.category || 'Parenting'}
+                  description={blog.excerpt || blog.content?.replace(/<[^>]*>?/gm, '').substring(0, 120) + '...'}
+                  author={blog.author || 'Odysseus AI Team'}
                   date={blog.created_at || blog.created}
                   slug={blog.slug}
                   imageRecord={blog}
                 />
               ))
             ) : (
-              <div className="col-span-1 md:col-span-2 neo-card bg-muted p-12 flex flex-col items-center justify-center text-center">
-                <BookOpen className="w-16 h-16 text-muted-foreground mb-4 opacity-20" />
-                <h3 className="text-xl font-black uppercase text-muted-foreground">No publications found</h3>
-                <p className="text-muted-foreground font-medium mt-2">Check back soon for new insights and engineering updates.</p>
+              <div className="col-span-1 md:col-span-2 bg-white/5 border border-white/10 p-12 flex flex-col items-center justify-center text-center rounded-3xl">
+                <BookOpen className="w-16 h-16 text-gray-600 mb-4" />
+                <h3 className="text-xl font-bold text-white">No guides found</h3>
+                <p className="text-gray-400 font-medium mt-2">Check back soon for new parent resources and articles.</p>
               </div>
             )}
           </div>
         )}
         
         <div className="mt-8 sm:hidden text-center">
-          <Link to="/blog" className="neo-button w-full bg-[hsl(var(--white))] text-black">
+          <Link to="/blog" className="w-full bg-white/5 text-white border border-white/10 hover:bg-white/10 font-bold py-3 px-6 rounded-2xl block text-center transition-all">
             View All Articles
           </Link>
         </div>
       </section>
-
-      {/* --- 10. KNOWLEDGE BASE RESOURCES SECTION --- */}
-      <section>
-        <Link to="/resources" className="block group focus:outline-none">
-          <div className="w-full bg-[hsl(var(--background))] border-y-4 md:border-4 border-black py-10 md:py-16 px-6 md:px-12 flex flex-col-reverse md:flex-row items-center justify-between gap-8 md:gap-12 transition-all duration-300 group-hover:bg-primary/10 group-focus-visible:bg-primary/10 cursor-pointer overflow-hidden relative md:rounded-xl md:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] -mx-4 sm:mx-0">
-            
-            <div className="flex-1 flex flex-col items-start z-10 w-full md:w-auto text-center md:text-left">
-              <div className="mb-6 md:mb-8 self-center md:self-start">
-                <span className="bg-primary text-black border-4 border-black rounded-lg font-black uppercase text-xs md:text-sm tracking-[0.2em] px-4 py-2 inline-block shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                  Knowledge Base
-                </span>
-              </div>
-              
-              <h2 className="text-[32px] md:text-[48px] leading-[1.1] font-black uppercase mb-6 mx-auto md:mx-0">
-                <span className="text-black block">Engineering</span>
-                <span className="text-primary block">Transmissions</span>
-              </h2>
-              
-              <p className="text-muted-foreground font-medium text-base md:text-xl max-w-2xl mx-auto md:mx-0 mb-8 md:mb-0">
-                Access our comprehensive library of technical documentation, architectural blueprints, and deep-dive research papers on local AI deployment.
-              </p>
-              
-              <div className="mt-8 flex md:hidden items-center justify-center w-full">
-                <div className="w-12 h-12 bg-black rounded-full flex items-center justify-center group-hover:translate-x-2 transition-transform">
-                  <ArrowRight className="text-white w-6 h-6" />
-                </div>
-              </div>
-            </div>
-
-            <div className="flex-shrink-0 relative z-10">
-              <div className="w-32 h-32 md:w-48 md:h-48 rounded-full border-4 border-primary/30 flex items-center justify-center group-hover:scale-110 transition-transform duration-500 group-hover:border-primary">
-                <BookOpen className="w-20 h-20 md:w-28 md:h-28 text-primary drop-shadow-[4px_4px_0px_rgba(0,0,0,1)]" strokeWidth={1.5} />
-              </div>
-              <div className="hidden md:flex absolute -bottom-4 -left-4 w-14 h-14 bg-black rounded-full items-center justify-center group-hover:scale-110 group-hover:bg-primary transition-all duration-300">
-                <ArrowRight className="text-white w-7 h-7 group-hover:text-black" />
-              </div>
-            </div>
-            
-            <div className="absolute right-0 top-0 w-1/2 h-full bg-gradient-to-l from-primary/5 to-transparent pointer-events-none"></div>
-          </div>
-        </Link>
-      </section>
-
-      {/* --- 11. CTA BANNER --- */}
-      <section className="neo-card bg-accent p-8 md:p-12 lg:p-20 text-center rounded-xl">
-        <h2 className="text-3xl md:text-5xl lg:text-6xl font-black uppercase mb-4 md:mb-8 text-black text-balance">Ready to Deploy?</h2>
-        <p className="text-lg md:text-2xl font-bold mb-8 md:mb-12 max-w-3xl mx-auto text-black/90 text-balance">
-          Save terminal configuration hours. Get the Odysseus Launch Kit & Toolkit and launch local models instantly.
-        </p>
-        <a href="#offer" className="neo-button bg-[hsl(var(--white))] text-black text-lg md:text-2xl px-8 py-4 md:px-12 md:py-6 w-full sm:w-auto">
-          Get Instant Toolkit ($19)
-        </a>
-      </section>
-
-      {/* --- 12. STICKY FLOATING BOTTOM BAR --- */}
-      <div className="fixed bottom-4 left-4 right-4 z-40 max-w-2xl mx-auto bg-card border-4 border-black p-3.5 flex items-center justify-between shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] text-xs rounded-xl gap-4">
-        <div className="text-left font-poppins font-semibold text-foreground/80">
-          <span className="text-[10px] bg-red-500 text-white font-black px-1.5 py-0.5 rounded mr-2 inline-block">LIMITED OFFER</span>
-          <span className="text-black dark:text-white font-black uppercase">Save one setup night: </span>
-          <span className="line-through text-muted-foreground mr-1.5 font-bold">$49.9</span>
-          <span className="text-emerald-600 dark:text-emerald-400 font-black text-sm">$19.9</span>
-        </div>
-        <a 
-          href="#offer" 
-          className="bg-primary text-black border-2 border-black font-black uppercase text-[10px] px-4 py-2 rounded whitespace-nowrap shadow-[1.5px_1.5px_0px_0px_rgba(0,0,0,1)] active:scale-95 transition-all flex items-center gap-1 shrink-0"
-        >
-          Lock setup shortcut <ArrowRight size={10} strokeWidth={3} />
-        </a>
-      </div>
-
-      {/* Mobile Bottom Navigation (Visible only <= 768px) */}
-      <nav className="md:hidden fixed bottom-0 left-0 w-full h-[80px] bg-[hsl(var(--background))] border-t-4 border-black flex items-center justify-between z-50 px-1 shadow-[0px_-4px_10px_rgba(0,0,0,0.05)]">
-        {mobileNavItems.map((item) => {
-          const isActive = location.pathname === item.path || (item.path !== '/' && location.pathname.startsWith(item.path));
-          
-          return (
-            <Link 
-              key={item.name}
-              to={item.path}
-              className={`flex-1 flex flex-col items-center justify-center min-h-[60px] h-full gap-1 transition-colors hover:bg-black/5 active:bg-black/10 rounded-lg mx-1 ${isActive ? 'text-black' : 'text-muted-foreground'}`}
-            >
-              <item.icon 
-                size={24} 
-                strokeWidth={isActive ? 2.5 : 2} 
-                className={isActive ? 'text-primary' : 'text-primary/70'} 
-              />
-              <span className={`text-[10px] sm:text-[12px] uppercase ${isActive ? 'font-black' : 'font-bold'}`}>
-                {item.name}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
-    </div>
+    </>
   );
 };
 

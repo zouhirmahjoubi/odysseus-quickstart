@@ -145,7 +145,7 @@ const ProductDetailPage = () => {
         {relatedProducts.length > 0 && (
           <div className="mt-20 border-t-[3px] border-black pt-16">
             <h2 className="text-3xl font-black space-grotesk mb-8 text-[hsl(var(--foreground))]">Related Blueprints</h2>
-            <div className="grid-3-cols-desktop">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {relatedProducts.map(rp => {
                 const rpVariant = rp.variants?.[0];
                 const rpPrice = rpVariant?.price_in_cents || rp.price_in_cents || 0;

@@ -25,6 +25,7 @@ export default [
 			'no-console': 'off',
 			'no-unused-vars': 'off',
 			'no-undef': 'error',
+			'import/no-unresolved': ['error', { ignore: ['^better-auth/'] }],
 			'import/no-named-as-default': 'off',
 			'import/no-named-as-default-member': 'off',
 			'import/no-self-import': 'error',

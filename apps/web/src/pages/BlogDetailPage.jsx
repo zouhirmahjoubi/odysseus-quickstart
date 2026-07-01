@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
 import { useParams, Link } from 'react-router-dom';
@@ -68,12 +67,12 @@ const BlogDetailPage = () => {
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto pb-24 pt-12 px-4 space-y-8 w-full">
-        <Skeleton className="h-12 w-48 bg-muted rounded-md" />
-        <div className="neo-card p-8 md:p-16 space-y-8 bg-card">
-          <Skeleton className="h-8 w-32 bg-muted rounded-md" />
-          <Skeleton className="h-16 w-full bg-muted rounded-md" />
-          <Skeleton className="h-6 w-64 bg-muted rounded-md" />
-          <Skeleton className="h-[400px] w-full bg-muted rounded-md" />
+        <Skeleton className="h-12 w-48 bg-white/5 rounded-md" />
+        <div className="border border-white/10 p-8 md:p-16 space-y-8 bg-white/5 rounded-2xl">
+          <Skeleton className="h-8 w-32 bg-white/5 rounded-md" />
+          <Skeleton className="h-16 w-full bg-white/5 rounded-md" />
+          <Skeleton className="h-6 w-64 bg-white/5 rounded-md" />
+          <Skeleton className="h-[400px] w-full bg-white/5 rounded-md" />
         </div>
       </div>
     );
@@ -83,11 +82,11 @@ const BlogDetailPage = () => {
     return (
       <div className="max-w-4xl mx-auto pb-24 pt-24 px-4 text-center w-full">
         <Helmet><title>Post Not Found | OdysseusAI</title></Helmet>
-        <div className="neo-card bg-card p-16 flex flex-col items-center">
-          <AlertCircle size={64} className="text-destructive mb-6" strokeWidth={2} />
-          <h1 className="text-4xl font-black uppercase mb-4 text-balance">Transmission Not Found</h1>
-          <p className="text-xl font-bold text-muted-foreground mb-8 text-balance">The blog post you are looking for does not exist or has been removed.</p>
-          <Link to="/blog" className="neo-button bg-primary text-primary-foreground">
+        <div className="bg-white/5 border border-white/10 p-16 flex flex-col items-center rounded-2xl">
+          <AlertCircle size={64} className="text-[#E73A5A] mb-6" strokeWidth={2} />
+          <h1 className="text-4xl font-black uppercase mb-4 text-balance text-white">Transmission Not Found</h1>
+          <p className="text-xl font-bold text-white/60 mb-8 text-balance">The blog post you are looking for does not exist or has been removed.</p>
+          <Link to="/blog" className="bg-[#E73A5A] hover:bg-[#E73A5A]/90 text-white font-black px-6 py-3 rounded-xl border border-white/10 transition-colors">
             Return to Directory
           </Link>
         </div>
@@ -95,13 +94,24 @@ const BlogDetailPage = () => {
     );
   }
 
-  const imageUrl = blog.featured_image ? pb.files.getUrl(blog, blog.featured_image) : null;
+  const getImageUrl = () => {
+    if (!blog) return null;
+    if (blog.featured_image) {
+      if (blog.featured_image.startsWith('http') || blog.featured_image.startsWith('/')) {
+        return blog.featured_image;
+      }
+      return pb.files.getUrl(blog, blog.featured_image);
+    }
+    return null;
+  };
+
+  const imageUrl = getImageUrl();
   const publishDate = blog.publication_date || blog.created;
-  const categoryName = blog.expand?.category?.name || 'Engineering';
-  const tagNames = blog.expand?.tags?.map(t => t.name).join(', ');
+  const categoryName = blog.expand?.category?.name || blog.category || 'Engineering';
+  const tagNames = blog.expand?.tags?.map(t => t.name).join(', ') || (blog.tags ? blog.tags.join(', ') : '');
 
   return (
-    <div className="max-w-4xl mx-auto pb-24 pt-12 px-4 w-full">
+    <div className="max-w-4xl mx-auto pb-24 pt-12 px-4 w-full text-left">
       <Helmet>
         <title>{`${blog.title} | OdysseusAI`}</title>
         {blog.excerpt && <meta name="description" content={blog.excerpt} />}
@@ -109,42 +119,42 @@ const BlogDetailPage = () => {
 
       <Link 
         to="/blog" 
-        className="inline-flex items-center gap-2 font-black uppercase mb-8 hover:text-primary transition-colors text-sm tracking-wider"
+        className="inline-flex items-center gap-2 font-black uppercase mb-8 text-[#E73A5A] dark:text-white/60 hover:opacity-80 transition-opacity text-sm tracking-wider"
       >
         <ArrowLeft size={20} strokeWidth={3} /> Back to Transmissions
       </Link>
 
-      <article className="neo-card bg-card p-6 md:p-12 lg:p-16">
-        <header className="mb-12 border-b-4 border-border pb-12">
+      <article className="checkout-card p-6 md:p-12 lg:p-16 rounded-3xl transition-all duration-300">
+        <header className="mb-12 border-b border-gray-200 dark:border-white/10 pb-12">
           <div className="flex items-center gap-4 mb-8">
-            <span className="bg-primary text-primary-foreground border-4 border-border px-4 py-1 font-black uppercase tracking-widest shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] text-xs md:text-sm">
+            <span className="bg-[#E73A5A]/10 text-[#E73A5A] border border-[#E73A5A]/20 px-4 py-1 font-black uppercase tracking-widest text-xs md:text-sm rounded">
               {categoryName}
             </span>
           </div>
           
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-tight mb-8 text-balance">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-black uppercase leading-tight mb-8 text-balance text-white text-left">
             {blog.title}
           </h1>
           
-          <div className="flex flex-wrap items-center gap-6 font-bold text-muted-foreground text-sm md:text-base uppercase tracking-wide">
+          <div className="flex flex-wrap items-center gap-6 font-bold text-white/50 text-sm md:text-base uppercase tracking-wide">
             <div className="flex items-center gap-2">
-              <User size={18} strokeWidth={3} className="text-foreground" />
+              <User size={18} strokeWidth={3} className="text-white" />
               <span>{blog.author || 'Odysseus Team'}</span>
             </div>
             {publishDate && (
               <div className="flex items-center gap-2">
-                <Calendar size={18} strokeWidth={3} className="text-foreground" />
+                <Calendar size={18} strokeWidth={3} className="text-white" />
                 <span>{new Date(publishDate).toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' })}</span>
               </div>
             )}
             {blog.read_time > 0 && (
               <div className="flex items-center gap-2">
-                <Clock size={18} strokeWidth={3} className="text-foreground" />
+                <Clock size={18} strokeWidth={3} className="text-white" />
                 <span>{blog.read_time} Min Read</span>
               </div>
             )}
             {tagNames && (
-              <div className="flex items-center gap-2 text-primary">
+              <div className="flex items-center gap-2 text-[#E73A5A]">
                 <Tag size={18} strokeWidth={3} />
                 <span>{tagNames}</span>
               </div>
@@ -153,7 +163,7 @@ const BlogDetailPage = () => {
         </header>
 
         {imageUrl && (
-          <div className="mb-12 border-4 border-border rounded-xl overflow-hidden shadow-[8px_8px_0px_0px_hsl(var(--shadow-color))] bg-muted">
+          <div className="mb-12 border border-gray-200 dark:border-white/10 rounded-2xl overflow-hidden shadow-[0_8px_24px_rgba(0,0,0,0.15)] dark:shadow-[0_8px_24px_rgba(0,0,0,0.4)]">
             <img 
               src={imageUrl} 
               alt={blog.title} 
@@ -163,16 +173,7 @@ const BlogDetailPage = () => {
         )}
 
         <div 
-          className="prose prose-lg max-w-none 
-            prose-headings:font-black prose-headings:uppercase prose-headings:tracking-tight prose-headings:text-foreground
-            prose-p:text-foreground prose-p:leading-relaxed prose-p:font-medium
-            prose-a:text-primary prose-a:font-black prose-a:no-underline hover:prose-a:underline hover:prose-a:decoration-4
-            prose-strong:font-black prose-strong:text-foreground
-            prose-blockquote:border-l-8 prose-blockquote:border-primary prose-blockquote:bg-muted prose-blockquote:p-6 prose-blockquote:text-foreground prose-blockquote:font-black prose-blockquote:not-italic prose-blockquote:shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] prose-blockquote:border-y-4 prose-blockquote:border-r-4
-            prose-code:font-mono prose-code:bg-muted prose-code:px-2 prose-code:py-1 prose-code:border-4 prose-code:border-border prose-code:font-bold prose-code:text-foreground
-            prose-pre:bg-[#111111] prose-pre:border-4 prose-pre:border-border prose-pre:shadow-[8px_8px_0px_0px_hsl(var(--shadow-color))] prose-pre:text-[#00FF00] prose-pre:font-mono
-            prose-li:text-foreground prose-li:font-medium
-          "
+          className="blog-content-rich w-full"
           dangerouslySetInnerHTML={{ __html: blog.content }}
         />
       </article>

@@ -9,16 +9,19 @@
     "lint": "eslint . --quiet"
   },
   "dependencies": {
+    "better-auth": "^1.6.20",
+    "better-sqlite3": "^12.11.1",
     "cors": "^2.8.5",
     "dotenv": "^17.4.2",
     "express": "^5.0.1",
     "express-rate-limit": "^8.3.1",
     "helmet": "^8.0.0",
     "morgan": "^1.10.0",
+    "pg": "^8.22.0",
     "pocketbase": "^0.27.0",
-    "stripe": "^14.0.0",
+    "qrcode": "^1.5.3",
     "speakeasy": "^2.0.0",
-    "qrcode": "^1.5.3"
+    "stripe": "^14.0.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.4",

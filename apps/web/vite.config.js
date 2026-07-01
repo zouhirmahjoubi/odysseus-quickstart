@@ -155,7 +155,12 @@ const configWindowFetchMonkeyPatch = `
 const originalFetch = window.fetch;
 
 window.fetch = function(...args) {
-	const url = args[0] instanceof Request ? args[0].url : args[0];
+	let url = args[0] instanceof Request ? args[0].url : args[0];
+	if (url instanceof URL) {
+		url = url.toString();
+	} else if (typeof url !== 'string') {
+		url = String(url);
+	}
 
 	// Skip WebSocket URLs
 	if (url.startsWith('ws:') || url.startsWith('wss:')) {
@@ -271,7 +276,7 @@ const addTransformIndexHtml = {
 	},
 };
 
-console.warn = () => { };
+// console.warn suppression removed — warnings are now visible for debugging
 
 const logger = createLogger()
 const loggerError = logger.error

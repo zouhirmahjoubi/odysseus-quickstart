@@ -2,12 +2,14 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
+import { toNodeHandler } from 'better-auth/node';
 
 import routes from './routes/index.js';
 import { errorMiddleware } from './middleware/error.js';
 import { globalRateLimit } from './middleware/global-rate-limit.js';
 import logger from './utils/logger.js';
 import { BodyLimit } from './constants/common.js';
+import { auth } from './lib/auth.js';
 
 const app = express();
 
@@ -42,8 +44,12 @@ app.use(cors({
 }));
 app.use(morgan('combined'));
 app.use(globalRateLimit);
+
+// Mount Better Auth handler BEFORE body parsing middleware
+app.all('/auth/{*any}', toNodeHandler(auth));
+
 app.use((req, res, next) => {
-	if (req.originalUrl.startsWith('/webhook/stripe')) {
+	if (req.originalUrl.startsWith('/webhook/stripe') || req.originalUrl.startsWith('/auth') || req.originalUrl.includes('/auth/')) {
 		next();
 	} else {
 		express.json({ limit: BodyLimit })(req, res, next);

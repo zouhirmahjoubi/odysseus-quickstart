@@ -1,10 +1,24 @@
-
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, Gamepad2, LogOut, LayoutDashboard, User, ShieldAlert, Menu, X } from 'lucide-react';
+import { ShoppingCart, LogOut, LayoutDashboard, User, ShieldAlert, Menu, X, ChevronDown } from 'lucide-react';
 import { useCart } from '@/hooks/useCart.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useAdminAuth } from '@/contexts/AdminAuthContext.jsx';
+import LogoComponent from './LogoComponent.jsx';
+
+// Simple dropdown hook
+const useDropdown = () => {
+  const [open, setOpen] = useState(false);
+  const ref = useRef(null);
+  useEffect(() => {
+    const handler = (e) => {
+      if (ref.current && !ref.current.contains(e.target)) setOpen(false);
+    };
+    document.addEventListener('mousedown', handler);
+    return () => document.removeEventListener('mousedown', handler);
+  }, []);
+  return { open, setOpen, ref };
+};
 
 const Header = ({ setIsCartOpen }) => {
   const location = useLocation();
@@ -12,238 +26,265 @@ const Header = ({ setIsCartOpen }) => {
   const { cartItems } = useCart();
   const { isAuthenticated, logout } = useAuth();
   const { isAuthenticated: isAdmin } = useAdminAuth();
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [menuTop, setMenuTop] = useState(140);
+
+  const installDropdown = useDropdown();
+  const troubleshootDropdown = useDropdown();
+  const resourcesDropdown = useDropdown();
+
+  // Measure the actual header height so mobile menu sits right below it
+  const updateMenuTop = useCallback(() => {
+    const header = document.getElementById('site-header');
+    if (header) setMenuTop(header.getBoundingClientRect().height);
+  }, []);
+
+  useEffect(() => {
+    updateMenuTop();
+    window.addEventListener('resize', updateMenuTop);
+    return () => window.removeEventListener('resize', updateMenuTop);
+  }, [updateMenuTop]);
 
   const cartCount = cartItems.reduce((sum, item) => sum + item.quantity, 0);
-
-  const navLinks = [
-    { name: 'HOME', path: '/' },
-    { name: 'PRODUCTS', path: '/products' },
-    { name: 'BLOG', path: '/blog' },
-    { name: 'TRIAGE WIZARD', path: '/triage-wizard' },
-    { name: 'LAUNCH KIT', path: '/launch-kit' },
-  ];
-
-  const allNavLinks = [
-    { name: 'HOME', path: '/' },
-    { name: 'PRODUCTS', path: '/products' },
-    { name: 'BLOG', path: '/blog' },
-    { name: 'CALCULATOR', path: '/calculator' },
-    { name: 'WORKSPACE', path: '/workspace-simulator' },
-    { name: 'RESOURCES', path: '/resources' },
-    { name: 'TRIAGE WIZARD', path: '/triage-wizard' },
-    { name: 'LAUNCH KIT', path: '/launch-kit' },
-  ];
 
   const handleLogout = () => {
     logout();
     navigate('/');
-    setIsMobileMenuOpen(false);
+    setIsMenuOpen(false);
   };
 
-  const toggleMobileMenu = () => {
-    setIsMobileMenuOpen(!isMobileMenuOpen);
-    // Also try to trigger the sidebar if it exists for backwards compatibility
-    const sidebarToggle = document.querySelector('[aria-label="Open Menu"]');
-    if (sidebarToggle && !isMobileMenuOpen) {
-      sidebarToggle.click();
-    }
+  const handleTryItFree = () => {
+    navigate('/login');
+    setIsMenuOpen(false);
   };
+
+  // Close mobile menu on route change
+  useEffect(() => {
+    setIsMenuOpen(false);
+  }, [location.pathname]);
+
+  const navLinkClass = (path) => {
+    const isActive = location.pathname === path;
+    return `transition-colors uppercase font-bold tracking-wider text-[11px] lg:text-xs pb-1 ${
+      isActive ? 'text-primary border-b-2 border-primary' : 'text-foreground hover:text-primary'
+    }`;
+  };
+
+  const dropdownItemClass = "block w-full text-left px-4 py-2.5 text-xs font-bold text-foreground hover:bg-primary hover:text-primary-foreground rounded-xl transition-colors";
 
   return (
-    <header className="w-full bg-[hsl(var(--header-bg))] border-b-[8px] border-black px-[20px] py-[12px] h-[70px] flex justify-between items-center z-50 relative">
-      
-      {/* LEFT SECTION */}
-      <div className="flex items-center gap-[16px] lg:gap-[20px]">
-        {/* Mobile Hamburger Menu (hidden on desktop) */}
-        <button 
-          onClick={toggleMobileMenu}
-          className="lg:hidden w-[40px] h-[40px] bg-white border-[4px] border-black rounded-[12px] p-[8px] flex flex-col justify-center items-center gap-[4px] transition-transform hover:-translate-y-1 active:translate-y-0 touch-target shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]"
-          aria-label={isMobileMenuOpen ? "Close Menu" : "Open Menu"}
-        >
-          {isMobileMenuOpen ? (
-            <X size={24} strokeWidth={3} className="text-black" />
-          ) : (
-            <>
-              <span className="w-[80%] h-[4px] bg-black rounded-full block"></span>
-              <span className="w-[80%] h-[4px] bg-black rounded-full block"></span>
-              <span className="w-[80%] h-[4px] bg-black rounded-full block"></span>
-            </>
-          )}
-        </button>
+    <>
+      {/* Desktop / Main Navbar bar */}
+      <div className="w-full bg-background/85 backdrop-blur-[20px] flex justify-center items-center px-4 md:px-8 h-[70px] border-b border-border">
+        <div className="w-full max-w-7xl flex items-center justify-between h-full">
+          
+          {/* Brand / Logo */}
+          <div className="flex-shrink-0">
+            <LogoComponent onClick={() => setIsMenuOpen(false)} />
+          </div>
 
-        {/* Desktop Game Controller Icon */}
-        <Link
-          to="/workspace-simulator"
-          className="hidden lg:flex w-[40px] h-[40px] bg-[hsl(var(--navy))] border-[4px] border-black rounded-[12px] items-center justify-center transition-transform hover:-translate-y-1 active:translate-y-0 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] touch-target"
-          title="Workspace Simulator"
-        >
-          <Gamepad2 size={22} strokeWidth={3} className="text-white" />
-        </Link>
-        
-        {/* Logo & Tagline Group */}
-        <div className="flex flex-col justify-center transition-transform duration-300 hover:scale-[1.02] origin-left">
-          <Link to="/" className="flex items-center gap-[6px] md:gap-[8px] focus:outline-none" onClick={() => setIsMobileMenuOpen(false)}>
-            <span className="font-[900] text-[20px] md:text-[24px] lg:text-[28px] tracking-[2px] text-black uppercase leading-none mt-1">
-              ODYSSEUS
-            </span>
-            <span className="bg-[hsl(var(--orange))] text-black border-[4px] border-black rounded-[12px] px-[8px] py-[2px] font-[900] text-[14px] lg:text-[18px] uppercase leading-none flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              AI
-            </span>
-          </Link>
-          <span className="text-[hsl(var(--orange))] font-[900] text-[12px] lg:text-[14px] tracking-[1px] leading-tight ml-1 mt-0.5">
-            AI.AI
-          </span>
+          {/* Center: Desktop Marketing Links */}
+          <nav className="hidden lg:flex items-center gap-6">
+            <Link to="/products" className={navLinkClass('/products')}>Marketplace</Link>
+            <Link to="/calculator" className={navLinkClass('/calculator')}>Calculator</Link>
+            <Link to="/benchmark" className={navLinkClass('/benchmark')}>Benchmark</Link>
+            <Link to="/blog" className={navLinkClass('/blog')}>Blog</Link>
+
+            {/* Install Paths Dropdown */}
+            <div className="relative" ref={installDropdown.ref}>
+              <button
+                onClick={() => {
+                  installDropdown.setOpen(o => !o);
+                  troubleshootDropdown.setOpen(false);
+                  resourcesDropdown.setOpen(false);
+                }}
+                className={`flex items-center gap-1 transition-colors uppercase font-bold tracking-wider text-[11px] lg:text-xs text-foreground hover:text-primary pb-1 ${installDropdown.open ? 'text-primary' : ''}`}
+              >
+                Install Paths
+                <ChevronDown size={12} className={`transition-transform ${installDropdown.open ? 'rotate-180' : ''}`} />
+              </button>
+              {installDropdown.open && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-background/90 backdrop-blur-[15px] border border-border rounded-2xl shadow-xl overflow-hidden min-w-[170px] p-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <Link to="/odysseus-ai-install" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Install Hub</Link>
+                  <Link to="/install/docker" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Docker Setup</Link>
+                  <Link to="/install/ollama" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Ollama Resolver</Link>
+                  <Link to="/install/windows" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Windows Native</Link>
+                  <Link to="/install/macbook" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>macOS Native</Link>
+                </div>
+              )}
+            </div>
+
+            {/* Troubleshoot Dropdown */}
+            <div className="relative" ref={troubleshootDropdown.ref}>
+              <button
+                onClick={() => {
+                  troubleshootDropdown.setOpen(o => !o);
+                  installDropdown.setOpen(false);
+                  resourcesDropdown.setOpen(false);
+                }}
+                className={`flex items-center gap-1 transition-colors uppercase font-bold tracking-wider text-[11px] lg:text-xs text-foreground hover:text-primary pb-1 ${troubleshootDropdown.open ? 'text-primary' : ''}`}
+              >
+                Troubleshoot
+                <ChevronDown size={12} className={`transition-transform ${troubleshootDropdown.open ? 'rotate-180' : ''}`} />
+              </button>
+              {troubleshootDropdown.open && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-background/90 backdrop-blur-[15px] border border-border rounded-2xl shadow-xl overflow-hidden min-w-[170px] p-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <Link to="/fix" onClick={() => troubleshootDropdown.setOpen(false)} className={dropdownItemClass}>Error Doctor</Link>
+                  <Link to="/triage-wizard" onClick={() => troubleshootDropdown.setOpen(false)} className={dropdownItemClass}>Triage Wizard</Link>
+                </div>
+              )}
+            </div>
+
+            {/* Resources Dropdown */}
+            <div className="relative" ref={resourcesDropdown.ref}>
+              <button
+                onClick={() => {
+                  resourcesDropdown.setOpen(o => !o);
+                  installDropdown.setOpen(false);
+                  troubleshootDropdown.setOpen(false);
+                }}
+                className={`flex items-center gap-1 transition-colors uppercase font-bold tracking-wider text-[11px] lg:text-xs text-foreground hover:text-primary pb-1 ${resourcesDropdown.open ? 'text-primary' : ''}`}
+              >
+                Resources
+                <ChevronDown size={12} className={`transition-transform ${resourcesDropdown.open ? 'rotate-180' : ''}`} />
+              </button>
+              {resourcesDropdown.open && (
+                <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-background/90 backdrop-blur-[15px] border border-border rounded-2xl shadow-xl overflow-hidden min-w-[170px] p-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
+                  <Link to="/resources" onClick={() => resourcesDropdown.setOpen(false)} className={dropdownItemClass}>Guides & Tutorials</Link>
+                  <Link to="/llm-directory" onClick={() => resourcesDropdown.setOpen(false)} className={dropdownItemClass}>LLM Directory</Link>
+                </div>
+              )}
+            </div>
+          </nav>
+
+          {/* Right: Actions */}
+          <div className="flex items-center gap-4 flex-shrink-0">
+            {/* Admin Tag */}
+            {isAdmin && (
+              <Link
+                to="/admin"
+                className="hidden lg:flex items-center gap-1.5 px-4 py-1.5 bg-[#E73A5A] text-white font-bold text-xs rounded-full shadow-[0_0_10px_rgba(231, 58, 90,0.3)] hover:brightness-112 transition-all"
+              >
+                <ShieldAlert size={14} /> Admin
+              </Link>
+            )}
+
+            {/* User Auth Link */}
+            {isAuthenticated ? (
+              <div className="hidden sm:flex items-center gap-3">
+                <Link
+                  to="/dashboard"
+                  className="flex items-center gap-1.5 px-4 py-1.5 bg-foreground/10 hover:bg-foreground/20 border border-border text-foreground font-bold text-xs rounded-full transition-all"
+                >
+                  <LayoutDashboard size={14} /> Dashboard
+                </Link>
+                <button
+                  onClick={handleLogout}
+                  className="p-2 bg-foreground/10 hover:bg-primary/20 border border-border rounded-full transition-all flex items-center justify-center"
+                  title="Logout"
+                >
+                  <LogOut size={14} className="text-foreground" />
+                </button>
+              </div>
+            ) : (
+              <button
+                onClick={handleTryItFree}
+                className="hidden sm:block bg-primary text-white px-6 py-2.5 rounded-full font-bold text-sm shadow-[0_0_15px_rgba(231,58,90,0.4)] hover:brightness-112 hover:scale-[1.03] transition-all"
+              >
+                Whitelist
+              </button>
+            )}
+
+            {/* Shopping Cart */}
+            <button
+              onClick={() => setIsCartOpen(true)}
+              className="relative p-2.5 bg-foreground/5 hover:bg-primary/20 border border-border rounded-full hover:scale-105 transition-all flex items-center justify-center"
+              aria-label="Open Cart"
+            >
+              <ShoppingCart size={16} className="text-foreground" />
+              {cartCount > 0 && (
+                <span className="absolute -top-1.5 -right-1.5 bg-primary text-white rounded-full w-5 h-5 flex items-center justify-center font-bold text-[10px] shadow-[0_0_8px_rgba(231,58,90,0.6)]">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+
+            {/* Mobile menu toggle */}
+            <button
+              onClick={() => setIsMenuOpen(o => !o)}
+              className="lg:hidden w-[38px] h-[38px] border border-border bg-foreground/5 rounded-full hover:bg-foreground/10 transition-colors flex items-center justify-center"
+              aria-label={isMenuOpen ? 'Close menu' : 'Open menu'}
+            >
+              {isMenuOpen ? <X size={18} className="text-foreground" /> : <Menu size={18} className="text-foreground" />}
+            </button>
+          </div>
         </div>
       </div>
 
-      {/* CENTER SECTION - Desktop Navigation Menu (hidden on mobile/tablet) */}
-      <nav className="hidden lg:flex items-center justify-center gap-[12px] xl:gap-[20px] flex-1 px-4 overflow-x-auto">
-        {navLinks.map((link) => {
-          const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
-          
-          return (
-            <Link 
-              key={link.name} 
-              to={link.path}
-              className={`px-[12px] py-[6px] border-[4px] text-black nav-text text-[11px] xl:text-[13px] whitespace-nowrap rounded-[14px] transition-all duration-200 uppercase ${
-                isActive 
-                  ? 'bg-[hsl(var(--light-blue))] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' 
-                  : 'bg-transparent border-transparent hover:bg-[hsl(var(--light-blue))] hover:border-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-              }`}
-              title={link.name}
-            >
-              {link.name}
-            </Link>
-          );
-        })}
-      </nav>
+      {/* Mobile Menu Dropdown */}
+      {isMenuOpen && (
+        <div className="fixed top-0 left-0 right-0 bottom-0 z-30 lg:hidden" onClick={() => setIsMenuOpen(false)}>
+          <div
+            className="absolute left-4 right-4 bg-background/90 backdrop-blur-[15px] border border-border rounded-3xl p-5 flex flex-col gap-3 shadow-2xl overflow-y-auto max-h-[70vh]"
+            onClick={e => e.stopPropagation()}
+            style={{ top: `${menuTop + 8}px` }}
+          >
+            <Link to="/products" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Marketplace</Link>
+            <Link to="/calculator" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Calculator</Link>
+            <Link to="/benchmark" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Benchmark 🏆</Link>
+            <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Blog</Link>
+            
+            <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Install Paths</div>
+            <div className="grid grid-cols-2 gap-2 pl-2">
+              <Link to="/odysseus-ai-install" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Install Hub</Link>
+              <Link to="/install/docker" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Docker Setup</Link>
+              <Link to="/install/ollama" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Ollama Resolver</Link>
+              <Link to="/install/windows" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Windows Native</Link>
+              <Link to="/install/macbook" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">macOS Native</Link>
+            </div>
 
-      {/* RIGHT SECTION */}
-      <div className="flex items-center gap-[12px] md:gap-[16px] justify-end">
-        
-        {/* Auth Navigation */}
-        <div className="hidden lg:flex items-center gap-[12px]">
-          {isAdmin && (
-            <Link 
-              to="/admin"
-              className="flex items-center gap-[6px] px-[16px] py-[8px] bg-[hsl(var(--destructive))] border-[4px] border-black text-white font-black text-[13px] xl:text-[15px] rounded-[14px] transition-transform hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none uppercase"
-              title="Admin Panel"
-            >
-              <ShieldAlert size={18} strokeWidth={3} />
-              Admin
-            </Link>
-          )}
+            <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Troubleshoot</div>
+            <div className="grid grid-cols-2 gap-2 pl-2">
+              <Link to="/fix" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Error Doctor</Link>
+              <Link to="/triage-wizard" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Triage Wizard</Link>
+            </div>
 
-          {!isAuthenticated ? (
-            <Link 
-              to="/login"
-              className="flex items-center gap-[6px] px-[16px] py-[8px] bg-[hsl(var(--primary))] border-[4px] border-black text-black font-black text-[13px] xl:text-[15px] rounded-[14px] transition-transform hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none uppercase"
-            >
-              <User size={18} strokeWidth={3} />
-              Login
-            </Link>
-          ) : (
-            <>
-              <Link 
-                to="/dashboard"
-                className="flex items-center gap-[6px] px-[16px] py-[8px] bg-[hsl(var(--active-green))] border-[4px] border-black text-black font-black text-[13px] xl:text-[15px] rounded-[14px] transition-transform hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none uppercase"
-              >
-                <LayoutDashboard size={18} strokeWidth={3} />
-                Dashboard
-              </Link>
-              <button 
-                onClick={handleLogout}
-                className="flex items-center justify-center w-[40px] h-[40px] bg-[hsl(var(--orange))] border-[4px] border-black text-black font-black rounded-[14px] transition-transform hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] active:translate-y-0 active:shadow-none"
-                title="Logout"
-              >
-                <LogOut size={18} strokeWidth={3} />
-              </button>
-            </>
-          )}
-        </div>
-
-        {/* Shopping Cart Button */}
-        <button 
-          onClick={() => setIsCartOpen(true)}
-          className="relative w-[40px] h-[40px] flex items-center justify-center bg-[hsl(var(--primary))] border-[4px] border-black rounded-[12px] hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all active:translate-y-0 active:shadow-none focus:outline-none touch-target"
-          aria-label="Open shopping cart"
-          title="Shopping cart"
-        >
-          <ShoppingCart size={20} strokeWidth={3} className="text-black ml-[-2px]" />
-          {cartCount > 0 && (
-            <span className="absolute -top-[10px] -right-[10px] bg-white text-black border-[4px] border-black rounded-full w-[24px] h-[24px] flex items-center justify-center font-[900] text-[12px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              {cartCount}
-            </span>
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Dropdown Menu */}
-      {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-[70px] left-0 w-full bg-[hsl(var(--header-bg))] border-b-[8px] border-black flex flex-col p-4 gap-3 z-40 shadow-xl">
-          {allNavLinks.map((link) => {
-            const isActive = location.pathname === link.path || (link.path !== '/' && location.pathname.startsWith(link.path));
-            return (
-              <Link 
-                key={link.name} 
-                to={link.path}
-                onClick={() => setIsMobileMenuOpen(false)}
-                className={`px-[16px] py-[12px] border-[4px] text-black font-black text-[14px] rounded-[14px] transition-all duration-200 uppercase ${
-                  isActive 
-                    ? 'bg-[hsl(var(--light-blue))] border-black shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]' 
-                    : 'bg-white border-black hover:bg-[hsl(var(--light-blue))] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]'
-                }`}
-              >
-                {link.name}
-              </Link>
-            );
-          })}
-          
-          <div className="h-[4px] bg-black rounded-full my-2 opacity-20"></div>
-          
-          {isAdmin && (
-            <Link 
-              to="/admin"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-[8px] px-[16px] py-[12px] bg-[hsl(var(--destructive))] border-[4px] border-black text-white font-black text-[14px] rounded-[14px] uppercase"
-            >
-              <ShieldAlert size={18} strokeWidth={3} />
-              Admin Panel
-            </Link>
-          )}
-
-          {!isAuthenticated ? (
-            <Link 
-              to="/login"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="flex items-center gap-[8px] px-[16px] py-[12px] bg-[hsl(var(--primary))] border-[4px] border-black text-black font-black text-[14px] rounded-[14px] uppercase"
-            >
-              <User size={18} strokeWidth={3} />
-              Login
-            </Link>
-          ) : (
-            <>
-              <Link 
-                to="/dashboard"
-                onClick={() => setIsMobileMenuOpen(false)}
-                className="flex items-center gap-[8px] px-[16px] py-[12px] bg-[hsl(var(--active-green))] border-[4px] border-black text-black font-black text-[14px] rounded-[14px] uppercase"
-              >
-                <LayoutDashboard size={18} strokeWidth={3} />
-                Dashboard
-              </Link>
-              <button 
-                onClick={handleLogout}
-                className="flex items-center gap-[8px] px-[16px] py-[12px] bg-[hsl(var(--orange))] border-[4px] border-black text-black font-black text-[14px] rounded-[14px] uppercase text-left"
-              >
-                <LogOut size={18} strokeWidth={3} />
-                Logout
-              </button>
-            </>
-          )}
+            <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Resources</div>
+            <div className="grid grid-cols-2 gap-2 pl-2">
+              <Link to="/resources" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Guides & Tutorials</Link>
+              <Link to="/llm-directory" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">LLM Directory</Link>
+            </div>
+            
+            {isAuthenticated ? (
+              <div className="flex flex-col gap-2 mt-2">
+                <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40 flex items-center gap-2">
+                  <LayoutDashboard size={16} /> Dashboard
+                </Link>
+                <button onClick={handleLogout} className="w-full py-2.5 text-left font-bold text-red-500 flex items-center gap-2">
+                  <LogOut size={16} /> Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex flex-col gap-2 mt-2">
+                <button
+                  onClick={handleTryItFree}
+                  className="w-full bg-primary text-white py-3 rounded-full font-bold shadow-[0_0_15px_rgba(231,58,90,0.4)] text-center"
+                >
+                  Whitelist
+                </button>
+                <Link
+                  to="/login"
+                  onClick={() => setIsMenuOpen(false)}
+                  className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground py-3 rounded-full font-bold border border-border text-center flex items-center justify-center gap-1"
+                >
+                  <User size={16} /> Login
+                </Link>
+              </div>
+            )}
+          </div>
         </div>
       )}
-    </header>
+    </>
   );
 };
 

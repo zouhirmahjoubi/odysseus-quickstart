@@ -8,7 +8,7 @@ const AdminSettingsPage = () => {
   const [settings, setSettings] = useState({
     siteName: 'OdysseusAI',
     siteUrl: 'https://odysseusai.ai',
-    contactEmail: 'support@odysseusai.ai',
+    contactEmail: 'admin@odysseusai.ai',
     stripeKey: 'sk_live_**********************xyz',
     metaDesc: 'Premium digital assets and AI tools'
   });

@@ -38,6 +38,7 @@ const AgentSearchPage = () => {
       fetchAgents();
     }, 500);
     return () => clearTimeout(delayDebounceFn);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [query, filters]);
 
   const handleSearch = (e) => {

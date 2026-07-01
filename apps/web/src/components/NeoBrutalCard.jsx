@@ -3,19 +3,18 @@ import React from 'react';
 import { motion } from 'framer-motion';
 
 function NeoBrutalCard({ children, className = '', gradientBorder = null, selected = false }) {
-  const borderClass = gradientBorder === 'top' ? 'border-t-[4px] border-t-[hsl(var(--primary))]' : 
-                      gradientBorder === 'left' ? 'border-l-[4px] border-l-[hsl(var(--primary))]' : '';
+  const borderClass = gradientBorder === 'top' ? 'border-t border-t-[#E73A5A]' : 
+                      gradientBorder === 'left' ? 'border-l border-l-[#E73A5A]' : '';
 
-  const bgClass = selected ? 'bg-[hsl(var(--secondary))]' : 'bg-[hsl(var(--card))]';
+  const bgClass = selected ? 'bg-[rgba(231, 58, 90,0.15)] border-[#E73A5A]' : 'bg-white/5 border-white/10';
 
   return (
     <motion.div 
-      className={`${bgClass} border-[3px] border-[hsl(var(--border))] shadow-[4px_4px_0px_0px_hsl(var(--border))] rounded-[var(--radius)] text-[hsl(var(--card-foreground))] p-[15px] md:p-[24px] flex flex-col transition-all duration-300 w-full max-w-full overflow-hidden ${borderClass} ${className}`}
+      className={`border rounded-2xl backdrop-blur-md text-white p-[15px] md:p-[24px] flex flex-col transition-all duration-300 w-full max-w-full overflow-hidden ${bgClass} ${borderClass} ${className}`}
       whileHover={{ 
         y: -4, 
-        x: -4, 
-        boxShadow: '8px 8px 0px 0px hsl(var(--secondary))',
-        borderColor: 'hsl(var(--border))' 
+        boxShadow: '0 12px 40px rgba(231, 58, 90,0.25)',
+        borderColor: 'rgba(231, 58, 90,0.4)' 
       }}
     >
       {children}

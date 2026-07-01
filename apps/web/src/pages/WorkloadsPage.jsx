@@ -3,6 +3,7 @@ import React, { useState, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
 import { Briefcase, Settings2, Clock, Zap, Target, BookOpen, Layers } from 'lucide-react';
 import BreadcrumbNav from '@/components/BreadcrumbNav.jsx';
+import FeaturedLaunchKitCard from '@/components/FeaturedLaunchKitCard.jsx';
 
 // Mock Workloads Data
 const WORKLOADS_DATA = [
@@ -109,47 +110,58 @@ const WorkloadsPage = () => {
 
   const getDifficultyColor = (diff) => {
     switch(diff) {
-      case 'Beginner': return 'bg-[#90EE90] text-black';
-      case 'Intermediate': return 'bg-[#FF9F00] text-black';
-      case 'Advanced': return 'bg-black text-white';
-      default: return 'bg-gray-200 text-black';
+      case 'Beginner': return 'bg-[#10B981]/15 text-[#10B981] border border-[#10B981]/25';
+      case 'Intermediate': return 'bg-[#FFB300]/15 text-[#FFB300] border border-[#FFB300]/25';
+      case 'Advanced': return 'bg-[#FF2A85]/15 text-[#FF2A85] border border-[#FF2A85]/25';
+      default: return 'bg-white/5 text-gray-300 border border-white/10';
     }
   };
 
   return (
-    <div className="min-h-screen bg-[#FFFDF0] pt-12 pb-32">
+    <div className="max-w-7xl mx-auto px-4 pt-12 pb-32 font-rounded text-left">
       <Helmet>
         <title>AI Workloads & Use Cases | OdysseusAI</title>
         <meta name="description" content="Explore production-ready AI workloads, implementation guides, and model recommendations for your specific use cases." />
       </Helmet>
 
-      <div className="container max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="container mx-auto">
         <BreadcrumbNav />
 
         {/* Page Header */}
-        <div className="mb-12 border-b-8 border-black pb-8">
-          <div className="inline-flex items-center gap-2 bg-[#90EE90] border-4 border-black px-3 py-1 text-sm font-black uppercase tracking-widest shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mb-6">
-            <Briefcase size={16} strokeWidth={3} /> Implementation
+        <div className="mb-16 select-none">
+          <div className="flex items-center gap-2 bg-[#FF2A85]/10 px-4 py-1.5 rounded-full border border-[#FF2A85]/20 text-sm font-bold mb-6 inline-flex">
+            <Briefcase size={14} strokeWidth={3} className="text-[#FF2A85]" />
+            <span className="text-gray-300">AI Workloads & Use Cases</span>
           </div>
-          <h1 className="text-5xl md:text-7xl font-black uppercase tracking-tight text-black mb-6 leading-none">
-            AI Workloads
+          <h1 className="text-4xl md:text-6xl font-black text-white mb-6 leading-tight">
+            AI{' '}
+            <span className="text-[#FF2A85] bg-[#FF2A85]/10 px-4 py-1 border border-[#FF2A85]/20 rounded-3xl inline-block transform -rotate-1 shadow-[0_0_15px_rgba(255,42,133,0.2)]">
+              Workloads
+            </span>
           </h1>
-          <p className="text-xl md:text-2xl font-bold text-black/70 max-w-3xl leading-relaxed">
+          <p className="text-lg md:text-xl text-gray-400 max-w-3xl font-medium leading-relaxed">
             Stop experimenting. Start shipping. Browse production-tested architectures mapped to specific business outcomes and required skillsets.
           </p>
         </div>
 
+        {/* Featured Launch Kit Promo */}
+        <div className="mb-12">
+          <FeaturedLaunchKitCard />
+        </div>
+
         {/* Filters */}
-        <div className="flex flex-col md:flex-row gap-6 mb-12 bg-white border-4 border-black p-4 rounded-xl shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+        <div className="flex flex-col md:flex-row gap-6 mb-12 bg-white/5 border border-white/10 p-6 rounded-3xl backdrop-blur-md">
           <div className="flex-1">
-            <label className="block text-xs font-black uppercase tracking-widest mb-2 text-black/60">Filter by Category</label>
+            <label className="block text-xs font-black uppercase tracking-widest mb-2 text-[#FF2A85]">Filter by Category</label>
             <div className="flex flex-wrap gap-2">
               {types.map(type => (
                 <button
                   key={type}
                   onClick={() => setTypeFilter(type)}
-                  className={`px-4 py-2 border-2 border-black font-black uppercase tracking-widest text-xs rounded-md transition-colors ${
-                    typeFilter === type ? 'bg-black text-white' : 'bg-transparent text-black hover:bg-black/5'
+                  className={`px-4 py-2 border rounded-xl text-xs font-black uppercase tracking-wider transition-all whitespace-nowrap ${
+                    typeFilter === type 
+                      ? 'bg-[#FF2A85] text-white border-[#FF2A85]/30 shadow-[0_0_10px_rgba(255,42,133,0.25)]' 
+                      : 'bg-white/5 border-white/10 text-white hover:bg-white/10'
                   }`}
                 >
                   {type}
@@ -159,13 +171,15 @@ const WorkloadsPage = () => {
           </div>
           
           <div className="w-full md:w-64 shrink-0">
-            <label className="block text-xs font-black uppercase tracking-widest mb-2 text-black/60">Difficulty Level</label>
+            <label className="block text-xs font-black uppercase tracking-widest mb-2 text-[#FF2A85]">Difficulty Level</label>
             <select
               value={diffFilter}
               onChange={(e) => setDiffFilter(e.target.value)}
-              className="w-full bg-[#FFFDF0] border-4 border-black text-black font-bold p-3 rounded-lg focus:outline-none focus:ring-4 focus:ring-[#B3DDF2] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] cursor-pointer appearance-none"
+              className="w-full border border-white/10 rounded-xl text-white font-bold p-3 bg-white/5 outline-none focus:ring-2 focus:ring-[#FF2A85] transition-all cursor-pointer"
             >
-              {difficulties.map(d => <option key={d} value={d}>{d}</option>)}
+              {difficulties.map(d => (
+                <option key={d} value={d} className="bg-[#0a0a0a] text-white">{d}</option>
+              ))}
             </select>
           </div>
         </div>
@@ -176,82 +190,82 @@ const WorkloadsPage = () => {
             {filteredWorkloads.map(workload => (
               <div 
                 key={workload.id}
-                className="bg-white border-4 border-black rounded-2xl overflow-hidden shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] flex flex-col group"
+                className="bg-white/5 border border-white/10 rounded-3xl overflow-hidden flex flex-col hover:-translate-y-1 hover:border-[#FF2A85]/40 hover:shadow-[0_4px_20px_rgba(255,42,133,0.15)] transition-all duration-300 backdrop-blur-md text-left"
               >
                 {/* Card Header */}
-                <div className="bg-[#B3DDF2] border-b-4 border-black p-6 relative">
+                <div className="bg-white/5 border-b border-white/10 p-6 relative">
                   <div className="flex justify-between items-start gap-4 mb-4">
-                    <span className="bg-white border-2 border-black text-black px-2 py-1 text-xs font-black uppercase tracking-widest rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                    <span className="bg-[#FF2A85]/10 border border-[#FF2A85]/20 text-[#FF2A85] px-2.5 py-0.5 text-xs font-black uppercase tracking-wider rounded-full">
                       {workload.type}
                     </span>
-                    <span className={`border-2 border-black px-2 py-1 text-xs font-black uppercase tracking-widest rounded shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] ${getDifficultyColor(workload.difficulty)}`}>
+                    <span className={`px-2.5 py-0.5 text-xs font-black uppercase tracking-wider rounded-full ${getDifficultyColor(workload.difficulty)}`}>
                       {workload.difficulty}
                     </span>
                   </div>
-                  <h3 className="text-3xl font-black uppercase leading-tight">{workload.name}</h3>
+                  <h3 className="text-2xl md:text-3xl font-black uppercase leading-tight text-white">{workload.name}</h3>
                 </div>
 
                 {/* Card Body */}
-                <div className="p-6 flex flex-col flex-grow bg-white">
-                  <p className="font-bold text-lg text-black/80 mb-8 leading-relaxed">
+                <div className="p-6 flex flex-col flex-grow">
+                  <p className="font-bold text-base text-gray-300 mb-8 leading-relaxed">
                     {workload.description}
                   </p>
 
                   <div className="grid grid-cols-2 gap-4 mb-8">
-                    <div className="bg-[#FFFDF0] border-2 border-black rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-black/50 mb-1">
+                    <div className="bg-black/40 border border-white/10 rounded-2xl p-4">
+                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[#FF2A85] mb-1.5">
                         <Settings2 size={14} /> Models
                       </div>
-                      <div className="font-bold text-sm leading-tight">
+                      <div className="font-black text-sm leading-tight text-white">
                         {workload.recommended_models.join(', ')}
                       </div>
                     </div>
-                    <div className="bg-[#FFFDF0] border-2 border-black rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-black/50 mb-1">
+                    <div className="bg-black/40 border border-white/10 rounded-2xl p-4">
+                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[#FF2A85] mb-1.5">
                         <Zap size={14} /> Cost Est.
                       </div>
-                      <div className="font-bold text-sm leading-tight">
+                      <div className="font-black text-sm leading-tight text-white">
                         {workload.cost_estimation}
                       </div>
                     </div>
-                    <div className="bg-[#FFFDF0] border-2 border-black rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-black/50 mb-1">
+                    <div className="bg-black/40 border border-white/10 rounded-2xl p-4">
+                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[#FF2A85] mb-1.5">
                         <Target size={14} /> Output
                       </div>
-                      <div className="font-bold text-sm leading-tight">
+                      <div className="font-black text-sm leading-tight text-white">
                         {workload.performance_metrics}
                       </div>
                     </div>
-                    <div className="bg-[#FFFDF0] border-2 border-black rounded-lg p-3 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-black/50 mb-1">
+                    <div className="bg-black/40 border border-white/10 rounded-2xl p-4">
+                      <div className="flex items-center gap-1.5 text-xs font-black uppercase tracking-widest text-[#FF2A85] mb-1.5">
                         <Clock size={14} /> Timeline
                       </div>
-                      <div className="font-bold text-sm leading-tight">
+                      <div className="font-black text-sm leading-tight text-white">
                         {workload.time_to_implement}
                       </div>
                     </div>
                   </div>
 
                   <div className="mb-8">
-                    <div className="flex items-center gap-2 text-sm font-black uppercase tracking-widest mb-3 border-b-2 border-black pb-1">
-                      <Layers size={16} /> Required Skills
+                    <div className="flex items-center gap-2 text-xs font-black uppercase tracking-widest mb-3 border-b border-white/10 pb-1.5 text-gray-400">
+                      <Layers size={14} className="text-[#FF2A85]" /> Required Skills
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {workload.required_skills.map((skill, idx) => (
-                        <span key={idx} className="bg-black text-white px-2.5 py-1 rounded text-xs font-bold">
+                        <span key={idx} className="bg-white/5 border border-white/10 text-gray-300 px-2.5 py-1 rounded-xl text-xs font-semibold">
                           {skill}
                         </span>
                       ))}
                     </div>
                   </div>
 
-                  <div className="mt-auto bg-[#FFFDF0] border-4 border-black p-4 rounded-xl relative">
-                    <div className="absolute -top-3 left-4 bg-[#FF9F00] text-black border-2 border-black px-2 py-0.5 text-[10px] font-black uppercase tracking-widest">
+                  <div className="mt-auto bg-[#FF2A85]/5 border border-[#FF2A85]/20 p-5 rounded-2xl relative">
+                    <div className="absolute -top-2.5 left-4 bg-[#FF2A85] text-white px-2 py-0.5 text-[9px] font-black uppercase tracking-widest rounded-full">
                       Best Practice
                     </div>
                     <div className="flex gap-3 items-start mt-2">
-                      <BookOpen size={20} strokeWidth={2.5} className="text-[#FF9F00] shrink-0 mt-0.5" />
-                      <p className="font-bold text-sm italic">"{workload.best_practices}"</p>
+                      <BookOpen size={18} strokeWidth={2.5} className="text-[#FF2A85] shrink-0 mt-0.5" />
+                      <p className="font-semibold text-sm text-white/80 italic">"{workload.best_practices}"</p>
                     </div>
                   </div>
 
@@ -260,12 +274,12 @@ const WorkloadsPage = () => {
             ))}
           </div>
         ) : (
-          <div className="text-center py-20 bg-white border-4 border-black rounded-xl shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
-            <h3 className="text-3xl font-black uppercase mb-4">No Workloads Found</h3>
-            <p className="font-bold text-xl text-black/60 mb-8">We couldn't find any workloads matching your selected criteria.</p>
+          <div className="text-center py-20 bg-white/5 border border-white/10 rounded-3xl backdrop-blur-md">
+            <h3 className="text-3xl font-black uppercase mb-4 text-white">No Workloads Found</h3>
+            <p className="font-bold text-lg text-gray-400 mb-8">We couldn't find any workloads matching your selected criteria.</p>
             <button 
               onClick={() => { setTypeFilter('All'); setDiffFilter('All'); }}
-              className="bg-black text-white font-black uppercase tracking-widest px-6 py-3 rounded-lg hover:bg-black/80 transition-colors"
+              className="bg-[#FF2A85] text-white border border-[#FF2A85]/30 font-black uppercase tracking-widest px-8 py-4 rounded-xl shadow-[0_0_15px_rgba(255,42,133,0.2)] hover:scale-[1.02] transition-all"
             >
               Reset Filters
             </button>

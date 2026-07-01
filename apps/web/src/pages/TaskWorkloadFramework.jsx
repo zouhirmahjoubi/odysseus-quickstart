@@ -1,4 +1,3 @@
-
 import React from 'react';
 import { Helmet } from 'react-helmet';
 import { Info, Briefcase } from 'lucide-react';
@@ -44,52 +43,52 @@ const taskCategories = [
 
 const TaskWorkloadFramework = ({ hideHelmet = false }) => {
   return (
-    <div className="w-full">
+    <div className="w-full text-left">
       {!hideHelmet && (
         <Helmet>
           <title>Task Workload Framework | OdysseusAI</title>
         </Helmet>
       )}
 
-      <div className="mb-10">
-        <div className="flex items-center gap-3 mb-6">
-          <Briefcase size={32} strokeWidth={3} className="text-secondary" />
-          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight">Task & Workload Framework</h2>
+      <div className="mb-10 text-left">
+        <div className="flex items-center gap-3 mb-6 text-left">
+          <Briefcase size={32} strokeWidth={3} className="text-[#FFB300]" />
+          <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tight text-white text-left">Task & Workload Framework</h2>
         </div>
         
-        <div className="bg-secondary/20 border-4 border-border p-5 mb-10 flex items-start gap-4">
-          <Info size={28} strokeWidth={3} className="text-secondary shrink-0 mt-0.5" />
-          <p className="font-bold text-lg text-foreground">
-            <span className="font-black uppercase block mb-1">Contextual Note:</span>
+        <div className="bg-[#FFB300]/5 border border-[#FFB300]/20 p-5 mb-10 flex items-start gap-4 rounded-xl backdrop-blur-md text-left">
+          <Info size={28} strokeWidth={3} className="text-[#FFB300] shrink-0 mt-0.5" />
+          <p className="font-bold text-lg text-white/80 text-left">
+            <span className="font-black uppercase block mb-1 text-[#FFB300]">Contextual Note:</span>
             If you're building out RAG task or CrewAI Research Swarm, prioritize models with at least a 32k context window (like Command R, DeepSeek-R1, or Qwen). Trying to feed dense data into older 2k or 4k models (like Llama 2 or Falcon) will cause them to drop context entirely.
           </p>
         </div>
 
-        <div className="space-y-12">
+        <div className="space-y-12 text-left">
           {taskCategories.map((category, idx) => (
-            <section key={idx}>
-              <div className="flex items-center gap-3 mb-6 border-b-4 border-border pb-3">
+            <div key={idx} className="text-left mb-8">
+              <div className="flex items-center gap-3 mb-6 border-b border-white/10 pb-3 text-left">
                 <span className="text-3xl">{category.emoji}</span>
-                <h3 className="text-2xl font-black uppercase tracking-tight bg-card px-2">{category.title}</h3>
+                <h3 className="text-2xl font-black uppercase tracking-tight text-white text-left">{category.title}</h3>
               </div>
               
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 text-left">
                 {category.tasks.map((task, taskIdx) => (
                   <div 
                     key={taskIdx} 
-                    className="border-4 border-border bg-card p-6 flex flex-col h-full cursor-pointer shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] transition-all duration-200 hover:-translate-y-1 hover:border-secondary hover:shadow-[6px_6px_0px_0px_hsl(var(--secondary))]"
+                    className="border border-white/10 bg-white/5 p-6 flex flex-col h-full cursor-pointer rounded-2xl transition-all duration-300 hover:-translate-y-1 hover:border-[#FFB300]/40 hover:shadow-[0_4px_20px_rgba(255,179,0,0.15)] text-left"
                   >
-                    <div className="mb-4">
-                      <span className="text-3xl mb-4 block">{category.emoji}</span>
-                      <h4 className="text-xl font-black uppercase leading-tight mb-2">{task.name}</h4>
+                    <div className="mb-4 text-left">
+                      <span className="text-3xl mb-4 block text-left">{category.emoji}</span>
+                      <h4 className="text-xl font-black uppercase leading-tight mb-2 text-white text-left">{task.name}</h4>
                     </div>
-                    <p className="font-bold text-muted-foreground mt-auto pt-4 border-t-4 border-border/10">
+                    <p className="font-bold text-white/50 mt-auto pt-4 border-t border-white/5 text-left">
                       {task.desc}
                     </p>
                   </div>
                 ))}
               </div>
-            </section>
+            </div>
           ))}
         </div>
       </div>

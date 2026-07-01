@@ -139,7 +139,7 @@ function DashboardPage() {
   const filteredFaqs = filterContent(FAQS, ['q', 'a']);
   const filteredWorkspace = filterContent(WORKSPACE_CARDS, ['title', 'desc']);
   
-  const avatarUrl = currentUser?.avatar ? pb.files.getUrl(currentUser, currentUser.avatar) : null;
+  const avatarUrl = currentUser?.image || (currentUser?.avatar ? pb.files.getUrl(currentUser, currentUser.avatar) : null);
 
   // --- SUB-COMPONENTS ---
   const SidebarLink = ({ id, icon: Icon, label }) => (
@@ -344,7 +344,7 @@ function DashboardPage() {
                       </div>
                       <div>
                         <p className="text-[12px] font-bold text-[hsl(var(--muted-foreground))] uppercase tracking-wider mb-1">Joined Fleet</p>
-                        <p className="font-bold text-[16px]">{currentUser?.created ? new Date(currentUser.created).toLocaleDateString() : 'Unknown'}</p>
+                        <p className="font-bold text-[16px]">{currentUser?.createdAt || currentUser?.created ? new Date(currentUser.createdAt || currentUser.created).toLocaleDateString() : 'Unknown'}</p>
                       </div>
                     </div>
                   </div>

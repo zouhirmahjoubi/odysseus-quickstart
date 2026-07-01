@@ -1,7 +1,6 @@
-
 import React, { useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { LayoutDashboard, FileText, ShoppingBag, Users, BarChart2, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, FileText, ShoppingBag, Users, BarChart2, Settings, LogOut, Star } from 'lucide-react';
 import { useAdminAuth } from '@/contexts/AdminAuthContext.jsx';
 import LogoComponent from '@/components/LogoComponent.jsx';
 
@@ -13,6 +12,7 @@ const AdminSidebar = ({ isMobileOpen, setIsMobileOpen }) => {
     { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
     { name: 'Blog Management', path: '/admin/blog', icon: FileText },
     { name: 'Product Management', path: '/admin/products', icon: ShoppingBag },
+    { name: 'Testimonials', path: '/admin/testimonials', icon: Star },
     { name: 'User Management', path: '/admin/users', icon: Users },
     { name: 'Analytics', path: '/admin/analytics', icon: BarChart2 },
     { name: 'Settings', path: '/admin/settings', icon: Settings },

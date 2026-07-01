@@ -1,37 +1,195 @@
-
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { Github, Twitter, ExternalLink, Heart, Shield, Zap } from 'lucide-react';
+import { Chip } from '@heroui/react';
 
 const Footer = () => {
+  const year = new Date().getFullYear();
+
   return (
-    <footer className="w-full bg-[hsl(var(--sidebar))] border-t-[4px] md:border-t-[8px] border-black px-[20px] py-[40px] z-50 relative mt-auto">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
-        <div className="flex flex-col items-center md:items-start transition-transform duration-300 hover:scale-[1.02] origin-left">
-          <Link to="/" className="flex items-center gap-[6px] md:gap-[8px] focus:outline-none mb-1">
-            <span className="font-[900] text-[20px] md:text-[24px] tracking-[2px] text-black uppercase leading-none mt-1">
-              ODYSSEUS
-            </span>
-            <span className="bg-[hsl(var(--orange))] text-black border-[3px] md:border-[4px] border-black rounded-[8px] md:rounded-[12px] px-[8px] py-[2px] font-[900] text-[12px] md:text-[14px] uppercase leading-none flex items-center justify-center shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-              AI
-            </span>
-          </Link>
-          <span className="text-[hsl(var(--orange))] font-[900] text-[12px] lg:text-[14px] tracking-[1px] leading-tight ml-1 mt-0.5">
-            AI.AI
-          </span>
+    <footer className="w-full bg-[#080808] relative overflow-hidden" style={{ borderTop: '1px solid rgba(255, 255, 255, 0.07)' }}>
+
+      {/* Main content */}
+      <div className="max-w-5xl mx-auto px-4 py-12 md:py-16">
+
+        {/* Top row: Brand + tagline + badges */}
+        <div className="flex flex-col md:flex-row gap-8 md:gap-12 mb-10 md:mb-14 items-start">
+
+          {/* Brand block */}
+          <div className="flex-shrink-0 max-w-xs">
+            {/* Logo text */}
+            <div className="inline-flex items-center mb-4 select-none font-bold text-2xl uppercase tracking-wider">
+              <span className="text-white">ODYSSEUSAI</span>
+              <span className="text-[#E73A5A]">.AI</span>
+            </div>
+            <p className="text-sm text-gray-400 font-medium leading-relaxed mb-6">
+              The safest, fastest and most beginner-friendly way to install Odysseus AI on your machine. 100% private, zero data tracking.
+            </p>
+            {/* Trust badges */}
+            <div className="flex flex-wrap gap-2">
+              <Chip
+                variant="flat"
+                startContent={<Shield size={10} className="text-[#E73A5A]" />}
+                classNames={{
+                  base: 'bg-white/5 border border-white/10 px-3 py-1.5 rounded-full h-auto',
+                  content: 'text-[10px] font-bold uppercase tracking-wider text-white/80',
+                }}
+              >
+                MIT Licensed
+              </Chip>
+              <Chip
+                variant="flat"
+                startContent={<Zap size={10} className="text-[#E73A5A]" />}
+                classNames={{
+                  base: 'bg-white/5 border border-white/10 px-3 py-1.5 rounded-full h-auto',
+                  content: 'text-[10px] font-bold uppercase tracking-wider text-white/80',
+                }}
+              >
+                Free Forever
+              </Chip>
+              <Chip
+                variant="flat"
+                startContent={<Heart size={10} className="text-[#E73A5A]" />}
+                classNames={{
+                  base: 'bg-white/5 border border-white/10 px-3 py-1.5 rounded-full h-auto',
+                  content: 'text-[10px] font-bold uppercase tracking-wider text-white/80',
+                }}
+              >
+                Open Source
+              </Chip>
+            </div>
+          </div>
+
+          {/* Columns */}
+          <div className="grid grid-cols-2 md:grid-cols-3 gap-8 flex-1">
+
+            {/* Install Paths */}
+            <div>
+              <Chip
+                variant="flat"
+                classNames={{
+                  base: 'bg-[#E73A5A]/10 border border-[#E73A5A]/25 px-3 py-1.5 shadow-[0_0_10px_rgba(231,58,90,0.15)] mb-4 h-auto rounded-full',
+                  content: 'font-black text-white text-[10px] tracking-widest uppercase',
+                }}
+              >
+                Install Paths
+              </Chip>
+              <ul className="space-y-3">
+                {[
+                  { to: '/odysseus-ai-install', label: 'Install Hub' },
+                  { to: '/install/docker', label: 'Docker Setup' },
+                  { to: '/install/ollama', label: 'Ollama Resolver' },
+                  { to: '/install/windows', label: 'Windows Native' },
+                  { to: '/install/macbook', label: 'macOS Native' },
+                ].map(({ to, label }) => (
+                  <li key={to}>
+                    <Link
+                      to={to}
+                      className="text-xs font-bold text-gray-400 hover:text-[#E73A5A] transition-colors flex items-center gap-1.5 group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#E73A5A] transition-colors flex-shrink-0" />
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Troubleshooting */}
+            <div>
+              <Chip
+                variant="flat"
+                classNames={{
+                  base: 'bg-[#E73A5A]/10 border border-[#E73A5A]/25 px-3 py-1.5 shadow-[0_0_10px_rgba(231,58,90,0.15)] mb-4 h-auto rounded-full',
+                  content: 'font-black text-white text-[10px] tracking-widest uppercase',
+                }}
+              >
+                Troubleshoot
+              </Chip>
+              <ul className="space-y-3">
+                {[
+                  { to: '/fix', label: 'Error Doctor' },
+                  { to: '/triage-wizard', label: 'Triage Wizard' },
+                  { to: '/resources', label: 'Resources' },
+                  { to: '/blog', label: 'Guides & Tutorials' },
+                  { to: '/llm-directory', label: 'LLM Directory' },
+                ].map(({ to, label }) => (
+                  <li key={to}>
+                    <Link
+                      to={to}
+                      className="text-xs font-bold text-gray-400 hover:text-[#E73A5A] transition-colors flex items-center gap-1.5 group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#E73A5A] transition-colors flex-shrink-0" />
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Company */}
+            <div>
+              <Chip
+                variant="flat"
+                classNames={{
+                  base: 'bg-[#E73A5A]/10 border border-[#E73A5A]/25 px-3 py-1.5 shadow-[0_0_10px_rgba(231,58,90,0.15)] mb-4 h-auto rounded-full',
+                  content: 'font-black text-white text-[10px] tracking-widest uppercase',
+                }}
+              >
+                Company
+              </Chip>
+              <ul className="space-y-3">
+                {[
+                  { to: '/about', label: 'About Us' },
+                  { to: '/contact', label: 'Contact' },
+                  { to: '/products', label: 'Marketplace' },
+                  { to: '/purchase-pro-license', label: 'Pro License' },
+                  { to: '/privacy', label: 'Privacy Policy' },
+                  { to: '/terms', label: 'Terms of Service' },
+                ].map(({ to, label }) => (
+                  <li key={to}>
+                    <Link
+                      to={to}
+                      className="text-xs font-bold text-gray-400 hover:text-[#E73A5A] transition-colors flex items-center gap-1.5 group"
+                    >
+                      <span className="w-1.5 h-1.5 rounded-full bg-white/20 group-hover:bg-[#E73A5A] transition-colors flex-shrink-0" />
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+          </div>
         </div>
-        
-        <nav className="flex flex-wrap justify-center gap-4 md:gap-6">
-          <Link to="/" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Home</Link>
-          <Link to="/products" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Products</Link>
-          <Link to="/blog" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Blog</Link>
-          <Link to="/calculator" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Calculator</Link>
-          <Link to="/workspace-simulator" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Simulator</Link>
-          <Link to="/privacy" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Privacy</Link>
-          <Link to="/terms" className="font-black text-[14px] text-black hover:text-[hsl(var(--active-green))] transition-colors uppercase tracking-wide">Terms</Link>
-        </nav>
-        
-        <div className="text-black font-bold text-[12px] md:text-[14px] bg-white border-[3px] border-black px-[12px] py-[6px] shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-          &copy; {new Date().getFullYear()} OdysseusAI. All rights reserved.
+
+        {/* Divider */}
+        <div className="border-t border-white/10 mb-8" />
+
+        {/* Bottom row */}
+        <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
+
+          {/* Copyright */}
+          <p className="text-[10px] md:text-[11px] font-semibold text-gray-500 select-none text-center sm:text-left">
+            © {year} Odysseus AI Launch Kit. All rights reserved.
+          </p>
+
+          {/* Right side: Domain + links */}
+          <div className="flex items-center gap-3 flex-shrink-0">
+            <span className="text-[10px] font-bold text-white/80 bg-white/5 border border-white/10 px-3 py-1.5 rounded-full uppercase tracking-wider">
+              odysseusai.ai
+            </span>
+            <a
+              href="https://github.com/pewdiepie-archdaemon/odysseus"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="p-2 bg-white/5 border border-white/10 rounded-full hover:bg-[#E73A5A]/20 hover:border-[#E73A5A] transition-all group"
+              title="GitHub Repository"
+            >
+              <Github size={14} className="text-gray-400 group-hover:text-[#E73A5A] transition-colors" />
+            </a>
+          </div>
+
         </div>
       </div>
     </footer>
