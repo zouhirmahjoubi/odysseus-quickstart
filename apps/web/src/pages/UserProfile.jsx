@@ -60,8 +60,8 @@ const UserProfile = () => {
         <aside className="w-full lg:w-80 flex-shrink-0 flex flex-col gap-6">
           <div className="neo-card bg-[hsl(var(--primary))] text-center py-8">
             <div className="w-24 h-24 mx-auto neo-border bg-white rounded-full flex items-center justify-center mb-4 overflow-hidden shadow-[4px_4px_0px_0px_#000000]">
-              {user.avatar ? (
-                <img src={pb.files.getUrl(user, user.avatar)} alt="Avatar" className="w-full h-full object-cover" />
+              {user.image || user.avatar ? (
+                <img src={user.image || pb.files.getUrl(user, user.avatar)} alt="Avatar" className="w-full h-full object-cover" />
               ) : (
                 <User size={40} className="text-black" />
               )}
@@ -69,7 +69,7 @@ const UserProfile = () => {
             <h1 className="text-2xl font-black space-grotesk">{user.name || 'User'}</h1>
             <p className="font-bold opacity-80">{user.email}</p>
             <div className="mt-4 inline-block bg-black text-white px-3 py-1 font-bold text-xs neo-border">
-              MEMBER SINCE {new Date(user.created).getFullYear()}
+              MEMBER SINCE {user.createdAt || user.created ? new Date(user.createdAt || user.created).getFullYear() : new Date().getFullYear()}
             </div>
           </div>
 
