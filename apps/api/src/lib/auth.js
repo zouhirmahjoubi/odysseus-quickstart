@@ -54,8 +54,8 @@ if (process.env.DATABASE_URL) {
             : { rejectUnauthorized: false }
     });
 } else {
-    logger.info("Initializing Better Auth database with SQLite (sqlite.db)");
-    dbConfig = new Database("./sqlite.db");
+    logger.info(`Initializing Better Auth database with SQLite (${process.env.SQLITE_DB_PATH || "./sqlite.db"})`);
+    dbConfig = new Database(process.env.SQLITE_DB_PATH || "./sqlite.db");
 }
 
 const getAppleClientSecret = () => {

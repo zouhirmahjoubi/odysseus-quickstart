@@ -15,8 +15,11 @@ services:
     build:
       context: ./apps/api
       dockerfile: Dockerfile
+    volumes:
+      - api_data:/app/data
     environment:
       - PORT=3001
+      - SQLITE_DB_PATH=/app/data/sqlite.db
       - CORS_ORIGIN=${CORS_ORIGIN:-*}
       - STRIPE_SECRET_KEY=${STRIPE_SECRET_KEY}
       - STRIPE_WEBHOOK_SECRET=${STRIPE_WEBHOOK_SECRET}
@@ -41,6 +44,8 @@ services:
       args:
         - VITE_API_URL=${VITE_API_URL:-/hcgi/api}
         - VITE_POCKETBASE_URL=${VITE_POCKETBASE_URL:-/hcgi/platform}
+    ports:
+      - "80:80"
     depends_on:
       - api
       - pocketbase
@@ -48,3 +53,4 @@ services:
 
 volumes:
   pocketbase_data:
+  api_data:
