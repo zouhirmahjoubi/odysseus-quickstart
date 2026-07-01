@@ -30,6 +30,7 @@ services:
       - SMTP_FROM=${SMTP_FROM}
       - JWT_SECRET=${JWT_SECRET:-your-jwt-secret-key}
       - FRONTEND_URL=${FRONTEND_URL:-http://localhost:3080}
+      - BETTER_AUTH_SECRET=${BETTER_AUTH_SECRET}
       - ENCRYPTION_KEY=${ENCRYPTION_KEY:-your-32-char-encryption-key-here}
       - PB_SUPERUSER_EMAIL=${PB_SUPERUSER_EMAIL:-admin@odysseusai.com}
       - PB_SUPERUSER_PASSWORD=${PB_SUPERUSER_PASSWORD}

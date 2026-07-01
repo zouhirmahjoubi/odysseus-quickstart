@@ -38,6 +38,12 @@ Better Auth and PocketBase require specific production settings. Go to the **Env
 | `PB_ENCRYPTION_KEY` | `your-32-character-encryption-key-here` | Encryption key for PocketBase data storage. |
 | `ENCRYPTION_KEY` | `your-32-character-encryption-key-here` | Encryption key for API runtime. |
 | `JWT_SECRET` | `your-jwt-secret-key` | Secret key for custom JWT session token encoding. |
+| `BETTER_AUTH_SECRET` | `your-generated-high-entropy-hex-key` | Cryptographically secure secret key for Better Auth cookie signature. |
+
+> [!WARNING]
+> **Generating BETTER_AUTH_SECRET**: Do NOT use a weak or simple password for `BETTER_AUTH_SECRET`. Generate a high-entropy cryptographically secure hex key using:
+> `node -e "console.log(require('crypto').randomBytes(32).toString('hex'))"`
+> Or `openssl rand -hex 32`. Keep this secret secure and never commit it to your repository.
 
 *Additional variables such as `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and SMTP credentials can also be added here as needed.*
 
