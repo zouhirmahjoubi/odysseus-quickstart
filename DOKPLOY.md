@@ -39,6 +39,14 @@ Better Auth and PocketBase require specific production settings. Go to the **Env
 | `ENCRYPTION_KEY` | `your-32-character-encryption-key-here` | Encryption key for API runtime. |
 | `JWT_SECRET` | `your-jwt-secret-key` | Secret key for custom JWT session token encoding. |
 | `BETTER_AUTH_SECRET` | `your-generated-high-entropy-hex-key` | Cryptographically secure secret key for Better Auth cookie signature. |
+| `GOOGLE_CLIENT_ID` | `12345-abcde.apps.googleusercontent.com` | Google Client ID from Developer Console. |
+| `GOOGLE_CLIENT_SECRET` | `GOCSPX-abcde12345` | Google Client Secret from Developer Console. |
+| `GITHUB_CLIENT_ID` | `Iv1.abcdef12345` | GitHub Client ID from Developer Settings. |
+| `GITHUB_CLIENT_SECRET` | `abcdef1234567890` | GitHub Client Secret from Developer Settings. |
+| `APPLE_CLIENT_ID` | `com.odysseus.auth` | Apple Service ID from Developer Account. |
+| `APPLE_CLIENT_SECRET` | `your-apple-client-secret-jws-token` | Apple Client Secret JWS private key token. |
+| `MICROSOFT_CLIENT_ID` | `your-microsoft-client-id` | Microsoft Azure App Registration Client ID. |
+| `MICROSOFT_CLIENT_SECRET` | `your-microsoft-client-secret` | Microsoft Azure App Registration Client Secret. |
 
 > [!WARNING]
 > **Generating BETTER_AUTH_SECRET**: Do NOT use a weak or simple password for `BETTER_AUTH_SECRET`. Generate a high-entropy cryptographically secure hex key using:
@@ -46,6 +54,26 @@ Better Auth and PocketBase require specific production settings. Go to the **Env
 > Or `openssl rand -hex 32`. Keep this secret secure and never commit it to your repository.
 
 *Additional variables such as `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, and SMTP credentials can also be added here as needed.*
+
+### 🔑 OAuth Developer Console Configuration
+
+To enable OAuth login/signup for each provider, you must create developer accounts with them and register the following **Authorized Redirect URIs** (Callbacks):
+
+1. **Google (Google Cloud Console)**:
+   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/google`
+   - **Where**: APIs & Services > Credentials > Create Credentials > OAuth client ID > Web application > Authorized redirect URIs.
+
+2. **GitHub (GitHub Developer Settings)**:
+   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/github`
+   - **Where**: Settings > Developer settings > OAuth Apps > Register a new application > Authorization callback URL.
+
+3. **Microsoft (Azure Portal)**:
+   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/microsoft`
+   - **Where**: Azure Active Directory > App registrations > New registration > Authentication > Add a platform > Web > Redirect URIs.
+
+4. **Apple (Apple Developer Account)**:
+   - **URI**: `https://odysseus.yourdomain.com/hcgi/api/auth/callback/apple`
+   - **Where**: Certificates, Identifiers & Profiles > Identifiers > Services IDs > Enable Sign In with Apple > Configure > Return URLs.
 
 ---
 
