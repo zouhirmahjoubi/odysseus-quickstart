@@ -17,5 +17,5 @@ COPY src ./src
 # Expose backend API port
 EXPOSE 3001
 
-# Start the Express API server
-CMD ["node", "src/main.js"]
+# Start the Express API server with automated migrations on startup
+CMD ["sh", "-c", "npx @better-auth/cli migrate --config ./src/lib/auth.js --yes && node src/main.js"]

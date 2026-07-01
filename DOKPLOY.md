@@ -53,15 +53,15 @@ Dokploy uses Traefik for reverse-proxying.
 
 ---
 
-## 🗄️ Step 5: Initialize the Better Auth Database (First-time Deployment)
-Once your stack is built and running in Dokploy:
-1. In the Dokploy service dashboard, click on the **Containers** or **Logs** section to ensure all three services (`web`, `api`, `pocketbase`) are running.
-2. Navigate to the **api** container console/terminal inside Dokploy.
-3. Run the following command to migrate your SQLite database and create the Better Auth tables:
-   ```bash
-   npx @better-auth/cli migrate --config ./src/lib/auth.js
-   ```
-4. Press **`y`** to confirm and complete the database migration.
+## 🗄️ Step 5: Better Auth Database Migrations (Automated & Zero-Ops)
+The deployment is configured to be completely **zero-ops**:
+- The API container's startup command automatically executes the Better Auth schema migrations (`npx @better-auth/cli migrate --config ./src/lib/auth.js --yes`) before spawning the Express server.
+- This ensures that your database schema is always kept up-to-date automatically during initial setup and subsequent rolling updates.
+
+*If you ever need to manually inspect or run migrations for troubleshooting, you can still access the **api** container console in Dokploy and run:*
+```bash
+npx @better-auth/cli migrate --config ./src/lib/auth.js
+```
 
 ---
 

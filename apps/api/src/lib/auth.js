@@ -56,6 +56,7 @@ if (process.env.DATABASE_URL) {
 } else {
     logger.info(`Initializing Better Auth database with SQLite (${process.env.SQLITE_DB_PATH || "./sqlite.db"})`);
     dbConfig = new Database(process.env.SQLITE_DB_PATH || "./sqlite.db");
+    dbConfig.pragma('journal_mode = WAL');
 }
 
 const getAppleClientSecret = () => {
