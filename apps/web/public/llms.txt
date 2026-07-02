@@ -74,6 +74,7 @@
 - [Privacy Policy | Odysseus AI](/privacy): Read the Odysseus AI privacy commitment. We offer a 100% local-first workspace. No cloud data harvesting or telemetry tracking of prompts.
 - [Product Management - Admin - Odysseusai.ai](/productmanagement): No description available
 - [Products | Admin](/productlist): No description available
+- [Purchase Pro License | Odysseus AI](/purchasepro): Unlock Premium Support, Custom Deployment Setup, and Bespoke Workflow Templates for Odysseus AI.
 - [Rate Limits & Quotas - OdysseusAI](/ratelimits): No description available
 - [Resources | World #1 Digital Marketplace](/resourceshub): No description available
 - [Resources Hub | OdysseusAI](/resources): No description available
