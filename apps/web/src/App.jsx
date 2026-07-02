@@ -53,6 +53,8 @@ import TermsOfServicePage from '@/pages/TermsOfServicePage.jsx';
 import LoginPage from '@/pages/LoginPage.jsx';
 import AdminLoginPage from '@/pages/AdminLoginPage.jsx';
 import NotFoundPage from '@/pages/NotFoundPage.jsx';
+import SearchPage from '@/pages/SearchPage.jsx';
+import AgentSearchPage from '@/pages/AgentSearchPage.jsx';
 import ShoppingCartPage from '@/pages/ShoppingCartPage.jsx';
 import CheckoutPage from '@/pages/CheckoutPage.jsx';
 import SuccessPage from '@/pages/SuccessPage.jsx';
@@ -178,6 +180,12 @@ function App() {
                   {/* Public Auth Routes */}
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/signup" element={<LoginPage />} />
+
+                  {/* Search Routes */}
+                  <Route path="/search" element={<SearchPage />} />
+                  <Route path="/agents/search" element={<AgentSearchPage />} />
+                  <Route path="/blog/search" element={<BlogListPage />} />
+                  <Route path="/products/search" element={<ProductsPage />} />
 
                   {/* Catch-all Not Found */}
                   <Route path="*" element={<NotFoundPage />} />

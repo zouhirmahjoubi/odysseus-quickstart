@@ -1,7 +1,7 @@
 
 import React, { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import {
   Search, ShoppingCart, Zap, Cpu, MessageSquare, Brain,
   Rocket, CheckCircle, Lock, Star, ArrowRight, Filter, X
@@ -62,9 +62,10 @@ const BUNDLES = [
 
 const ProductsPage = () => {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [dbProducts, setDbProducts] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(searchParams.get('q') || searchParams.get('search') || '');
   const [activeFilter, setActiveFilter] = useState('all');
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
   const { addToCart } = useCart();

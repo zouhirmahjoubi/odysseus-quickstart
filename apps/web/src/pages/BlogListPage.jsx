@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { Helmet } from 'react-helmet';
+import { useSearchParams } from 'react-router-dom';
 import { Search, BookOpen, AlertCircle, Sparkles } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardHeader, CardBody, CardFooter, Button, Chip, Pagination, Skeleton, Input } from '@heroui/react';
@@ -41,10 +42,11 @@ const POSTS_PER_PAGE = 9;
 
 // ── Component ────────────────────────────────────────────────────────
 const BlogListPage = () => {
+  const [searchParams] = useSearchParams();
   const [posts, setPosts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(searchParams.get('q') || searchParams.get('search') || '');
   const [currentPage, setCurrentPage] = useState(1);
 
   const fetchPublishedPosts = async () => {
