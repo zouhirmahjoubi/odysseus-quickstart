@@ -25,6 +25,9 @@
 - [Terms of Service](https://odysseusai.ai/terms) - Terms and conditions for utilizing the Odysseus AI companion tools.
 - [Blog Directory](https://odysseusai.ai/blog) - Latest technical guides and articles regarding local LLM setups.
 - [Auth Cockpit](https://odysseusai.ai/login) - User login and registration cockpit workspace.
+- [UI Interface Landscape Comparison](https://odysseusai.ai/comparison) - Detailed architectural and performance comparison of local AI client workspaces.
+- [Model Inference Benchmarks](https://odysseusai.ai/benchmark) - In-depth speed, latency, and quality benchmarks comparing local GGUF models.
+- [Purchase Pro License](https://odysseusai.ai/purchase-pro-license) - Acquire commercial licenses and priority support blueprints for Odysseus AI.
 - [Guide: Odysseus AI Local Install Tutorial: The Definitive Step-by-Step Guide](https://odysseusai.ai/guides/odysseus-ai-local-install-tutorial) - Learn how to deploy Odysseus AI locally on Windows, macOS, and Linux without encountering common terminal errors. Target keywords: local AI install, run Odysseus locally, deploy open-source LLM.
 - [Guide: How to Run DeepSeek Coder Locally via Ollama Integration](https://odysseusai.ai/guides/run-deepseek-coder-locally-ollama) - Unlock coding autonomy by running DeepSeek Coder locally. We explain setup command, model pulling, and integration with Odysseus workspace. Target keywords: DeepSeek Ollama, local coding LLM, offline programmer.
 - [Guide: Resolving CUDA Out of Memory (OOM) Errors in Local LLMs](https://odysseusai.ai/guides/resolve-cuda-out-of-memory-local-llm) - A complete guide to resolving CUDA Out of Memory errors on Windows and Linux when serving open-source models. Target keywords: CUDA OOM error, GPU memory optimization, run LLM low VRAM.

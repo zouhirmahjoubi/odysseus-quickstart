@@ -36,14 +36,17 @@ const staticRoutes = [
   { route: '/install/docker', file: 'src/pages/DockerInstallPage.jsx', name: 'Docker Setup Guide', desc: 'Deploy Odysseus AI locally in containerized environments using Docker Compose.' },
   { route: '/install/ollama', file: 'src/pages/OllamaInstallPage.jsx', name: 'Ollama Setup Guide', desc: 'Configure local model serving acceleration endpoints with Ollama.' },
   { route: '/install/windows', file: 'src/pages/WindowsInstallPage.jsx', name: 'Windows Installation Guide', desc: 'Native Windows installation walkthrough with NVIDIA CUDA acceleration.' },
-  { route: '/install/macbook', file: 'src/pages/macOS Installation Guide', name: 'macOS Installation Guide', desc: 'Native macOS installation instructions with Metal API acceleration.' },
+  { route: '/install/macbook', file: 'src/pages/MacBookInstallPage.jsx', name: 'macOS Installation Guide', desc: 'Native macOS installation instructions with Metal API acceleration.' },
   { route: '/fix', file: 'src/pages/FixPage.jsx', name: 'Error Doctor', desc: 'Diagnose and fix common terminal, CUDA context, and container issues.' },
   { route: '/about', file: 'src/pages/AboutPage.jsx', name: 'About Us', desc: 'Our open-source local-first vision, background, and credentials.' },
   { route: '/contact', file: 'src/pages/ContactPage.jsx', name: 'Contact Us', desc: 'Get in touch with support, community channels, and business inquiries.' },
   { route: '/privacy', file: 'src/pages/PrivacyPage.jsx', name: 'Privacy Policy', desc: 'Our strict local-first zero data tracking privacy policy.' },
   { route: '/terms', file: 'src/pages/TermsOfServicePage.jsx', name: 'Terms of Service', desc: 'Terms and conditions for utilizing the Odysseus AI companion tools.' },
   { route: '/blog', file: 'src/pages/BlogListPage.jsx', name: 'Blog Directory', desc: 'Latest technical guides and articles regarding local LLM setups.' },
-  { route: '/login', file: 'src/pages/LoginPage.jsx', name: 'Auth Cockpit', desc: 'User login and registration cockpit workspace.' }
+  { route: '/login', file: 'src/pages/LoginPage.jsx', name: 'Auth Cockpit', desc: 'User login and registration cockpit workspace.' },
+  { route: '/comparison', file: 'src/pages/ComparisonPage.jsx', name: 'UI Interface Landscape Comparison', desc: 'Detailed architectural and performance comparison of local AI client workspaces.' },
+  { route: '/benchmark', file: 'src/pages/BenchmarkPage.jsx', name: 'Model Inference Benchmarks', desc: 'In-depth speed, latency, and quality benchmarks comparing local GGUF models.' },
+  { route: '/purchase-pro-license', file: 'src/pages/PurchaseProPage.jsx', name: 'Purchase Pro License', desc: 'Acquire commercial licenses and priority support blueprints for Odysseus AI.' }
 ];
 
 // Helper to get Git modification date
@@ -153,6 +156,51 @@ finalUrls.forEach(urlObj => {
 });
 fs.writeFileSync(LLMS_TXT_OUTPUT, llmsContent, 'utf8');
 console.log(`🤖 LLMs manifest compiled successfully at ${LLMS_TXT_OUTPUT}`);
+
+// --- SEO / GEO / AEO Build Verification ---
+console.log('\n🔍 Running SEO/GEO/AEO Build Verification...');
+
+let geoCount = 0;
+let aeoCount = 0;
+
+staticRoutes.forEach(item => {
+  try {
+    const fullPath = path.resolve(WEB_ROOT, item.file);
+    if (fs.existsSync(fullPath)) {
+      const content = fs.readFileSync(fullPath, 'utf8');
+      const hasJsonLd = content.includes('application/ld+json');
+      if (hasJsonLd) {
+        geoCount++;
+      } else {
+        console.warn(`   ⚠️ [GEO Warning] Missing JSON-LD Entity Schema in ${item.file} (route: ${item.route})`);
+      }
+    }
+  } catch (err) {
+    console.error(`   ✕ Error verifying ${item.file}:`, err.message);
+  }
+});
+
+if (Array.isArray(fallbackBlogs)) {
+  fallbackBlogs.forEach(post => {
+    const content = post.content || '';
+    const hasHeadings = /<h[23][^>]*>/.test(content);
+    const hasListsOrTables = /<(ul|ol|table)[^>]*>/.test(content);
+
+    if (hasHeadings && hasListsOrTables) {
+      aeoCount++;
+    } else {
+      let issues = [];
+      if (!hasHeadings) issues.push('missing headings (h2/h3)');
+      if (!hasListsOrTables) issues.push('missing structured lists/tables');
+      console.warn(`   ⚠️ [AEO Warning] Guide "${post.title}" might be less optimized: ${issues.join(' and ')}`);
+    }
+  });
+}
+
+console.log(`\n📊 Triple Threat Search Report:`);
+console.log(`   • SEO Sitemap: Compiled ${finalUrls.length} URLs successfully.`);
+console.log(`   • GEO Trust:   ${geoCount}/${staticRoutes.length} static pages have JSON-LD Schema.`);
+console.log(`   • AEO Layout:  ${aeoCount}/${fallbackBlogs.length} dynamic posts optimized with headings and structured elements.`);
 
 // --- IndexNow Push Notification Logic ---
 if (process.argv.includes('--ping')) {
