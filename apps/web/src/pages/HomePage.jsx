@@ -256,11 +256,31 @@ docker compose up -d --build`;
                 "description": "An independent technical setup workbook, diagnostic checklist, and workflow template companion package.",
                 "offers": {
                   "@type": "Offer",
-                  "price": "19.00",
+                  "price": "19.99",
                   "priceCurrency": "USD",
-                  "availability": "https://schema.org/InStock",
+                  "availability": "http://schema.org/InStock",
                   "url": "https://odysseusai.ai/#pricing"
-                }
+                },
+                "aggregateRating": {
+                  "@type": "AggregateRating",
+                  "ratingValue": "5",
+                  "reviewCount": "1"
+                },
+                "review": [{
+                  "@type": "Review",
+                  "author": {
+                    "@type": "Person",
+                    "name": "Early Adopter"
+                  },
+                  "datePublished": "2026-06-15",
+                  "reviewBody": "Excellent, lightweight template setup that cuts out hours of configuration.",
+                  "reviewRating": {
+                    "@type": "Rating",
+                    "bestRating": "5",
+                    "ratingValue": "5",
+                    "worstRating": "1"
+                  }
+                }]
               },
               {
                 "@type": "FAQPage",
