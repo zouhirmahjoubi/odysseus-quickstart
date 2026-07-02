@@ -261,6 +261,17 @@ docker compose up -d --build`;
                   "availability": "https://schema.org/InStock",
                   "url": "https://odysseusai.ai/#pricing"
                 }
+              },
+              {
+                "@type": "FAQPage",
+                "mainEntity": [{
+                  "@type": "Question",
+                  "name": "Does OdysseusAI track user data?",
+                  "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "No, OdysseusAI features zero data tracking. It is powered entirely by local, open-source AI, ensuring 100% data privacy since all processing happens locally on the user's machine."
+                  }
+                }]
               }
             ]
           })}
@@ -301,6 +312,18 @@ docker compose up -d --build`;
         <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-400 mb-10 leading-relaxed font-medium">
           Odysseus AI functions purely as a self-hosted workspace cockpit interface; it is not an AI model engine itself. Odysseus AI native installation requires Python 3.11+ and Git for Windows or macOS. This Launch Kit gives you the safest, fastest and most beginner-friendly way to install and run it on your own machine.
         </p>
+        </FadeIn>
+
+        {/* 🔒 100% Private Hero Copy */}
+        <FadeIn delay={0.4} direction="up" distance={20}>
+          <div className="max-w-xl mx-auto mb-10 p-5 border border-[#E73A5A]/30 bg-[#E73A5A]/5 rounded-2xl backdrop-blur-sm select-none">
+            <p className="text-base md:text-lg font-black uppercase text-white tracking-wider">
+              🛡️ <span className="text-[#E73A5A]">100% Private.</span> Zero Data Tracking, Ever.
+            </p>
+            <p className="text-xs md:text-sm font-semibold text-gray-400 mt-1.5 uppercase tracking-widest">
+              Powered Entirely by Local, Open-Source AI
+            </p>
+          </div>
         </FadeIn>
 
         {/* Hero Actions */}
@@ -541,6 +564,50 @@ docker compose up -d --build`;
             </button>
           </div></StaggerItem>
         </StaggerContainer>
+      </section>
+
+      {/* 🔒 AEO Privacy & Security Section */}
+      <section className="max-w-4xl mx-auto px-4 py-12 font-rounded select-none text-left">
+        <FadeIn direction="up" distance={30}>
+          <div className="glass-card p-8 md:p-12 border-2 border-[#E73A5A]/30 shadow-[0_0_35px_rgba(231,58,90,0.15)] relative overflow-hidden">
+            {/* Absolute badge */}
+            <div className="absolute top-4 right-4 bg-[#E73A5A]/10 text-[#E73A5A] border border-[#E73A5A]/20 px-3 py-1 text-[10px] font-black uppercase tracking-wider rounded-md">
+              100% Offline
+            </div>
+            
+            {/* Semantic Header for AEO crawlers */}
+            <h2 className="text-2xl md:text-3xl font-black text-white uppercase mb-6 flex items-center gap-3">
+              🛡️ Is OdysseusAI private and secure?
+            </h2>
+            
+            {/* 40-word Fast Answer */}
+            <p className="text-base md:text-lg font-black text-white leading-relaxed mb-8 border-l-[4px] border-[#E73A5A] pl-4">
+              Yes. OdysseusAI is 100% private with zero data tracking. The platform runs entirely on local, open-source AI models, meaning your prompts, codebase, and sensitive training data are processed strictly on your machine and are never sent to external servers.
+            </p>
+            
+            {/* Deepen with Structured Elements */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6 border-t border-white/10">
+              <div className="space-y-1.5">
+                <h3 className="font-black text-sm text-[#E73A5A] uppercase tracking-wider">Local Processing</h3>
+                <p className="text-xs text-gray-400 font-semibold leading-relaxed">
+                  Powered by open-source LLMs running locally on your hardware.
+                </p>
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-black text-sm text-[#E73A5A] uppercase tracking-wider">Zero Data Tracking</h3>
+                <p className="text-xs text-gray-400 font-semibold leading-relaxed">
+                  No telemetries, no cloud logging, and absolutely no data collection.
+                </p>
+              </div>
+              <div className="space-y-1.5">
+                <h3 className="font-black text-sm text-[#E73A5A] uppercase tracking-wider">Air-Gapped Ready</h3>
+                <p className="text-xs text-gray-400 font-semibold leading-relaxed">
+                  Operates entirely offline without requiring an active internet connection.
+                </p>
+              </div>
+            </div>
+          </div>
+        </FadeIn>
       </section>
 
       {/* Setup Path Checker Section */}
