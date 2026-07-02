@@ -179,13 +179,13 @@ function App() {
                   <Route path="/login" element={<LoginPage />} />
                   <Route path="/signup" element={<LoginPage />} />
 
-                  {/* User Dashboard Routes (inside MainLayout for header/footer) */}
-                  <Route element={<ProtectedRoute />}>
-                    <Route path="/dashboard" element={<DashboardPage />} />
-                  </Route>
-                  
                   {/* Catch-all Not Found */}
                   <Route path="*" element={<NotFoundPage />} />
+                </Route>
+
+                {/* User Dashboard Routes (Dedicated cockpit layout without main header/footer) */}
+                <Route element={<ProtectedRoute />}>
+                  <Route path="/dashboard" element={<DashboardPage />} />
                 </Route>
 
               </Routes>

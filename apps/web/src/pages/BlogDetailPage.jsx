@@ -64,6 +64,20 @@ const BlogDetailPage = () => {
     }
   }, [slug]);
 
+  useEffect(() => {
+    if (blog && !loading) {
+      const tables = document.querySelectorAll('.blog-content-rich table');
+      tables.forEach(table => {
+        if (table.parentNode && table.parentNode.className !== 'table-responsive-wrapper') {
+          const wrapper = document.createElement('div');
+          wrapper.className = 'table-responsive-wrapper overflow-x-auto rounded-xl border border-white/10 my-6 w-full';
+          table.parentNode.insertBefore(wrapper, table);
+          wrapper.appendChild(table);
+        }
+      });
+    }
+  }, [blog, loading]);
+
   if (loading) {
     return (
       <div className="max-w-4xl mx-auto pb-24 pt-12 px-4 space-y-8 w-full">

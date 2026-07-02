@@ -1,107 +1,49 @@
-## Pages
-- [- Asset Store](/productdetail): No description available
-- [- OdysseusAI](/agentdetail): No description available
-- [- Segment Details](/segmentdetails): No description available
-- [| Admin](/productedit): No description available
-- [404 - Page Not Found | Odysseusai.ai](/notfound): No description available
-- [A/B Test Results](/abtestresults): No description available
-- [A/B Testing - Admin](/abtests): No description available
-- [About Us | Odysseus AI](/about): Learn about OdysseusAI.ai. Why we build local-first installation blueprints, how we write guidance, and our paid support boundaries.
-- [Active Sessions - Admin](/sessionmanagement): No description available
-- [Admin Panel - OdysseusAI](/admin): Admin Control Panel for OdysseusAI Operator Dashboard
-- [Advanced Agent Search - OdysseusAI](/agentsearch): No description available
-- [Agent Admin - OdysseusAI](/agentadmin): No description available
-- [AI Agent Market - OdysseusAI](/marketagents): No description available
-- [AI Workloads & Use Cases | OdysseusAI](/workloads): Explore production-ready AI workloads, implementation guides, and model recommendations for your specific use cases.
-- [Analytics - Admin](/analyticsreports): No description available
-- [Analytics | Admin](/analyticsdashboard): No description available
-- [Analytics Reports - OdysseusAI](/reports): No description available
-- [API Documentation - OdysseusAI](/apidocumentation): No description available
-- [API Keys - OdysseusAI](/apikeymanagement): No description available
-- [Asset Store - OdysseusAI](/enhancedshop): No description available
-- [Audit Log - Security Admin](/securityauditlog): No description available
-- [Automation Workflows - OdysseusAI](/workflows): No description available
-- [Blog Administration | OdysseusAI](/blogadmin): No description available
-- [Blog Manager | OdysseusAI](/blogmanager): No description available
-- [Cart - OdysseusAI](/shoppingcart): No description available
-- [Command Access | OdysseusAI](/adminlogin): No description available
-- [Command Dashboard | Admin Portal](/admindashboard): No description available
-- [Compliance Center](/compliance): No description available
-- [Configure](/agentconfig): No description available
-- [Contact Submissions - Admin](/contactadmin): No description available
-- [Contact Support | Odysseus AI](/contact): Get support for Odysseus AI setups, Stripe payments, or premium Launch Kit assistance. Connect directly with our developer team.
-- [Contact Us - OdysseusAI](/contactform): No description available
-- [Create New Blog Post | Admin Portal](/blogcreate): No description available
-- [Customers - Admin](/customermanagement): No description available
-- [Dashboard | OdysseusAI](/dashboard): No description available
-- [Deep Tutorials - OdysseusAI](/blogs): No description available
-- [Docker Compose Setup | Odysseus AI Installation Guide](/dockerinstall): Orchestrate Odysseus AI using Docker containers. Copy-paste docker-compose.yml files, container lifecycle commands, and localhost connection setups.
-- [Edit Blog Post | Admin Portal](/blogedit): No description available
-- [Edit User | Admin](/useredit): No description available
-- [Encryption Settings](/encryptionsettings): No description available
-- [Engineering Blog | OdysseusAI](/bloglist): No description available
-- [Error Doctor & Troubleshooter | Odysseus AI](/fix): Triage environment port clashes, database authentications, and missing Ollama backends. Sanitize terminal outputs before submission.
-- [Feature Flags - Admin](/featureflags): No description available
-- [Features - OdysseusAI](/features): Explore the powerful features of our digital products.
-- [For You - OdysseusAI](/recommendations): No description available
-- [Frequently Asked Questions | Odysseus AI](/faq): Find official answers to frequently asked questions about Odysseus AI installations, Docker, Ollama, and Launch Kits.
-- [Global Search - OdysseusAI](/search): No description available
-- [Infrastructure & Cost Calculator | OdysseusAI](/calculator): Calculate AI API costs and VRAM requirements across 50+ models. Estimate monthly spend, hardware compatibility, and memory breakdown for local LLM deployment.
-- [IP Management - Security](/ipmanagement): No description available
-- [Language Settings - OdysseusAI](/languagesettings): No description available
-- [Launch Kit Generator | OdysseusAI](/launchkit): No description available
-- [LLM Directory | OdysseusAI](/llmdirectory): Comprehensive directory of Large Language Models including GPT-4, Claude 3, and open-weight models.
-- [LLM Reference Directory | OdysseusAI](/llmreferencedirectory): No description available
-- [macOS MacBook Setup | Odysseus AI Installation Guide](/macbookinstall): Step-by-step MacBook (M1/M2/M3/M4 Apple Silicon and Intel) installation instructions for Odysseus AI. Set up MPS hardware acceleration.
-- [Manage 2FA - OdysseusAI](/twofactormanagement): No description available
-- [Marketplace — LLM Presets & AI Bundles | OdysseusAI](/products): Premium LLM presets, agent blueprints, and infrastructure configurations. Verified and ready for immediate deployment with Odysseus AI.
-- [Mobile App - OdysseusAI](/mobileapp): No description available
-- [Mobile Devices - OdysseusAI](/mobiledevicesettings): No description available
-- [My Agents - OdysseusAI](/myagents): No description available
-- [My Profile - OdysseusAI](/userprofile): No description available
-- [Newsletter Admin - OdysseusAI](/newsletteradmin): No description available
-- [Odysseus AI Installation Hub | Local LLM Workspace Setup](/installhub): Choose your local deployment path for Odysseus AI. Step-by-step setup guides for Windows (CUDA), MacBook (MPS), Docker containers, and Ollama integration.
-- [Odysseus AI PewDiePie Installation | Launch in 5 Minutes](/odysseuspewdiepieinstall): Deploy PewDiePie
-- [Odysseus AI vs Open WebUI vs Jan AI: Architectural Comparison Matrix](/comparison): An independent, high-density technical analysis comparing repository structures, agent execution capabilities, and runtime boundaries between Odysseus AI, Open WebUI, and Jan AI.
-- [Ollama Setup & Endpoint Resolver | Odysseus AI Guide](/ollamainstall): Set up Ollama for Odysseus AI local LLM workspace. Interactive model size advisor based on system VRAM and docker-host loopback coordinates resolver.
-- [Order # - Admin](/orderdetail): No description available
-- [Order Management - Admin](/ordermanagement): No description available
-- [Order Management - Admin - Odysseusai.ai](/ordermanagement): No description available
-- [Payment Cancelled - OdysseusAI](/cancel): No description available
-- [Payment Successful - OdysseusAI](/success): No description available
-- [Post Not Found | OdysseusAI](/blogdetail): No description available
-- [Pricing - OdysseusAI](/pricing): Pricing for our premium digital products.
-- [Privacy Policy | Odysseus AI](/privacy): Read the Odysseus AI privacy commitment. We offer a 100% local-first workspace. No cloud data harvesting or telemetry tracking of prompts.
-- [Product Management - Admin - Odysseusai.ai](/productmanagement): No description available
-- [Products | Admin](/productlist): No description available
-- [Purchase Pro License | Odysseus AI](/purchasepro): Unlock Premium Support, Custom Deployment Setup, and Bespoke Workflow Templates for Odysseus AI.
-- [Rate Limits & Quotas - OdysseusAI](/ratelimits): No description available
-- [Resources | World #1 Digital Marketplace](/resourceshub): No description available
-- [Resources Hub | OdysseusAI](/resources): No description available
-- [Secure Checkout - OdysseusAI](/checkout): No description available
-- [Security Alerts](/securityalerts): No description available
-- [Security Settings - OdysseusAI](/securitysettings): No description available
-- [Settings | Admin](/adminsettings): No description available
-- [Setup  - OdysseusAI](/agentsetupwizard): No description available
-- [Setup 2FA - OdysseusAI](/twofactorsetup): No description available
-- [System Performance - Admin](/performancemonitoring): No description available
-- [Task Workload Framework | OdysseusAI](/taskworkloadframework): No description available
-- [Teams - OdysseusAI](/teams): No description available
-- [Terms of Service | Odysseus AI](/termsofservice): Read the terms of service for Odysseus AI. Review licensing conditions, open source permissions, and Stripe checkout guidelines.
-- [Test  - OdysseusAI](/agenttestinginterface): No description available
-- [Testimonials Admin - OdysseusAI](/testimonialsadmin): No description available
-- [Translations - Admin](/translationmanagement): No description available
-- [Triage Wizard | Error Diagnostics](/triagewizard): No description available
-- [Untitled Page](/login): No description available
-- [User Management - Admin - Odysseusai.ai](/usermanagement): No description available
-- [User Segments - Admin](/usersegments): No description available
-- [Users | Admin](/userlist): No description available
-- [Verify Identity - OdysseusAI](/twofactorverify): No description available
-- [VRAM Calculator | World #1 Digital Marketplace](/vramcalculator): No description available
-- [Vulnerability Scanner](/vulnerabilityscan): No description available
-- [Webhook Logs - OdysseusAI](/webhooklogs): No description available
-- [Webhooks - OdysseusAI](/webhooks): No description available
-- [Workflow Builder - OdysseusAI](/workflowbuilder): No description available
-- [Workspace Insights - OdysseusAI](/insights): No description available
-- [Workspace Simulator — AI Model Sandbox | OdysseusAI](/workspacesimulator): Test and simulate AI model responses across 15+ providers before deploying to production. Mock inference sandbox for GPT-4, Claude, Gemini, Llama, and local Ollama models.
-- [Workspace Simulator | World #1 Digital Marketplace](/workspacesimulator): No description available
+# Odysseus AI
+
+> A self-hosted local-first orchestration client cockpit for managing local LLMs, hardware requirements, and multi-agent crews securely.
+
+## Key Resources
+
+- [Home Page](https://odysseusai.ai/) - PewDiePie's Odysseus AI local installation and configuration hub.
+- [Marketplace](https://odysseusai.ai/products) - Hardware and software products optimized for Odysseus AI workflows.
+- [Infrastructure & Cost Calculator](https://odysseusai.ai/calculator) - Calculate AI API costs and VRAM requirement breakdown for local LLM models.
+- [Workspace Simulator](https://odysseusai.ai/workspace-simulator) - Interactive local model simulator and parameter tuning cockpit.
+- [Guides & Resources](https://odysseusai.ai/resources) - Technical tutorials, configuration manuals, and setup resources.
+- [Triage Wizard](https://odysseusai.ai/triage-wizard) - Diagnose local AI setup issues and parse container logs.
+- [Launch Kit](https://odysseusai.ai/launch-kit) - Odysseus AI complete local-first setup workbook and diagnostic checklist.
+- [LLM Directory](https://odysseusai.ai/llm-directory) - Comprehensive catalog of local-first LLMs, parameter counts, and VRAM requirements.
+- [Workloads Framework](https://odysseusai.ai/workloads) - Multi-agent crew task orchestrator and prompt compiler.
+- [Install Hub](https://odysseusai.ai/odysseus-ai-install) - Central guide directory for deploying Odysseus AI on Windows, Mac, and Linux.
+- [Docker Setup Guide](https://odysseusai.ai/install/docker) - Deploy Odysseus AI locally in containerized environments using Docker Compose.
+- [Ollama Setup Guide](https://odysseusai.ai/install/ollama) - Configure local model serving acceleration endpoints with Ollama.
+- [Windows Installation Guide](https://odysseusai.ai/install/windows) - Native Windows installation walkthrough with NVIDIA CUDA acceleration.
+- [macOS Installation Guide](https://odysseusai.ai/install/macbook) - Native macOS installation instructions with Metal API acceleration.
+- [Error Doctor](https://odysseusai.ai/fix) - Diagnose and fix common terminal, CUDA context, and container issues.
+- [About Us](https://odysseusai.ai/about) - Our open-source local-first vision, background, and credentials.
+- [Contact Us](https://odysseusai.ai/contact) - Get in touch with support, community channels, and business inquiries.
+- [Privacy Policy](https://odysseusai.ai/privacy) - Our strict local-first zero data tracking privacy policy.
+- [Terms of Service](https://odysseusai.ai/terms) - Terms and conditions for utilizing the Odysseus AI companion tools.
+- [Blog Directory](https://odysseusai.ai/blog) - Latest technical guides and articles regarding local LLM setups.
+- [Auth Cockpit](https://odysseusai.ai/login) - User login and registration cockpit workspace.
+- [Guide: Odysseus AI Local Install Tutorial: The Definitive Step-by-Step Guide](https://odysseusai.ai/guides/odysseus-ai-local-install-tutorial) - Learn how to deploy Odysseus AI locally on Windows, macOS, and Linux without encountering common terminal errors. Target keywords: local AI install, run Odysseus locally, deploy open-source LLM.
+- [Guide: How to Run DeepSeek Coder Locally via Ollama Integration](https://odysseusai.ai/guides/run-deepseek-coder-locally-ollama) - Unlock coding autonomy by running DeepSeek Coder locally. We explain setup command, model pulling, and integration with Odysseus workspace. Target keywords: DeepSeek Ollama, local coding LLM, offline programmer.
+- [Guide: Resolving CUDA Out of Memory (OOM) Errors in Local LLMs](https://odysseusai.ai/guides/resolve-cuda-out-of-memory-local-llm) - A complete guide to resolving CUDA Out of Memory errors on Windows and Linux when serving open-source models. Target keywords: CUDA OOM error, GPU memory optimization, run LLM low VRAM.
+- [Guide: Best GPUs for Running LLMs at Home: 2026 Buyer's Guide](https://odysseusai.ai/guides/best-gpus-for-running-llms-at-home) - Looking for the ultimate GPU setup for running offline AI? Compare VRAM bandwidth, memory size, and cost across NVIDIA and Apple Silicon. Target keywords: best GPU for LLM, run AI at home, VRAM comparison.
+- [Guide: Docker Compose Ollama GPU Pass-Through Configuration Tutorial](https://odysseusai.ai/guides/docker-compose-ollama-gpu-pass-through) - Step-by-step instructions to configure GPU acceleration inside Docker containers for Ollama workflows. Target keywords: Docker GPU pass-through, nvidia docker compose, containerized ollama accelerator.
+- [Guide: How to Build an AI Agent Crew with Odysseus Framework](https://odysseusai.ai/guides/how-to-build-ai-agent-crew-odysseus) - Discover the power of multi-agent architectures. Create researchers, writers, and debugging specialists that collaborate autonomously. Target keywords: AI agent crew, multi-agent framework, Odysseus RAG.
+- [Guide: PocketBase Local AI User Management Configuration Guide](https://odysseusai.ai/guides/pocketbase-local-ai-user-management) - Learn how PocketBase integrates with Odysseus frontend for secure user auth, session caching, and database logs. Target keywords: PocketBase AI auth, local DB user admin, SQLite encryption.
+- [Guide: Quantization Levels Explained: Q4_K_M vs Q8_0 GGUF Models](https://odysseusai.ai/guides/quantization-levels-explained-gguf) - Confused by quantization tags? Learn the difference in performance, memory size, and perplexity for local GGUF models. Target keywords: GGUF quantization levels, Q4_K_M vs Q8_0, LLM perplexity.
+- [Guide: Offline RAG Pipeline with High-Speed GGUF Embeddings](https://odysseusai.ai/guides/offline-rag-pipeline-gguf-embeddings) - Build a secure local document retrieval pipeline using vector DBs and local embeddings. Target keywords: offline RAG tutorial, local embedding model, GGUF retrieval generator.
+- [Guide: Setting Up Custom LLM System Prompts for Coding Agents](https://odysseusai.ai/guides/setting-up-custom-llm-system-prompts) - Instruct your coding assistants to write clean, maintainable code without excessive commentary. Target keywords: system prompt engineering, custom coding agent instructions, LLM template.
+- [Guide: What is Odysseus AI? The Self-Hosted Workspace Explained](https://odysseusai.ai/guides/what-is-odysseus-ai) - An in-depth look at PewDiePie's open-source Odysseus AI local workspace and what it solves. Learn about local-first design models.
+- [Guide: How to Run Odysseus AI: Native Script & Docker Methods](https://odysseusai.ai/guides/how-to-run-odysseus) - Get copyable commands and workflows to run Odysseus AI on Windows, Mac, and Linux systems. Choose the best route for your hardware.
+- [Guide: Odysseus Setup: Customizing Ports, .env and SQLite DBs](https://odysseusai.ai/guides/odysseus-setup) - Customize the Odysseus workspace port settings, environment overrides, and Pocketbase database connections to fit your layout.
+- [Guide: Odysseus AI Workspace Tutorial: First-Run Walkthrough](https://odysseusai.ai/guides/odysseus-tutorial) - Step-by-step tutorial navigating settings, chat views, vector search indexes, and agents on first launch.
+- [Guide: Odysseus AI Ollama Models: VRAM and Parameter Guides](https://odysseusai.ai/guides/odysseus-ai-ollama-models) - Which local model weights work best with your graphics card VRAM? We list the top GGUF downloads for offline use.
+- [Guide: How to Verify the Official Odysseus AI GitHub Repository](https://odysseusai.ai/guides/odysseus-ai-github) - Always download from the official owner. We show you how to clone and audit the repo safely.
+- [Guide: Odysseus AI Download Guide: Avoid Malware & Mirrors](https://odysseusai.ai/guides/odysseus-ai-download) - Avoid compiled installers and suspicious mirrors. Learn how to compile directly from source code safely.
+- [Guide: Odysseus AI vs ChatGPT: Local Privacy vs Hosted APIs](https://odysseusai.ai/guides/odysseus-ai-vs-chatgpt) - Compare offline loopbacks with cloud endpoints. Why PewDiePie built a local-first interface.
+- [Guide: Odysseus AI vs Hermes vs OpenClaw: Architecture Differences](https://odysseusai.ai/guides/odysseus-ai-vs-hermes-vs-openclaw) - A comparison of self-hosted UI layouts, database bindings, and agent loop schedulers.
+- [Guide: Odysseus AI vs Claude: Offline Sandbox vs Web Endpoints](https://odysseusai.ai/guides/odysseus-ai-vs-claude) - Is local inference ready to replace Anthropic Claude for coding? We compare capabilities.
+- [Guide: Odysseus AI vs Open WebUI: UI Resource Footprints Compared](https://odysseusai.ai/guides/odysseus-ai-vs-open-webui) - We compare memory overhead, RAG ingestion speed, and container counts for local setups.
+- [Guide: PewDiePie Odysseus AI: The Story Behind the Project](https://odysseusai.ai/guides/pewdiepie-odysseus-ai) - How PewDiePie's local-first AI client became a popular tool for self-hosted LLM setups.

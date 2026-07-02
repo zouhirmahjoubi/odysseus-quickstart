@@ -14,33 +14,36 @@ const MONOREPO_ROOT = path.resolve(WEB_ROOT, '../..');
 const PUBLIC_DIR = path.resolve(WEB_ROOT, 'public');
 const CACHE_FILE = path.resolve(WEB_ROOT, 'tools/sitemap-dates.json');
 const SITEMAP_OUTPUT = path.resolve(PUBLIC_DIR, 'sitemap.xml');
+const LLMS_TXT_OUTPUT = path.resolve(PUBLIC_DIR, 'llms.txt');
 
 const BASE_URL = 'https://odysseusai.ai';
+const PROJECT_TITLE = 'Odysseus AI';
+const PROJECT_DESC = 'A self-hosted local-first orchestration client cockpit for managing local LLMs, hardware requirements, and multi-agent crews securely.';
 const INDEXNOW_KEY = 'f63a4087dbd74fa19bb01e9d1bf7a9f2';
 
-// Map static routes to their source files relative to WEB_ROOT
+// 1. Unified Route Metadata Definition
 const staticRoutes = [
-  { route: '/', file: 'src/pages/HomePage.jsx' },
-  { route: '/products', file: 'src/pages/ProductsPage.jsx' },
-  { route: '/calculator', file: 'src/pages/CalculatorPage.jsx' },
-  { route: '/workspace-simulator', file: 'src/pages/WorkspaceSimulatorPage.jsx' },
-  { route: '/resources', file: 'src/pages/ResourcesPage.jsx' },
-  { route: '/triage-wizard', file: 'src/pages/TriageWizardPage.jsx' },
-  { route: '/launch-kit', file: 'src/pages/LaunchKitPage.jsx' },
-  { route: '/llm-directory', file: 'src/pages/LLMDirectoryPage.jsx' },
-  { route: '/workloads', file: 'src/pages/WorkloadsPage.jsx' },
-  { route: '/odysseus-ai-install', file: 'src/pages/InstallHubPage.jsx' },
-  { route: '/install/docker', file: 'src/pages/DockerInstallPage.jsx' },
-  { route: '/install/ollama', file: 'src/pages/OllamaInstallPage.jsx' },
-  { route: '/install/windows', file: 'src/pages/WindowsInstallPage.jsx' },
-  { route: '/install/macbook', file: 'src/pages/MacBookInstallPage.jsx' },
-  { route: '/fix', file: 'src/pages/FixPage.jsx' },
-  { route: '/about', file: 'src/pages/AboutPage.jsx' },
-  { route: '/contact', file: 'src/pages/ContactPage.jsx' },
-  { route: '/privacy', file: 'src/pages/PrivacyPage.jsx' },
-  { route: '/terms', file: 'src/pages/TermsOfServicePage.jsx' },
-  { route: '/blog', file: 'src/pages/BlogListPage.jsx' },
-  { route: '/login', file: 'src/pages/LoginPage.jsx' }
+  { route: '/', file: 'src/pages/HomePage.jsx', name: 'Home Page', desc: 'PewDiePie\'s Odysseus AI local installation and configuration hub.' },
+  { route: '/products', file: 'src/pages/ProductsPage.jsx', name: 'Marketplace', desc: 'Hardware and software products optimized for Odysseus AI workflows.' },
+  { route: '/calculator', file: 'src/pages/CalculatorPage.jsx', name: 'Infrastructure & Cost Calculator', desc: 'Calculate AI API costs and VRAM requirement breakdown for local LLM models.' },
+  { route: '/workspace-simulator', file: 'src/pages/WorkspaceSimulatorPage.jsx', name: 'Workspace Simulator', desc: 'Interactive local model simulator and parameter tuning cockpit.' },
+  { route: '/resources', file: 'src/pages/ResourcesPage.jsx', name: 'Guides & Resources', desc: 'Technical tutorials, configuration manuals, and setup resources.' },
+  { route: '/triage-wizard', file: 'src/pages/TriageWizardPage.jsx', name: 'Triage Wizard', desc: 'Diagnose local AI setup issues and parse container logs.' },
+  { route: '/launch-kit', file: 'src/pages/LaunchKitPage.jsx', name: 'Launch Kit', desc: 'Odysseus AI complete local-first setup workbook and diagnostic checklist.' },
+  { route: '/llm-directory', file: 'src/pages/LLMDirectoryPage.jsx', name: 'LLM Directory', desc: 'Comprehensive catalog of local-first LLMs, parameter counts, and VRAM requirements.' },
+  { route: '/workloads', file: 'src/pages/WorkloadsPage.jsx', name: 'Workloads Framework', desc: 'Multi-agent crew task orchestrator and prompt compiler.' },
+  { route: '/odysseus-ai-install', file: 'src/pages/InstallHubPage.jsx', name: 'Install Hub', desc: 'Central guide directory for deploying Odysseus AI on Windows, Mac, and Linux.' },
+  { route: '/install/docker', file: 'src/pages/DockerInstallPage.jsx', name: 'Docker Setup Guide', desc: 'Deploy Odysseus AI locally in containerized environments using Docker Compose.' },
+  { route: '/install/ollama', file: 'src/pages/OllamaInstallPage.jsx', name: 'Ollama Setup Guide', desc: 'Configure local model serving acceleration endpoints with Ollama.' },
+  { route: '/install/windows', file: 'src/pages/WindowsInstallPage.jsx', name: 'Windows Installation Guide', desc: 'Native Windows installation walkthrough with NVIDIA CUDA acceleration.' },
+  { route: '/install/macbook', file: 'src/pages/macOS Installation Guide', name: 'macOS Installation Guide', desc: 'Native macOS installation instructions with Metal API acceleration.' },
+  { route: '/fix', file: 'src/pages/FixPage.jsx', name: 'Error Doctor', desc: 'Diagnose and fix common terminal, CUDA context, and container issues.' },
+  { route: '/about', file: 'src/pages/AboutPage.jsx', name: 'About Us', desc: 'Our open-source local-first vision, background, and credentials.' },
+  { route: '/contact', file: 'src/pages/ContactPage.jsx', name: 'Contact Us', desc: 'Get in touch with support, community channels, and business inquiries.' },
+  { route: '/privacy', file: 'src/pages/PrivacyPage.jsx', name: 'Privacy Policy', desc: 'Our strict local-first zero data tracking privacy policy.' },
+  { route: '/terms', file: 'src/pages/TermsOfServicePage.jsx', name: 'Terms of Service', desc: 'Terms and conditions for utilizing the Odysseus AI companion tools.' },
+  { route: '/blog', file: 'src/pages/BlogListPage.jsx', name: 'Blog Directory', desc: 'Latest technical guides and articles regarding local LLM setups.' },
+  { route: '/login', file: 'src/pages/LoginPage.jsx', name: 'Auth Cockpit', desc: 'User login and registration cockpit workspace.' }
 ];
 
 // Helper to get Git modification date
@@ -95,23 +98,29 @@ for (const item of staticRoutes) {
     modDate = dateCache[item.route] || new Date().toISOString().split('T')[0];
   }
 
-  finalUrls.push({ loc: `${BASE_URL}${item.route}`, lastmod: modDate });
+  finalUrls.push({
+    loc: `${BASE_URL}${item.route}`,
+    lastmod: modDate,
+    name: item.name,
+    desc: item.desc
+  });
 }
 
 // Process Blog/Guides Routes from fallbackBlogs.js
 if (Array.isArray(fallbackBlogs)) {
   fallbackBlogs.forEach(post => {
     let rawDate = post.publication_date || post.publishedAt || post.updatedAt || '2026-06-15';
-    // Format publication_date (e.g., 2026-06-11T00:00:00.000Z -> 2026-06-11)
     const formattedDate = rawDate.split('T')[0];
     finalUrls.push({
       loc: `${BASE_URL}/guides/${post.slug}`,
-      lastmod: formattedDate
+      lastmod: formattedDate,
+      name: `Guide: ${post.title}`,
+      desc: post.excerpt || 'Technical guide regarding local LLM workflows.'
     });
   });
 }
 
-// Write out updated cache only if Git was running locally to preserve it for Docker
+// Save Date Cache (Only if local git context is live)
 if (isGitAvailable) {
   try {
     fs.writeFileSync(CACHE_FILE, JSON.stringify(dateCache, null, 2), 'utf8');
@@ -121,33 +130,34 @@ if (isGitAvailable) {
   }
 }
 
-// Build Lean XML String
+// Ensure distribution/public folders exist
+fs.mkdirSync(PUBLIC_DIR, { recursive: true });
+
+// --- OUTPUT 1: Clean sitemap.xml ---
 let xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n';
 xmlContent += '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n';
-
 finalUrls.forEach(urlObj => {
   xmlContent += '  <url>\n';
   xmlContent += `    <loc>${urlObj.loc}</loc>\n`;
   xmlContent += `    <lastmod>${urlObj.lastmod}</lastmod>\n`;
   xmlContent += '  </url>\n';
 });
-
 xmlContent += '</urlset>\n';
-
-// Ensure public directory exists and write sitemap
-fs.mkdirSync(PUBLIC_DIR, { recursive: true });
 fs.writeFileSync(SITEMAP_OUTPUT, xmlContent, 'utf8');
-console.log(`🚀 Clean sitemap generated at ${SITEMAP_OUTPUT} (${finalUrls.length} URLs)`);
+console.log(`✅ Sitemap compiled successfully at ${SITEMAP_OUTPUT} (${finalUrls.length} URLs)`);
 
-// Handle IndexNow Engine Notification Pings
-const shouldPing = process.argv.includes('--ping');
-if (shouldPing) {
-  console.log('📡 Initializing IndexNow API submissions...');
-  const engines = [
-    'https://www.bing.com/indexnow',
-    'https://yandex.com/indexnow'
-  ];
+// --- OUTPUT 2: Clean llms.txt ---
+let llmsContent = `# ${PROJECT_TITLE}\n\n> ${PROJECT_DESC}\n\n## Key Resources\n\n`;
+finalUrls.forEach(urlObj => {
+  llmsContent += `- [${urlObj.name}](${urlObj.loc}) - ${urlObj.desc}\n`;
+});
+fs.writeFileSync(LLMS_TXT_OUTPUT, llmsContent, 'utf8');
+console.log(`🤖 LLMs manifest compiled successfully at ${LLMS_TXT_OUTPUT}`);
 
+// --- IndexNow Push Notification Logic ---
+if (process.argv.includes('--ping')) {
+  console.log('📡 Pinging IndexNow API keys...');
+  const engines = ['https://www.bing.com/indexnow', 'https://yandex.com/indexnow'];
   const payload = {
     host: BASE_URL.replace(/^https?:\/\//, ''),
     key: INDEXNOW_KEY,
@@ -163,12 +173,10 @@ if (shouldPing) {
         body: JSON.stringify(payload)
       });
       if (response.ok) {
-        console.log(`   ✅ Successfully pinged ${new URL(endpoint).hostname}`);
-      } else {
-        console.error(`   ❌ Failed pinging ${new URL(endpoint).hostname}: Status ${response.status}`);
+        console.log(`   ✓ Successfully notified ${new URL(endpoint).hostname}`);
       }
     } catch (err) {
-      console.error(`   ❌ Connection error to ${new URL(endpoint).hostname}:`, err.message);
+      console.error(`   ✕ API Ping Failed for ${new URL(endpoint).hostname}:`, err.message);
     }
   });
 }

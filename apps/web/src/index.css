@@ -965,6 +965,11 @@ html:not(.dark):not(.cyber-mode):not([data-theme="dark"]) .text-\[\#10B981\] {
   font-style: italic;
   font-weight: 600;
 }
+.blog-content-rich img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 12px;
+}
 .blog-content-rich table {
   width: 100%;
   border-collapse: collapse;

@@ -38,10 +38,19 @@ function DashboardPage() {
   const [activeTab, setActiveTab] = useState('home');
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const [isMobile, setIsMobile] = useState(typeof window !== 'undefined' ? window.innerWidth < 768 : false);
   
   const [blogs, setBlogs] = useState([]);
   const [products, setProducts] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   // Admin Form State
   const [adminForm, setAdminForm] = useState({
@@ -203,7 +212,7 @@ function DashboardPage() {
 
       {/* SIDEBAR */}
       <AnimatePresence>
-        {(isMobileMenuOpen || window.innerWidth >= 768) && (
+        {(isMobileMenuOpen || !isMobile) && (
           <motion.div 
             initial={{ x: '-100%' }}
             animate={{ x: 0 }}
