@@ -272,7 +272,7 @@ const LLMModelDirectory = () => {
                       <p className="text-xl font-black leading-none">{model.vram}</p>
                     </div>
                     <Link 
-                      to={`/calculator?model=${model.id}`} 
+                      to={`/odysseus-calculator?model=${model.id}`} 
                       className="bg-accent text-accent-foreground border-4 border-border shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))] hover:shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))] hover:-translate-y-0.5 active:translate-x-1 active:translate-y-1 active:shadow-none transition-all px-6 py-2 font-black uppercase"
                     >
                       Compare

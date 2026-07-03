@@ -20,7 +20,7 @@ const ProtectedAdminRoute = () => {
 
   if (!isAuthenticated) {
     // Preserve the intended destination in the query parameters
-    return <Navigate to={`/admin-login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />;
+    return <Navigate to={`/odysseus-admin-login?redirect=${encodeURIComponent(location.pathname + location.search)}`} replace />;
   }
 
   return <Outlet />;

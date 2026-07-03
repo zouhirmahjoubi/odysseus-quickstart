@@ -53,7 +53,7 @@ const INSTALL_METHODS = [
     title: 'Windows Native',
     desc: 'Run natively on Windows with full NVIDIA GPU acceleration (CUDA).',
     icon: Monitor,
-    path: '/install/windows',
+    path: '/odysseus-install/windows',
     badge: 'NVIDIA GPU Support'
   },
   {
@@ -61,7 +61,7 @@ const INSTALL_METHODS = [
     title: 'macOS Native',
     desc: 'Optimized for Apple Silicon M1/M2/M3/M4 using Metal Acceleration (MPS).',
     icon: Laptop,
-    path: '/install/macbook',
+    path: '/odysseus-install/macbook',
     badge: 'Metal Acceleration'
   },
   {
@@ -69,7 +69,7 @@ const INSTALL_METHODS = [
     title: 'Docker Compose',
     desc: 'Deploy inside isolated containers for clean setup and easy database linking.',
     icon: Container,
-    path: '/install/docker',
+    path: '/odysseus-install/docker',
     badge: 'Container Isolated'
   },
   {
@@ -77,7 +77,7 @@ const INSTALL_METHODS = [
     title: 'Ollama Integration',
     desc: 'Set up Ollama, pull recommendations (Llama 3.2, Qwen 2.5), and hook up API coordinates.',
     icon: Settings,
-    path: '/install/ollama',
+    path: '/odysseus-install/ollama',
     badge: 'Local LLM Engine'
   }
 ];

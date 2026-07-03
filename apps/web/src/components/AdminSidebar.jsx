@@ -9,13 +9,13 @@ const AdminSidebar = ({ isMobileOpen, setIsMobileOpen }) => {
   const { logout } = useAdminAuth();
 
   const links = [
-    { name: 'Dashboard', path: '/admin', icon: LayoutDashboard },
-    { name: 'Blog Management', path: '/admin/blog', icon: FileText },
-    { name: 'Product Management', path: '/admin/products', icon: ShoppingBag },
-    { name: 'Testimonials', path: '/admin/testimonials', icon: Star },
-    { name: 'User Management', path: '/admin/users', icon: Users },
-    { name: 'Analytics', path: '/admin/analytics', icon: BarChart2 },
-    { name: 'Settings', path: '/admin/settings', icon: Settings },
+    { name: 'Dashboard', path: '/odysseus-admin', icon: LayoutDashboard },
+    { name: 'Blog Management', path: '/odysseus-admin/blog', icon: FileText },
+    { name: 'Product Management', path: '/odysseus-admin/products', icon: ShoppingBag },
+    { name: 'Testimonials', path: '/odysseus-admin/testimonials', icon: Star },
+    { name: 'User Management', path: '/odysseus-admin/users', icon: Users },
+    { name: 'Analytics', path: '/odysseus-admin/analytics', icon: BarChart2 },
+    { name: 'Settings', path: '/odysseus-admin/settings', icon: Settings },
   ];
 
   const handleLinkClick = () => {
@@ -55,7 +55,7 @@ const AdminSidebar = ({ isMobileOpen, setIsMobileOpen }) => {
 
         <nav className="flex-1 overflow-y-auto p-4 flex flex-col gap-3">
           {links.map((link) => {
-            const isActive = location.pathname === link.path || (link.path !== '/admin' && location.pathname.startsWith(link.path));
+            const isActive = location.pathname === link.path || (link.path !== '/odysseus-admin' && location.pathname.startsWith(link.path));
             return (
               <Link 
                 key={link.name} 

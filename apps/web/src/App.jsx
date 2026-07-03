@@ -107,33 +107,33 @@ function App() {
               <ClickEffect />
               <Routes>
                 {/* Redirects */}
-                <Route path="/home" element={<Navigate to="/" replace />} />
+                <Route path="/odysseus-home" element={<Navigate to="/" replace />} />
                 
                 {/* Admin Auth Route (No layout) */}
-                <Route path="/admin-login" element={<AdminLoginPage />} />
-                <Route path="/zouhirmahjoubi" element={<Navigate to="/admin-login" replace />} />
+                <Route path="/odysseus-admin-login" element={<AdminLoginPage />} />
+                <Route path="/odysseus-zouhirmahjoubi" element={<Navigate to="/odysseus-admin-login" replace />} />
 
                 {/* Secure Admin Routes */}
                 <Route element={<ProtectedAdminRoute />}>
-                  <Route path="/admin/neural-grid-dashboard" element={<NeuralGridAdminDashboard />} />
+                  <Route path="/odysseus-admin/neural-grid-dashboard" element={<NeuralGridAdminDashboard />} />
                   <Route element={<AdminLayout />}>
-                    <Route path="/admin" element={<AdminDashboard />} />
+                    <Route path="/odysseus-admin" element={<AdminDashboard />} />
                     
                     {/* Testimonials Admin Route */}
-                    <Route path="/admin/testimonials" element={<TestimonialsAdminPage />} />
+                    <Route path="/odysseus-admin/testimonials" element={<TestimonialsAdminPage />} />
                     
                     {/* Blog Admin Routes */}
-                    <Route path="/admin/blog" element={<BlogAdminPage />} />
-                    <Route path="/blog/new" element={<BlogCreatePage />} />
-                    <Route path="/blog/edit/:id" element={<BlogEditPage />} />
+                    <Route path="/odysseus-admin/blog" element={<BlogAdminPage />} />
+                    <Route path="/odysseus-blog/new" element={<BlogCreatePage />} />
+                    <Route path="/odysseus-blog/edit/:id" element={<BlogEditPage />} />
                     
                     {/* Admin management routes */}
-                    <Route path="/admin/products" element={<ProductListPage />} />
-                    <Route path="/admin/products/edit/:id" element={<ProductEditPage />} />
-                    <Route path="/admin/users" element={<UserListPage />} />
-                    <Route path="/admin/users/edit/:id" element={<UserEditPage />} />
-                    <Route path="/admin/analytics" element={<AnalyticsDashboard />} />
-                    <Route path="/admin/settings" element={<AdminSettingsPage />} />
+                    <Route path="/odysseus-admin/products" element={<ProductListPage />} />
+                    <Route path="/odysseus-admin/products/edit/:id" element={<ProductEditPage />} />
+                    <Route path="/odysseus-admin/users" element={<UserListPage />} />
+                    <Route path="/odysseus-admin/users/edit/:id" element={<UserEditPage />} />
+                    <Route path="/odysseus-admin/analytics" element={<AnalyticsDashboard />} />
+                    <Route path="/odysseus-admin/settings" element={<AdminSettingsPage />} />
                   </Route>
                 </Route>
 
@@ -141,51 +141,51 @@ function App() {
 
                 {/* Main App Routes - Wrapped in layout that includes Header, Footer & Banner */}
                 <Route element={<MainLayout />}>
-                  <Route path="/workspace-simulator" element={<WorkspaceSimulatorPage />} />
+                  <Route path="/odysseus-workspace-simulator" element={<WorkspaceSimulatorPage />} />
                   <Route path="/" element={<HomePage />} />
-                  <Route path="/products" element={<ProductsPage />} />
-                  <Route path="/calculator" element={<CalculatorPage />} />
-                  <Route path="/resources" element={<ResourcesPage />} />
-                  <Route path="/triage-wizard" element={<TriageWizardPage />} />
-                  <Route path="/launch-kit" element={<LaunchKitPage />} />
-                  <Route path="/llm-directory" element={<LLMDirectoryPage />} />
-                  <Route path="/workloads" element={<WorkloadsPage />} />
-                  <Route path="/comparison" element={<ComparisonPage />} />
-                  <Route path="/purchase-pro-license" element={<PurchaseProPage />} />
+                  <Route path="/odysseus-Launch-Kit" element={<ProductsPage />} />
+                  <Route path="/odysseus-calculator" element={<CalculatorPage />} />
+                  <Route path="/odysseus-resources" element={<ResourcesPage />} />
+                  <Route path="/odysseus-triage-wizard" element={<TriageWizardPage />} />
+                  <Route path="/odysseus-launch-kit" element={<LaunchKitPage />} />
+                  <Route path="/odysseus-llm-directory" element={<LLMDirectoryPage />} />
+                  <Route path="/odysseus-workloads" element={<WorkloadsPage />} />
+                  <Route path="/odysseus-comparison" element={<ComparisonPage />} />
+                  <Route path="/odysseus-purchase-pro-license" element={<PurchaseProPage />} />
                   
                   {/* Newly Integrated Odysseus AI Routes */}
                   <Route path="/odysseus-ai-install" element={<InstallHubPage />} />
-                  <Route path="/install/docker" element={<DockerInstallPage />} />
-                  <Route path="/install/ollama" element={<OllamaInstallPage />} />
-                  <Route path="/install/windows" element={<WindowsInstallPage />} />
-                  <Route path="/install/macbook" element={<MacBookInstallPage />} />
-                  <Route path="/install-odysseus-pewdiepie" element={<OdysseusPewdiepieInstallPage />} />
-                  <Route path="/fix" element={<FixPage />} />
-                  <Route path="/benchmark" element={<BenchmarkPage />} />
+                  <Route path="/odysseus-install/docker" element={<DockerInstallPage />} />
+                  <Route path="/odysseus-install/ollama" element={<OllamaInstallPage />} />
+                  <Route path="/odysseus-install/windows" element={<WindowsInstallPage />} />
+                  <Route path="/odysseus-install/macbook" element={<MacBookInstallPage />} />
+                  <Route path="/odysseus-install-odysseus-pewdiepie" element={<OdysseusPewdiepieInstallPage />} />
+                  <Route path="/odysseus-fix" element={<FixPage />} />
+                  <Route path="/odysseus-benchmark" element={<BenchmarkPage />} />
                   <Route path="/guides/:slug" element={<BlogDetailPage />} />
                   
-                  <Route path="/about" element={<AboutPage />} />
-                  <Route path="/contact" element={<ContactPage />} />
-                  <Route path="/privacy" element={<PrivacyPage />} />
-                  <Route path="/terms" element={<TermsOfServicePage />} />
-                  <Route path="/cart" element={<ShoppingCartPage />} />
-                  <Route path="/checkout" element={<CheckoutPage />} />
-                  <Route path="/success" element={<SuccessPage />} />
-                  <Route path="/cancel" element={<CancelPage />} />
+                  <Route path="/odysseus-about" element={<AboutPage />} />
+                  <Route path="/odysseus-contact" element={<ContactPage />} />
+                  <Route path="/odysseus-privacy" element={<PrivacyPage />} />
+                  <Route path="/odysseus-terms" element={<TermsOfServicePage />} />
+                  <Route path="/odysseus-cart" element={<ShoppingCartPage />} />
+                  <Route path="/odysseus-checkout" element={<CheckoutPage />} />
+                  <Route path="/odysseus-success" element={<SuccessPage />} />
+                  <Route path="/odysseus-cancel" element={<CancelPage />} />
                   
                   {/* Public Blog Routes */}
-                  <Route path="/blog" element={<BlogListPage />} />
-                  <Route path="/blog/:slug" element={<BlogDetailPage />} />
+                  <Route path="/odysseus-blog" element={<BlogListPage />} />
+                  <Route path="/odysseus-blog/:slug" element={<BlogDetailPage />} />
                   
                   {/* Public Auth Routes */}
-                  <Route path="/login" element={<LoginPage />} />
-                  <Route path="/signup" element={<LoginPage />} />
+                  <Route path="/odysseus-login" element={<LoginPage />} />
+                  <Route path="/odysseus-signup" element={<LoginPage />} />
 
                   {/* Search Routes */}
-                  <Route path="/search" element={<SearchPage />} />
-                  <Route path="/agents/search" element={<AgentSearchPage />} />
-                  <Route path="/blog/search" element={<BlogListPage />} />
-                  <Route path="/products/search" element={<ProductsPage />} />
+                  <Route path="/odysseus-search" element={<SearchPage />} />
+                  <Route path="/odysseus-agents/search" element={<AgentSearchPage />} />
+                  <Route path="/odysseus-blog/search" element={<BlogListPage />} />
+                  <Route path="/odysseus-Launch-Kit/search" element={<ProductsPage />} />
 
                   {/* Catch-all Not Found */}
                   <Route path="*" element={<NotFoundPage />} />
@@ -193,7 +193,7 @@ function App() {
 
                 {/* User Dashboard Routes (Dedicated cockpit layout without main header/footer) */}
                 <Route element={<ProtectedRoute />}>
-                  <Route path="/dashboard" element={<DashboardPage />} />
+                  <Route path="/odysseus-dashboard" element={<DashboardPage />} />
                 </Route>
 
               </Routes>

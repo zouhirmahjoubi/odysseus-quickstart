@@ -57,7 +57,7 @@ const CalculatorSidebar = () => {
       <nav className="flex flex-col gap-4" aria-label="Calculator Navigation">
         <button 
           onClick={() => scrollToSection('hardware-token')}
-          className={`border-neo p-3 font-bold flex items-center gap-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 text-left ${isActive('/calculator') ? 'bg-[hsl(var(--secondary))] shadow-neo' : 'bg-[hsl(var(--card))] hover:bg-[hsl(var(--secondary))]'}`}
+          className={`border-neo p-3 font-bold flex items-center gap-3 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-black focus-visible:ring-offset-2 text-left ${isActive('/odysseus-calculator') ? 'bg-[hsl(var(--secondary))] shadow-neo' : 'bg-[hsl(var(--card))] hover:bg-[hsl(var(--secondary))]'}`}
         >
           <Calculator size={20} aria-hidden="true" />
           Hardware & Token Calc

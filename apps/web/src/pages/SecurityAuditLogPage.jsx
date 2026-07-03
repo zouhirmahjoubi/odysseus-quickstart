@@ -9,7 +9,7 @@ const SecurityAuditLogPage = () => {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    apiServerClient.fetch('/admin/security/audit-log')
+    apiServerClient.fetch('/odysseus-admin/security/audit-log')
       .then(res => res.json())
       .then(data => setLogs(data.items || []))
       .finally(() => setLoading(false));

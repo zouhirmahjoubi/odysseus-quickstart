@@ -40,7 +40,7 @@ const BlogCard = ({ title, category, description, author, date, slug, imageRecor
 
   return (
     <Link 
-      to={`/blog/${slug}`} 
+      to={`/odysseus-blog/${slug}`} 
       className="block group h-full focus:outline-none"
     >
       <div className="bg-white/5 border border-white/10 rounded-2xl h-full flex flex-col transition-all duration-300 group-hover:-translate-y-0.5 group-hover:border-[#E73A5A]/30 group-hover:shadow-[0_0_20px_rgba(231, 58, 90,0.15)] overflow-hidden backdrop-blur-md">

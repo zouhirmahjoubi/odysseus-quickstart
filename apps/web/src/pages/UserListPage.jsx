@@ -74,7 +74,7 @@ const UserListPage = () => {
                   <td className="p-4 font-bold">{user.email}</td>
                   <td className="p-4 font-medium text-muted-foreground">{new Date(user.created).toLocaleDateString()}</td>
                   <td className="p-4 flex justify-end gap-3">
-                    <Link to={`/zouhirmahjoubi/users/edit/${user.id}`} className="p-2 bg-card border-4 border-border rounded hover:bg-primary transition-colors shadow-sm">
+                    <Link to={`/odysseus-zouhirmahjoubi/users/edit/${user.id}`} className="p-2 bg-card border-4 border-border rounded hover:bg-primary transition-colors shadow-sm">
                       <Edit size={18} />
                     </Link>
                     <button onClick={() => handleDelete(user.id)} className="p-2 bg-card border-4 border-border rounded hover:bg-destructive hover:text-destructive-foreground transition-colors shadow-sm">

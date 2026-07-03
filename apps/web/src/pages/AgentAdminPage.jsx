@@ -31,7 +31,7 @@ const AgentAdminPage = () => {
   const handleDelete = async (id) => {
     if (!window.confirm('Delete this agent?')) return;
     try {
-      const res = await apiServerClient.fetch(`/agents/${id}`, { method: 'DELETE' });
+      const res = await apiServerClient.fetch(`/odysseus-agents/${id}`, { method: 'DELETE' });
       if (!res.ok) throw new Error('Failed to delete');
       toast.success('Agent deleted');
       fetchAgents();

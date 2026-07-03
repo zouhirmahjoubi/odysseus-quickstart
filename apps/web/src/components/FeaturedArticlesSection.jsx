@@ -53,7 +53,7 @@ const FeaturedArticlesSection = () => {
     <section className="py-12 w-full">
       <div className="flex justify-between items-end mb-8 border-b-[3px] border-black pb-4">
         <h2 className="text-3xl md:text-4xl font-black space-grotesk">Latest Insights</h2>
-        <Link to="/blog" className="hidden md:flex items-center font-bold hover:text-[hsl(var(--primary))] transition-colors">
+        <Link to="/odysseus-blog" className="hidden md:flex items-center font-bold hover:text-[hsl(var(--primary))] transition-colors">
           View All Articles <ArrowRight size={20} className="ml-2" />
         </Link>
       </div>
@@ -61,7 +61,7 @@ const FeaturedArticlesSection = () => {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Featured Post */}
         <div className="lg:col-span-2">
-          <Link to={`/blog/${featuredPost.slug}`} className="group block h-full">
+          <Link to={`/odysseus-blog/${featuredPost.slug}`} className="group block h-full">
             <div className="neo-blog-card h-full">
               <div className="w-full aspect-video md:aspect-[2/1] bg-[var(--accent-sky)] border-b-[3px] border-black overflow-hidden relative">
                 {featuredPost.featured_image ? (
@@ -106,7 +106,7 @@ const FeaturedArticlesSection = () => {
         {/* Side Posts */}
         <div className="flex flex-col gap-8">
           {sidePosts.map(post => (
-            <Link key={post.id} to={`/blog/${post.slug}`} className="group block h-full">
+            <Link key={post.id} to={`/odysseus-blog/${post.slug}`} className="group block h-full">
               <div className="neo-blog-card h-full">
                 <div className="w-full h-48 bg-[var(--accent-pale-yellow)] border-b-[3px] border-black overflow-hidden relative">
                   {post.featured_image && (
@@ -137,7 +137,7 @@ const FeaturedArticlesSection = () => {
       </div>
       
       <div className="mt-8 md:hidden">
-        <Link to="/blog" className="neo-button w-full bg-white text-black">
+        <Link to="/odysseus-blog" className="neo-button w-full bg-white text-black">
           View All Articles <ArrowRight size={20} className="ml-2" />
         </Link>
       </div>

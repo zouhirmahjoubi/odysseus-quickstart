@@ -34,7 +34,7 @@ const UserEditPage = () => {
     try {
       await pb.collection('users').update(id, formData, { $autoCancel: false });
       toast.success('User updated');
-      navigate('/zouhirmahjoubi/users');
+      navigate('/odysseus-zouhirmahjoubi/users');
     } catch (err) {
       toast.error('Operation failed: ' + err.message);
     }
@@ -62,7 +62,7 @@ const UserEditPage = () => {
           </div>
           <div className="flex gap-4 pt-4 border-t-4 border-border">
             <button type="submit" className="neo-button bg-primary text-primary-foreground">Save User</button>
-            <button type="button" onClick={() => navigate('/zouhirmahjoubi/users')} className="neo-button bg-card">Cancel</button>
+            <button type="button" onClick={() => navigate('/odysseus-zouhirmahjoubi/users')} className="neo-button bg-card">Cancel</button>
           </div>
         </form>
       </div>

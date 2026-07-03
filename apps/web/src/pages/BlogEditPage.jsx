@@ -37,11 +37,11 @@ const BlogEditPage = () => {
   }, [id]);
 
   const handleSuccess = () => {
-    navigate('/admin/blog');
+    navigate('/odysseus-admin/blog');
   };
 
   const handleCancel = () => {
-    navigate('/admin/blog');
+    navigate('/odysseus-admin/blog');
   };
 
   if (loading) {
@@ -61,7 +61,7 @@ const BlogEditPage = () => {
         <p className="text-muted-foreground font-bold mb-8 max-w-md">
           The requested blog post could not be located. It might have been deleted or you may have followed a broken link.
         </p>
-        <Link to="/admin/blog" className="neo-button bg-primary text-primary-foreground">
+        <Link to="/odysseus-admin/blog" className="neo-button bg-primary text-primary-foreground">
           Return to Blog Management
         </Link>
       </div>
@@ -76,7 +76,7 @@ const BlogEditPage = () => {
       
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b-4 border-border pb-6">
         <Link 
-          to="/admin/blog" 
+          to="/odysseus-admin/blog" 
           className="neo-icon-box bg-card hover:bg-accent hover:text-accent-foreground"
           aria-label="Back to Management"
         >

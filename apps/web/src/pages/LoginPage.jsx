@@ -14,7 +14,7 @@ function LoginPage() {
 
   // Initialize selectedKey based on current pathname
   const [selectedKey, setSelectedKey] = useState(
-    location.pathname === "/signup" ? "signup" : "login"
+    location.pathname === "/odysseus-signup" ? "signup" : "login"
   );
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -27,7 +27,7 @@ function LoginPage() {
 
   // Sync tab with pathname on history changes (e.g. browser back/forward)
   React.useEffect(() => {
-    const key = location.pathname === "/signup" ? "signup" : "login";
+    const key = location.pathname === "/odysseus-signup" ? "signup" : "login";
     if (selectedKey !== key) {
       setSelectedKey(key);
     }
@@ -35,7 +35,7 @@ function LoginPage() {
 
   const handleTabChange = (key) => {
     setSelectedKey(key);
-    navigate(key === "signup" ? "/signup" : "/login", { replace: true });
+    navigate(key === "signup" ? "/odysseus-signup" : "/odysseus-login", { replace: true });
   };
 
   const toggleVisibility = () => setIsVisible(!isVisible);
@@ -53,7 +53,7 @@ function LoginPage() {
     
     if (result.success) {
       toast.success(selectedKey === "signup" ? 'Registration successful. Welcome, Operator.' : 'Authentication successful. Welcome, Operator.');
-      const from = location.state?.from?.pathname || '/dashboard';
+      const from = location.state?.from?.pathname || '/odysseus-dashboard';
       navigate(from, { replace: true });
     } else {
       toast.error(result.error || 'Authentication failed.');

@@ -13,7 +13,7 @@ export const AdminKeyListener = ({ children }) => {
         
         // Check for "admin" sequence
         if (newSequence.join('').toLowerCase() === 'admin') {
-          navigate('/admin-login');
+          navigate('/odysseus-admin-login');
           return [];
         }
         

@@ -11,7 +11,7 @@ const IPManagementPage = () => {
 
   const fetchIPs = async () => {
     try {
-      const res = await apiServerClient.fetch('/admin/security/ip-management');
+      const res = await apiServerClient.fetch('/odysseus-admin/security/ip-management');
       const data = await res.json();
       setIps(data);
     } catch (e) {

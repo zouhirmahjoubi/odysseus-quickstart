@@ -43,7 +43,7 @@ const ProductListPage = () => {
       
       <div className="flex justify-between items-center bg-card neo-border p-6 shadow-[4px_4px_0px_0px_hsl(var(--shadow-color))]">
         <h1 className="text-3xl font-black uppercase">Products</h1>
-        <Link to="/zouhirmahjoubi/products/edit/new" className="neo-button bg-accent text-accent-foreground py-2">
+        <Link to="/odysseus-zouhirmahjoubi/products/edit/new" className="neo-button bg-accent text-accent-foreground py-2">
           <Plus size={20} className="mr-2" /> New Product
         </Link>
       </div>
@@ -81,7 +81,7 @@ const ProductListPage = () => {
                     </span>
                   </td>
                   <td className="p-4 flex justify-end gap-3">
-                    <Link to={`/zouhirmahjoubi/products/edit/${item.id}`} className="p-2 bg-card border-4 border-border rounded hover:bg-primary transition-colors shadow-sm">
+                    <Link to={`/odysseus-zouhirmahjoubi/products/edit/${item.id}`} className="p-2 bg-card border-4 border-border rounded hover:bg-primary transition-colors shadow-sm">
                       <Edit size={18} />
                     </Link>
                     <button onClick={() => handleDelete(item.id)} className="p-2 bg-card border-4 border-border rounded hover:bg-destructive hover:text-destructive-foreground transition-colors shadow-sm">

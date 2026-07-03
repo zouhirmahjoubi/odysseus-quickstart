@@ -23,7 +23,7 @@ const AgentSearchPage = () => {
     setLoading(true);
     try {
       const q = encodeURIComponent(query);
-      const res = await apiServerClient.fetch(`/search/agents?q=${q}&type=${filters.type}&sort=${filters.sort}`);
+      const res = await apiServerClient.fetch(`/odysseus-search/agents?q=${q}&type=${filters.type}&sort=${filters.sort}`);
       const data = await res.json();
       setAgents(data.items || []);
     } catch (err) {

@@ -51,7 +51,7 @@ export const AuthProvider = ({ children }) => {
     try {
       await authClient.signIn.social({
         provider,
-        callbackURL: window.location.origin + '/dashboard',
+        callbackURL: window.location.origin + '/odysseus-dashboard',
       });
     } catch (error) {
       console.error(`${provider} OAuth failed:`, error);

@@ -80,7 +80,7 @@ const OrderManagement = () => {
                       </span>
                     </td>
                     <td className="p-4 text-right flex justify-end gap-2">
-                      <button onClick={() => navigate(`/admin/orders/${order.id}`)} className="p-2 neo-border bg-white hover:bg-[hsl(var(--primary))] transition-colors" title="View Details">
+                      <button onClick={() => navigate(`/odysseus-admin/orders/${order.id}`)} className="p-2 neo-border bg-white hover:bg-[hsl(var(--primary))] transition-colors" title="View Details">
                         <Eye size={16} />
                       </button>
                     </td>

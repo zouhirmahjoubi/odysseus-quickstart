@@ -9,11 +9,11 @@ const BlogCreatePage = () => {
   const navigate = useNavigate();
 
   const handleSuccess = () => {
-    navigate('/admin/blog');
+    navigate('/odysseus-admin/blog');
   };
 
   const handleCancel = () => {
-    navigate('/admin/blog');
+    navigate('/odysseus-admin/blog');
   };
 
   return (
@@ -24,7 +24,7 @@ const BlogCreatePage = () => {
       
       <div className="flex flex-col sm:flex-row sm:items-center gap-4 border-b-4 border-border pb-6">
         <Link 
-          to="/admin/blog" 
+          to="/odysseus-admin/blog" 
           className="neo-icon-box bg-card hover:bg-accent hover:text-accent-foreground"
           aria-label="Back to Management"
         >

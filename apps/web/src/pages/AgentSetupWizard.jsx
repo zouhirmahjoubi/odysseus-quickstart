@@ -41,12 +41,12 @@ const AgentSetupWizard = () => {
   const handleInstall = async () => {
     if (!user) {
       toast.error('Please login to install agents');
-      navigate('/login');
+      navigate('/odysseus-login');
       return;
     }
     setInstalling(true);
     try {
-      const res = await apiServerClient.fetch(`/agents/${agentId}/install`, {
+      const res = await apiServerClient.fetch(`/odysseus-agents/${agentId}/install`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id })

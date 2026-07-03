@@ -81,7 +81,7 @@ const BlogAdminPage = () => {
             />
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" size={18} strokeWidth={3} />
           </div>
-          <Link to="/blog/new" className="neo-button bg-accent text-accent-foreground whitespace-nowrap text-sm justify-center flex items-center">
+          <Link to="/odysseus-blog/new" className="neo-button bg-accent text-accent-foreground whitespace-nowrap text-sm justify-center flex items-center">
             <Plus size={18} className="mr-2" strokeWidth={3} /> Compose Post
           </Link>
         </div>
@@ -164,7 +164,7 @@ const BlogAdminPage = () => {
                   <td className="p-4 text-right">
                     <div className="flex justify-end gap-2">
                       <Link 
-                        to={`/blog/${post.slug}`} 
+                        to={`/odysseus-blog/${post.slug}`} 
                         className="w-8 h-8 flex items-center justify-center bg-card border-2 border-border rounded hover:bg-accent hover:text-accent-foreground transition-all shadow-sm hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-px" 
                         title="View Post"
                         target="_blank"
@@ -172,7 +172,7 @@ const BlogAdminPage = () => {
                         <Eye size={14} strokeWidth={2.5} />
                       </Link>
                       <Link 
-                        to={`/blog/edit/${post.id}`} 
+                        to={`/odysseus-blog/edit/${post.id}`} 
                         className="w-8 h-8 flex items-center justify-center bg-card border-2 border-border rounded hover:bg-primary transition-all shadow-sm hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-px" 
                         title="Edit Post"
                       >

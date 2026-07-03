@@ -25,14 +25,14 @@ const ProtectedRoute = ({ children, adminOnly = false }) => {
 
   if (adminOnly) {
     if (!isAdminAuthenticated) {
-      return <Navigate to="/admin-login" state={{ from: location }} replace />;
+      return <Navigate to="/odysseus-admin-login" state={{ from: location }} replace />;
     }
     return children ? children : null;
   }
 
   // Regular protected route allows standard users OR admins
   if (!isAuthenticated && !isAdminAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
+    return <Navigate to="/odysseus-login" state={{ from: location }} replace />;
   }
 
   return children ? children : null;

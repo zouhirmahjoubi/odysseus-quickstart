@@ -788,7 +788,7 @@ const BenchmarkPage = () => {
                 Install Odysseus AI <ArrowRight size={18} />
               </a>
               <a
-                href="/install/ollama"
+                href="/odysseus-install/ollama"
                 className="bg-[#06B6D4]/10 hover:bg-[#06B6D4]/20 !text-[#06B6D4] px-8 py-4 rounded-2xl font-black text-base border border-[#06B6D4]/30 hover:border-[#06B6D4]/50 shadow-[0_4px_12px_rgba(0,0,0,0.2)] hover:translate-y-[-2px] active:translate-y-0 transition-all flex items-center justify-center gap-2 backdrop-blur-sm"
               >
                 Ollama Setup Guide <ArrowRight size={18} />

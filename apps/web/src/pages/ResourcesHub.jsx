@@ -56,7 +56,7 @@ const ResourcesHub = () => {
             <h3 className="text-xl font-bold flex items-center gap-2 mb-2"><BookOpen className="text-primary"/> Latest Insights</h3>
             <p className="text-muted-foreground">Stay updated with deep dives and engineering case studies from our team.</p>
           </div>
-          <Link to="/blog">
+          <Link to="/odysseus-blog">
             <Button size="lg">Visit Our Blog</Button>
           </Link>
         </div>

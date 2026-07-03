@@ -30,7 +30,7 @@ const ProductDetailPage = () => {
         setRelatedProducts(prodsArray.filter(p => p.id !== id).slice(0, 3));
       } catch (err) {
         toast.error('Error loading product details');
-        navigate('/shop');
+        navigate('/odysseus-shop');
       } finally {
         setLoading(false);
       }
@@ -66,7 +66,7 @@ const ProductDetailPage = () => {
 
       <div className="max-w-6xl mx-auto py-8 px-4 md:px-8 w-full">
         <button 
-          onClick={() => navigate('/shop')}
+          onClick={() => navigate('/odysseus-shop')}
           className="flex items-center font-bold text-lg mb-8 hover:text-[hsl(var(--primary-accent))] transition-colors w-fit"
         >
           <ArrowLeft size={20} className="mr-2" /> Back to Store

@@ -45,7 +45,7 @@ const OrderConfirmationPage = () => {
         <div className="neo-card bg-[#ffe5e5] p-8 text-black">
           <h1 className="text-3xl font-black space-grotesk mb-4">Order Not Found</h1>
           <p className="font-bold mb-8">We couldn't retrieve the details for order {orderId}.</p>
-          <button onClick={() => navigate('/shop')} className="neo-button bg-black text-white">Return to Store</button>
+          <button onClick={() => navigate('/odysseus-shop')} className="neo-button bg-black text-white">Return to Store</button>
         </div>
       </div>
     );
@@ -120,7 +120,7 @@ const OrderConfirmationPage = () => {
         </div>
 
         <div className="mt-12 text-center w-full flex justify-center">
-          <button onClick={() => navigate('/shop')} className="neo-button bg-black text-white px-8 py-4 text-lg w-full md:w-auto">
+          <button onClick={() => navigate('/odysseus-shop')} className="neo-button bg-black text-white px-8 py-4 text-lg w-full md:w-auto">
             Continue Shopping
           </button>
         </div>

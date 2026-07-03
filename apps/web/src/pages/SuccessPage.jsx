@@ -96,7 +96,7 @@ const SuccessPage = () => {
                 </a>
               )}
               
-              <Link to="/resources" className="font-bold flex items-center justify-center gap-2 hover:underline">
+              <Link to="/odysseus-resources" className="font-bold flex items-center justify-center gap-2 hover:underline">
                 View Documentation <ArrowRight size={16} />
               </Link>
             </div>

@@ -18,8 +18,8 @@ export default function PurchaseProPage() {
         body: JSON.stringify({
           amount: 49.00,
           productName: 'Odysseus AI Pro License - Premium Support & Custom Setup',
-          successUrl: window.location.origin + '/success?session_id={CHECKOUT_SESSION_ID}',
-          cancelUrl: window.location.origin + '/cancel',
+          successUrl: window.location.origin + '/odysseus-success?session_id={CHECKOUT_SESSION_ID}',
+          cancelUrl: window.location.origin + '/odysseus-cancel',
         }),
       });
 

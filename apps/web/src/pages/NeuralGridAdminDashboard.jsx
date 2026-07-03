@@ -54,7 +54,7 @@ const NeuralGridAdminDashboard = () => {
           <span className="material-symbols-outlined text-[64px] mb-4 text-[#ff6b35]">warning</span>
           <h1 className="text-2xl font-black mb-2 uppercase text-[#ffffff]">Resolution Block</h1>
           <p className="text-[#00d7fe] mb-8 font-bold">Neural Grid interface requires terminal resolution (MD+). Please access via desktop terminal.</p>
-          <Link to="/admin" className="bg-[#ff6b35] text-[#1a1a1a] px-6 py-3 font-black uppercase tracking-widest border-2 border-[#ff6b35] neo-shadow-sm transition-all active:translate-y-1 active:translate-x-1 active:shadow-none">
+          <Link to="/odysseus-admin" className="bg-[#ff6b35] text-[#1a1a1a] px-6 py-3 font-black uppercase tracking-widest border-2 border-[#ff6b35] neo-shadow-sm transition-all active:translate-y-1 active:translate-x-1 active:shadow-none">
             Return to Standard Admin
           </Link>
         </div>
@@ -67,7 +67,7 @@ const NeuralGridAdminDashboard = () => {
         <aside className="w-72 border-r-4 border-[#00d7fe] bg-[#1a1a1a] flex flex-col z-20 shadow-[4px_0_15px_rgba(0,0,0,0.5)]">
           {/* Logo Area */}
           <div className="p-6 border-b-4 border-[#00d7fe]">
-            <Link to="/admin" className="flex items-center gap-3 group">
+            <Link to="/odysseus-admin" className="flex items-center gap-3 group">
               <div className="w-12 h-12 bg-[#00d7fe] border-2 border-[#ffffff] flex items-center justify-center neo-shadow-md transition-all group-hover:translate-x-1">
                 <span className="material-symbols-outlined text-[#1a1a1a] font-black text-3xl">grid_view</span>
               </div>

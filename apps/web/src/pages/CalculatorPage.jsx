@@ -418,7 +418,7 @@ const CalculatorPage = () => {
             <a href="/odysseus-ai-install" className="bg-[#E73A5A] text-white px-8 py-4 rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2 shadow-[0_0_15px_rgba(231, 58, 90,0.3)] hover:bg-[#E73A5A]/85">
               Install Odysseus AI →
             </a>
-            <a href="/benchmark" className="bg-white/5 text-white border border-white/10 hover:bg-white/10 px-8 py-4 rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2">
+            <a href="/odysseus-benchmark" className="bg-white/5 text-white border border-white/10 hover:bg-white/10 px-8 py-4 rounded-2xl font-black text-base transition-all flex items-center justify-center gap-2">
               View Benchmark Rankings →
             </a>
           </div>

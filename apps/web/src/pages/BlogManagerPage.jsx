@@ -124,7 +124,7 @@ const BlogManagerPage = () => {
         <div className="neo-card bg-accent text-accent-foreground p-12 text-center flex flex-col items-center">
           <h1 className="text-4xl font-black uppercase mb-4">Access Denied</h1>
           <p className="text-xl font-bold mb-8">Please log in to access the Blog Manager workspace.</p>
-          <Link to="/login" className="neo-btn bg-card text-card-foreground px-8 py-4 text-xl">
+          <Link to="/odysseus-login" className="neo-btn bg-card text-card-foreground px-8 py-4 text-xl">
             Log In Now
           </Link>
         </div>

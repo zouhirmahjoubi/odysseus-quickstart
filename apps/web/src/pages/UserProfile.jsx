@@ -38,7 +38,7 @@ const UserProfile = () => {
 
   const handleLogout = () => {
     logout();
-    navigate('/login');
+    navigate('/odysseus-login');
   };
 
   if (!user) return null;
@@ -106,7 +106,7 @@ const UserProfile = () => {
                     <div className="text-center py-12">
                       <Package size={48} className="mx-auto mb-4 opacity-50" />
                       <p className="font-bold text-lg mb-4">You haven't placed any orders yet.</p>
-                      <button onClick={() => navigate('/shop')} className="neo-button-primary">Start Shopping</button>
+                      <button onClick={() => navigate('/odysseus-shop')} className="neo-button-primary">Start Shopping</button>
                     </div>
                   ) : (
                     <div className="space-y-4">

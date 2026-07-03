@@ -24,10 +24,10 @@ const HeroSection = () => {
         </p>
         
         <div className="flex flex-wrap gap-6 w-full sm:w-auto">
-          <Link to="/resources" className="neo-btn bg-secondary text-secondary-foreground px-8 py-4 text-xl w-full sm:w-auto hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))]">
+          <Link to="/odysseus-resources" className="neo-btn bg-secondary text-secondary-foreground px-8 py-4 text-xl w-full sm:w-auto hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))]">
             Browse Resources <ArrowRight strokeWidth={3} className="ml-2" />
           </Link>
-          <Link to="/workspace-simulator" className="neo-btn bg-card text-card-foreground px-8 py-4 text-xl w-full sm:w-auto hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))]">
+          <Link to="/odysseus-workspace-simulator" className="neo-btn bg-card text-card-foreground px-8 py-4 text-xl w-full sm:w-auto hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_hsl(var(--shadow-color))]">
             Try Simulator
           </Link>
         </div>
@@ -67,7 +67,7 @@ const HeroSection = () => {
           </div>
           
           {/* Action Button */}
-          <Link to="/products" className="neo-btn bg-foreground text-background w-full py-4 text-lg hover:bg-foreground/90">
+          <Link to="/odysseus-Launch-Kit" className="neo-btn bg-foreground text-background w-full py-4 text-lg hover:bg-foreground/90">
             View Details
           </Link>
         </div>

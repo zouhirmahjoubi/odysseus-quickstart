@@ -9,7 +9,7 @@ const FeaturedLaunchKitCard = () => {
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
 
   const handleLaunchKitCheckout = () => {
-    navigate('/install-odysseus-pewdiepie');
+    navigate('/odysseus-install-odysseus-pewdiepie');
   };
 
   return (

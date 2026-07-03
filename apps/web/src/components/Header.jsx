@@ -54,7 +54,7 @@ const Header = ({ setIsCartOpen }) => {
   };
 
   const handleTryItFree = () => {
-    navigate('/login');
+    navigate('/odysseus-login');
     setIsMenuOpen(false);
   };
 
@@ -85,10 +85,10 @@ const Header = ({ setIsCartOpen }) => {
 
           {/* Center: Desktop Marketing Links */}
           <nav className="hidden lg:flex items-center gap-6">
-            <Link to="/products" className={navLinkClass('/products')}>Marketplace</Link>
-            <Link to="/calculator" className={navLinkClass('/calculator')}>Calculator</Link>
-            <Link to="/benchmark" className={navLinkClass('/benchmark')}>Benchmark</Link>
-            <Link to="/blog" className={navLinkClass('/blog')}>Blog</Link>
+            <Link to="/odysseus-Launch-Kit" className={navLinkClass('/odysseus-Launch-Kit')}>Marketplace</Link>
+            <Link to="/odysseus-calculator" className={navLinkClass('/odysseus-calculator')}>Calculator</Link>
+            <Link to="/odysseus-benchmark" className={navLinkClass('/odysseus-benchmark')}>Benchmark</Link>
+            <Link to="/odysseus-blog" className={navLinkClass('/odysseus-blog')}>Blog</Link>
 
             {/* Install Paths Dropdown */}
             <div className="relative" ref={installDropdown.ref}>
@@ -106,10 +106,10 @@ const Header = ({ setIsCartOpen }) => {
               {installDropdown.open && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-background/90 backdrop-blur-[15px] border border-border rounded-2xl shadow-xl overflow-hidden min-w-[170px] p-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
                   <Link to="/odysseus-ai-install" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Install Hub</Link>
-                  <Link to="/install/docker" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Docker Setup</Link>
-                  <Link to="/install/ollama" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Ollama Resolver</Link>
-                  <Link to="/install/windows" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Windows Native</Link>
-                  <Link to="/install/macbook" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>macOS Native</Link>
+                  <Link to="/odysseus-install/docker" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Docker Setup</Link>
+                  <Link to="/odysseus-install/ollama" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Ollama Resolver</Link>
+                  <Link to="/odysseus-install/windows" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>Windows Native</Link>
+                  <Link to="/odysseus-install/macbook" onClick={() => installDropdown.setOpen(false)} className={dropdownItemClass}>macOS Native</Link>
                 </div>
               )}
             </div>
@@ -129,8 +129,8 @@ const Header = ({ setIsCartOpen }) => {
               </button>
               {troubleshootDropdown.open && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-background/90 backdrop-blur-[15px] border border-border rounded-2xl shadow-xl overflow-hidden min-w-[170px] p-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <Link to="/fix" onClick={() => troubleshootDropdown.setOpen(false)} className={dropdownItemClass}>Error Doctor</Link>
-                  <Link to="/triage-wizard" onClick={() => troubleshootDropdown.setOpen(false)} className={dropdownItemClass}>Triage Wizard</Link>
+                  <Link to="/odysseus-fix" onClick={() => troubleshootDropdown.setOpen(false)} className={dropdownItemClass}>Error Doctor</Link>
+                  <Link to="/odysseus-triage-wizard" onClick={() => troubleshootDropdown.setOpen(false)} className={dropdownItemClass}>Triage Wizard</Link>
                 </div>
               )}
             </div>
@@ -150,8 +150,8 @@ const Header = ({ setIsCartOpen }) => {
               </button>
               {resourcesDropdown.open && (
                 <div className="absolute top-full left-1/2 -translate-x-1/2 mt-3 bg-background/90 backdrop-blur-[15px] border border-border rounded-2xl shadow-xl overflow-hidden min-w-[170px] p-1 z-50 animate-in fade-in slide-in-from-top-2 duration-200">
-                  <Link to="/resources" onClick={() => resourcesDropdown.setOpen(false)} className={dropdownItemClass}>Guides & Tutorials</Link>
-                  <Link to="/llm-directory" onClick={() => resourcesDropdown.setOpen(false)} className={dropdownItemClass}>LLM Directory</Link>
+                  <Link to="/odysseus-resources" onClick={() => resourcesDropdown.setOpen(false)} className={dropdownItemClass}>Guides & Tutorials</Link>
+                  <Link to="/odysseus-llm-directory" onClick={() => resourcesDropdown.setOpen(false)} className={dropdownItemClass}>LLM Directory</Link>
                 </div>
               )}
             </div>
@@ -162,7 +162,7 @@ const Header = ({ setIsCartOpen }) => {
             {/* Admin Tag */}
             {isAdmin && (
               <Link
-                to="/admin"
+                to="/odysseus-admin"
                 className="hidden lg:flex items-center gap-1.5 px-4 py-1.5 bg-[#E73A5A] text-white font-bold text-xs rounded-full shadow-[0_0_10px_rgba(231, 58, 90,0.3)] hover:brightness-112 transition-all"
               >
                 <ShieldAlert size={14} /> Admin
@@ -173,7 +173,7 @@ const Header = ({ setIsCartOpen }) => {
             {isAuthenticated ? (
               <div className="hidden sm:flex items-center gap-3">
                 <Link
-                  to="/dashboard"
+                  to="/odysseus-dashboard"
                   className="flex items-center gap-1.5 px-4 py-1.5 bg-foreground/10 hover:bg-foreground/20 border border-border text-foreground font-bold text-xs rounded-full transition-all"
                 >
                   <LayoutDashboard size={14} /> Dashboard
@@ -229,35 +229,35 @@ const Header = ({ setIsCartOpen }) => {
             onClick={e => e.stopPropagation()}
             style={{ top: `${menuTop + 8}px` }}
           >
-            <Link to="/products" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Marketplace</Link>
-            <Link to="/calculator" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Calculator</Link>
-            <Link to="/benchmark" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Benchmark 🏆</Link>
-            <Link to="/blog" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Blog</Link>
+            <Link to="/odysseus-Launch-Kit" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Marketplace</Link>
+            <Link to="/odysseus-calculator" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Calculator</Link>
+            <Link to="/odysseus-benchmark" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Benchmark 🏆</Link>
+            <Link to="/odysseus-blog" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Blog</Link>
             
             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Install Paths</div>
             <div className="grid grid-cols-2 gap-2 pl-2">
               <Link to="/odysseus-ai-install" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Install Hub</Link>
-              <Link to="/install/docker" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Docker Setup</Link>
-              <Link to="/install/ollama" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Ollama Resolver</Link>
-              <Link to="/install/windows" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Windows Native</Link>
-              <Link to="/install/macbook" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">macOS Native</Link>
+              <Link to="/odysseus-install/docker" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Docker Setup</Link>
+              <Link to="/odysseus-install/ollama" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Ollama Resolver</Link>
+              <Link to="/odysseus-install/windows" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Windows Native</Link>
+              <Link to="/odysseus-install/macbook" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">macOS Native</Link>
             </div>
 
             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Troubleshoot</div>
             <div className="grid grid-cols-2 gap-2 pl-2">
-              <Link to="/fix" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Error Doctor</Link>
-              <Link to="/triage-wizard" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Triage Wizard</Link>
+              <Link to="/odysseus-fix" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Error Doctor</Link>
+              <Link to="/odysseus-triage-wizard" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Triage Wizard</Link>
             </div>
 
             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Resources</div>
             <div className="grid grid-cols-2 gap-2 pl-2">
-              <Link to="/resources" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Guides & Tutorials</Link>
-              <Link to="/llm-directory" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">LLM Directory</Link>
+              <Link to="/odysseus-resources" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">Guides & Tutorials</Link>
+              <Link to="/odysseus-llm-directory" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">LLM Directory</Link>
             </div>
             
             {isAuthenticated ? (
               <div className="flex flex-col gap-2 mt-2">
-                <Link to="/dashboard" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40 flex items-center gap-2">
+                <Link to="/odysseus-dashboard" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40 flex items-center gap-2">
                   <LayoutDashboard size={16} /> Dashboard
                 </Link>
                 <button onClick={handleLogout} className="w-full py-2.5 text-left font-bold text-red-500 flex items-center gap-2">
@@ -273,7 +273,7 @@ const Header = ({ setIsCartOpen }) => {
                   Whitelist
                 </button>
                 <Link
-                  to="/login"
+                  to="/odysseus-login"
                   onClick={() => setIsMenuOpen(false)}
                   className="w-full bg-foreground/10 hover:bg-foreground/20 text-foreground py-3 rounded-full font-bold border border-border text-center flex items-center justify-center gap-1"
                 >

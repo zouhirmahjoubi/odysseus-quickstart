@@ -104,7 +104,7 @@ const FAQPage = () => {
             <p className="text-sm md:text-base font-semibold mb-8 max-w-xl mx-auto text-[#475569] leading-relaxed">
               If your install setup is still failing or your uvicorn server has port conflicts, check out our Error Doctor.
             </p>
-            <Link to="/fix" className="neo-button bg-[#ffeb3b] text-black">
+            <Link to="/odysseus-fix" className="neo-button bg-[#ffeb3b] text-black">
               Fix Problems Now
             </Link>
           </div>

@@ -22,7 +22,7 @@ const CancelPage = () => {
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link to="/resources" className="neo-button bg-[hsl(var(--highlight))] flex items-center justify-center gap-2">
+            <Link to="/odysseus-resources" className="neo-button bg-[hsl(var(--highlight))] flex items-center justify-center gap-2">
               Try Again
             </Link>
             <Link to="/" className="neo-button bg-[hsl(var(--card-bg))] flex items-center justify-center gap-2">

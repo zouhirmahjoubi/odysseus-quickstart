@@ -24,7 +24,7 @@ const CheckoutPage = () => {
   const total = subtotal + tax + shipping;
 
   useEffect(() => {
-    if (cartItems.length === 0) navigate('/shop');
+    if (cartItems.length === 0) navigate('/odysseus-shop');
   }, [cartItems, navigate]);
 
   const handleSubmit = async (e) => {
@@ -39,7 +39,7 @@ const CheckoutPage = () => {
       }));
 
       // Call the Express checkout endpoint to get Stripe Session URL
-      const res = await apiServerClient.fetch('/checkout', {
+      const res = await apiServerClient.fetch('/odysseus-checkout', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

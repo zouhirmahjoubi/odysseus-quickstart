@@ -18,7 +18,7 @@ const SearchPage = () => {
 
   useEffect(() => {
     if (user) {
-      apiServerClient.fetch('/search/history')
+      apiServerClient.fetch('/odysseus-search/history')
         .then(res => res.json())
         .then(data => setHistory(data.items || []))
         .catch(console.error);
@@ -32,14 +32,14 @@ const SearchPage = () => {
     setLoading(true);
     try {
       const typeParam = activeTab !== 'all' ? `&type=${activeTab}` : '';
-      const res = await apiServerClient.fetch(`/search?q=${encodeURIComponent(query)}${typeParam}`);
+      const res = await apiServerClient.fetch(`/odysseus-search?q=${encodeURIComponent(query)}${typeParam}`);
       if (!res.ok) throw new Error('Search failed');
       const data = await res.json();
       setResults(data.results);
       
       // Refresh history
       if (user) {
-        apiServerClient.fetch('/search/history').then(r => r.json()).then(d => setHistory(d.items || []));
+        apiServerClient.fetch('/odysseus-search/history').then(r => r.json()).then(d => setHistory(d.items || []));
       }
     } catch (err) {
       toast.error(err.message);
@@ -51,7 +51,7 @@ const SearchPage = () => {
   const clearHistory = async () => {
     if (!user) return;
     try {
-      await apiServerClient.fetch('/search/history', { method: 'DELETE' });
+      await apiServerClient.fetch('/odysseus-search/history', { method: 'DELETE' });
       setHistory([]);
       toast.success('Search history cleared');
     } catch (err) {

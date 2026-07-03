@@ -140,7 +140,7 @@ const FeaturedProducts = () => {
       
       <div className="w-full text-center mt-4">
         <button 
-          onClick={() => navigate('/shop')}
+          onClick={() => navigate('/odysseus-shop')}
           className="neo-button inline-flex bg-white text-black text-lg px-8 hover:bg-gray-100"
         >
           View All Products

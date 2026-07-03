@@ -114,7 +114,7 @@ const ProductsPage = () => {
   };
 
   const handleLaunchKitCheckout = () => {
-    navigate('/install-odysseus-pewdiepie');
+    navigate('/odysseus-install-odysseus-pewdiepie');
   };
 
   const FILTER_PILLS = ['all', 'popular', 'new', 'coding', 'reasoning', 'chat'];

@@ -16,13 +16,13 @@ const ComparisonPage = () => {
             "@graph": [
               {
                 "@type": "TechArticle",
-                "@id": "https://odysseusai.ai/comparison/#article",
-                "url": "https://odysseusai.ai/comparison/",
+                "@id": "https://odysseusai.ai/odysseus-comparison/#article",
+                "url": "https://odysseusai.ai/odysseus-comparison/",
                 "name": "Odysseus AI vs Open WebUI vs Jan AI: Architectural Comparison Matrix",
                 "headline": "A Semantic Architecture and Feature Comparison of Local AI Workspaces",
                 "description": "An independent, high-density technical analysis comparing repository structures, agent execution capabilities, and runtime boundaries between Odysseus AI, Open WebUI, and Jan AI.",
                 "inLanguage": "en",
-                "mainEntityOfPage": "https://odysseusai.ai/comparison/",
+                "mainEntityOfPage": "https://odysseusai.ai/odysseus-comparison/",
                 "about": [
                   {
                     "@type": "SoftwareApplication",
@@ -52,7 +52,7 @@ const ComparisonPage = () => {
               },
               {
                 "@type": "ItemList",
-                "@id": "https://odysseusai.ai/comparison/#matrix-list",
+                "@id": "https://odysseusai.ai/odysseus-comparison/#matrix-list",
                 "name": "AI Interface Software Architecture Matrix",
                 "description": "Sequential comparative list mapping out technical layers and deployment options across top local AI developer applications.",
                 "numberOfItems": "3",

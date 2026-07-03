@@ -23,7 +23,7 @@ const VRAMCalculator = () => {
               Calculate precise hardware requirements for AI model inference and training based on parameter count and quantization.
             </p>
           </div>
-          <Link to="/calculator">
+          <Link to="/odysseus-calculator">
             <Button variant="outline">Back to Calculators</Button>
           </Link>
         </div>

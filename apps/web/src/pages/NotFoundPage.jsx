@@ -63,7 +63,7 @@ const NotFoundPage = () => {
                   Return Home
                 </NeoBrutalButton>
               </Link>
-              <Link to="/search" className="w-full sm:w-auto">
+              <Link to="/odysseus-search" className="w-full sm:w-auto">
                 <NeoBrutalButton variant="secondary" className="w-full bg-[hsl(var(--background))] hover:bg-[hsl(var(--accent))]">
                   <Search size={20} />
                   Search Store

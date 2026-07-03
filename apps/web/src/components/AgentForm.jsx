@@ -20,7 +20,7 @@ const AgentForm = ({ agent, onSuccess, onCancel }) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const url = agent ? `/agents/${agent.id}` : '/agents';
+      const url = agent ? `/odysseus-agents/${agent.id}` : '/odysseus-agents';
       const method = agent ? 'PUT' : 'POST';
       
       const res = await apiServerClient.fetch(url, {

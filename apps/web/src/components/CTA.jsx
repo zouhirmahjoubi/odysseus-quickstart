@@ -13,7 +13,7 @@ const CTA = () => {
           <p className="text-sub text-[hsl(var(--text-secondary))] mb-[30px]">
             Join thousands of developers building amazing projects
           </p>
-          <Link to="/resources" className="block sm:inline-block w-full sm:w-auto">
+          <Link to="/odysseus-resources" className="block sm:inline-block w-full sm:w-auto">
             <button className="neo-button bg-[hsl(var(--cta-bg))] text-[hsl(var(--secondary))] w-full sm:w-auto">
               Start Your Journey
             </button>

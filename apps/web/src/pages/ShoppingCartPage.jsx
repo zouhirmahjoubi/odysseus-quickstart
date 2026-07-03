@@ -26,7 +26,7 @@ const ShoppingCartPage = () => {
           </div>
           <h1 className="text-4xl font-black space-grotesk mb-4 text-[hsl(var(--foreground))]">Your Cart is Empty</h1>
           <p className="text-xl font-bold text-[hsl(var(--muted-foreground))] mb-8 text-center max-w-md">Looks like you haven't added any premium blueprints to your workspace yet.</p>
-          <button onClick={() => navigate('/shop')} className="neo-button bg-[hsl(var(--primary-accent))] text-black text-lg px-8 py-4">
+          <button onClick={() => navigate('/odysseus-shop')} className="neo-button bg-[hsl(var(--primary-accent))] text-black text-lg px-8 py-4">
             Browse Asset Store
           </button>
         </div>
@@ -85,7 +85,7 @@ const ShoppingCartPage = () => {
               );
             })}
 
-            <button onClick={() => navigate('/shop')} className="font-bold text-lg mt-4 w-fit hover:underline text-[hsl(var(--foreground))]">
+            <button onClick={() => navigate('/odysseus-shop')} className="font-bold text-lg mt-4 w-fit hover:underline text-[hsl(var(--foreground))]">
               ← Continue Shopping
             </button>
           </div>
@@ -120,7 +120,7 @@ const ShoppingCartPage = () => {
               </div>
               
               <button 
-                onClick={() => navigate('/checkout')}
+                onClick={() => navigate('/odysseus-checkout')}
                 className="neo-button bg-[hsl(var(--primary-accent))] text-black w-full text-lg py-4 flex justify-center items-center"
               >
                 Proceed to Checkout <ArrowRight size={20} className="ml-2" />

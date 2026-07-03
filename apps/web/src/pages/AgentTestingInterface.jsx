@@ -27,7 +27,7 @@ const AgentTestingInterface = () => {
     setOutput('Initializing agent...\nConnecting to provider...\nProcessing input...\n');
     
     try {
-      const res = await apiServerClient.fetch(`/agents/${agentId}/test`, {
+      const res = await apiServerClient.fetch(`/odysseus-agents/${agentId}/test`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user.id, testInput: input })

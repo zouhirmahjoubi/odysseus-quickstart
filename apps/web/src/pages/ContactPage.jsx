@@ -139,7 +139,7 @@ const ContactPage = () => {
               </h3>
               <p className="text-xs text-gray-400 font-semibold leading-relaxed">
                 If you are running into PowerShell execution errors, port conflicts, or Ollama discovery problems, check our{' '}
-                <a href="/fix" className="text-[#00F0FF] font-black underline hover:text-white transition-colors">
+                <a href="/odysseus-fix" className="text-[#00F0FF] font-black underline hover:text-white transition-colors">
                   Error Doctor
                 </a>{' '}
                 guide first for an instant automated resolution.

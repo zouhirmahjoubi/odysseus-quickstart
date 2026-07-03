@@ -20,7 +20,7 @@ const ContactFormPage = () => {
     setStatus('loading');
     
     try {
-      const res = await apiServerClient.fetch('/contact/submit', {
+      const res = await apiServerClient.fetch('/odysseus-contact/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData)

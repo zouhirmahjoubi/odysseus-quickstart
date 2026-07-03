@@ -122,32 +122,32 @@ const AdminDashboard = () => {
           <NeoBrutalCard className="!p-[20px] md:!p-[30px] w-full">
             <h2 className="text-[20px] md:text-[24px] font-black uppercase mb-[20px] border-b-[4px] border-black pb-[15px] break-words">Quick Commands</h2>
             <div className="flex flex-col gap-[15px] w-full">
-              <Link to="/admin/neural-grid-dashboard" className="w-full">
+              <Link to="/odysseus-admin/neural-grid-dashboard" className="w-full">
                 <NeoBrutalButton variant="primary" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px] bg-[#1a1a1a] text-[#00d7fe] border-[#00d7fe] hover:bg-[#00d7fe] hover:text-[#1a1a1a]">
                   <Network size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Neural Grid
                 </NeoBrutalButton>
               </Link>
-              <Link to="/admin/blog/new" className="w-full">
+              <Link to="/odysseus-admin/blog/new" className="w-full">
                 <NeoBrutalButton variant="primary" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px]">
                   <PlusCircle size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Publish Intel
                 </NeoBrutalButton>
               </Link>
-              <Link to="/admin/products" className="w-full">
+              <Link to="/odysseus-admin/products" className="w-full">
                 <NeoBrutalButton variant="accent" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px]">
                   <ShoppingBag size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Add Blueprint
                 </NeoBrutalButton>
               </Link>
-              <Link to="/admin/users" className="w-full">
+              <Link to="/odysseus-admin/users" className="w-full">
                 <NeoBrutalButton variant="secondary" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px]">
                   <UserPlus size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Provision User
                 </NeoBrutalButton>
               </Link>
-              <Link to="/admin/testimonials" className="w-full">
+              <Link to="/odysseus-admin/testimonials" className="w-full">
                 <NeoBrutalButton variant="primary" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px] bg-yellow-100 text-black hover:bg-yellow-200">
                   <Star size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> Manage Testimonials
                 </NeoBrutalButton>
               </Link>
-              <Link to="/admin/analytics" className="w-full">
+              <Link to="/odysseus-admin/analytics" className="w-full">
                 <NeoBrutalButton variant="destructive" className="w-full text-[14px] flex items-center justify-center gap-2 py-[12px]">
                   <BarChart size={18} strokeWidth={3} aria-hidden="true" className="flex-shrink-0" /> System Metrics
                 </NeoBrutalButton>

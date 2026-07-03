@@ -100,7 +100,7 @@ const BlogDetailPage = () => {
           <AlertCircle size={64} className="text-[#E73A5A] mb-6" strokeWidth={2} />
           <h1 className="text-4xl font-black uppercase mb-4 text-balance text-white">Transmission Not Found</h1>
           <p className="text-xl font-bold text-white/60 mb-8 text-balance">The blog post you are looking for does not exist or has been removed.</p>
-          <Link to="/blog" className="bg-[#E73A5A] hover:bg-[#E73A5A]/90 text-white font-black px-6 py-3 rounded-xl border border-white/10 transition-colors">
+          <Link to="/odysseus-blog" className="bg-[#E73A5A] hover:bg-[#E73A5A]/90 text-white font-black px-6 py-3 rounded-xl border border-white/10 transition-colors">
             Return to Directory
           </Link>
         </div>
@@ -132,7 +132,7 @@ const BlogDetailPage = () => {
       </Helmet>
 
       <Link 
-        to="/blog" 
+        to="/odysseus-blog" 
         className="inline-flex items-center gap-2 font-black uppercase mb-8 text-[#E73A5A] dark:text-white/60 hover:opacity-80 transition-opacity text-sm tracking-wider"
       >
         <ArrowLeft size={20} strokeWidth={3} /> Back to Transmissions

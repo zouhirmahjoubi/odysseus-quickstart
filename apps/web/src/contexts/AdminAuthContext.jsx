@@ -58,7 +58,7 @@ export const AdminAuthProvider = ({ children }) => {
     const checkTimeout = setInterval(() => {
       if (Date.now() - lastActivity > INACTIVITY_LIMIT_MS) {
         logout();
-        window.location.href = '/admin-login?timeout=1';
+        window.location.href = '/odysseus-admin-login?timeout=1';
       }
     }, 60000); // Check every minute
 

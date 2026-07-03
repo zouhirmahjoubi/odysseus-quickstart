@@ -12,7 +12,7 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
 
   const handleCheckout = () => {
     setIsCartOpen(false);
-    navigate('/checkout');
+    navigate('/odysseus-checkout');
   };
 
   return (
@@ -58,7 +58,7 @@ const ShoppingCart = ({ isCartOpen, setIsCartOpen }) => {
                   </div>
                   <p className="text-lg font-bold uppercase text-gray-300 mb-6">Your cart is empty.</p>
                   <button 
-                    onClick={() => { setIsCartOpen(false); navigate('/products'); }}
+                    onClick={() => { setIsCartOpen(false); navigate('/odysseus-Launch-Kit'); }}
                     className="bg-[#E73A5A] text-white px-8 py-3 rounded-full font-bold text-sm shadow-[0_0_20px_rgba(231, 58, 90, 0.3)] hover:scale-[1.02] active:scale-[0.98] transition-all"
                   >
                     Start Shopping

@@ -26,7 +26,7 @@ const SegmentDetailsPage = () => {
     <div className="max-w-6xl mx-auto px-4 py-12">
       <Helmet><title>{segment.name} - Segment Details</title></Helmet>
 
-      <Link to="/admin/segments" className="inline-flex items-center font-bold mb-6 hover:underline">
+      <Link to="/odysseus-admin/segments" className="inline-flex items-center font-bold mb-6 hover:underline">
         <ArrowLeft size={16} className="mr-2" /> Back to Segments
       </Link>
 

@@ -24,7 +24,7 @@ const OrderDetailPage = () => {
       } catch (err) {
         console.error(err);
         toast.error('Failed to fetch order details');
-        navigate('/admin/orders');
+        navigate('/odysseus-admin/orders');
       } finally {
         setLoading(false);
       }
@@ -72,7 +72,7 @@ const OrderDetailPage = () => {
     <div className="max-w-6xl mx-auto px-4 py-8">
       <Helmet><title>Order #{order.orderId || order.id} - Admin</title></Helmet>
       
-      <button onClick={() => navigate('/admin/orders')} className="flex items-center font-bold text-sm mb-6 hover:underline">
+      <button onClick={() => navigate('/odysseus-admin/orders')} className="flex items-center font-bold text-sm mb-6 hover:underline">
         <ArrowLeft size={16} className="mr-2" /> Back to Orders
       </button>
 

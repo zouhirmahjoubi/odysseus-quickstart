@@ -29,8 +29,8 @@ const OdysseusPewdiepieInstallPage = () => {
         body: JSON.stringify({
           amount: 19.99,
           productName: 'Odysseus AI Zero-Headache Launch Kit',
-          successUrl: window.location.origin + '/success?session_id={CHECKOUT_SESSION_ID}',
-          cancelUrl: window.location.origin + '/cancel',
+          successUrl: window.location.origin + '/odysseus-success?session_id={CHECKOUT_SESSION_ID}',
+          cancelUrl: window.location.origin + '/odysseus-cancel',
         }),
       });
       if (!response.ok) {

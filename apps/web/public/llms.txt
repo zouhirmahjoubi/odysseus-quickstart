@@ -5,29 +5,29 @@
 ## Key Resources
 
 - [Home Page](https://odysseusai.ai/) - PewDiePie's Odysseus AI local installation and configuration hub.
-- [Marketplace](https://odysseusai.ai/products) - Hardware and software products optimized for Odysseus AI workflows.
-- [Infrastructure & Cost Calculator](https://odysseusai.ai/calculator) - Calculate AI API costs and VRAM requirement breakdown for local LLM models.
-- [Workspace Simulator](https://odysseusai.ai/workspace-simulator) - Interactive local model simulator and parameter tuning cockpit.
-- [Guides & Resources](https://odysseusai.ai/resources) - Technical tutorials, configuration manuals, and setup resources.
-- [Triage Wizard](https://odysseusai.ai/triage-wizard) - Diagnose local AI setup issues and parse container logs.
-- [Launch Kit](https://odysseusai.ai/launch-kit) - Odysseus AI complete local-first setup workbook and diagnostic checklist.
-- [LLM Directory](https://odysseusai.ai/llm-directory) - Comprehensive catalog of local-first LLMs, parameter counts, and VRAM requirements.
-- [Workloads Framework](https://odysseusai.ai/workloads) - Multi-agent crew task orchestrator and prompt compiler.
+- [Marketplace](https://odysseusai.ai/odysseus-Launch-Kit) - Hardware and software products optimized for Odysseus AI workflows.
+- [Infrastructure & Cost Calculator](https://odysseusai.ai/odysseus-calculator) - Calculate AI API costs and VRAM requirement breakdown for local LLM models.
+- [Workspace Simulator](https://odysseusai.ai/odysseus-workspace-simulator) - Interactive local model simulator and parameter tuning cockpit.
+- [Guides & Resources](https://odysseusai.ai/odysseus-resources) - Technical tutorials, configuration manuals, and setup resources.
+- [Triage Wizard](https://odysseusai.ai/odysseus-triage-wizard) - Diagnose local AI setup issues and parse container logs.
+- [Launch Kit](https://odysseusai.ai/odysseus-launch-kit) - Odysseus AI complete local-first setup workbook and diagnostic checklist.
+- [LLM Directory](https://odysseusai.ai/odysseus-llm-directory) - Comprehensive catalog of local-first LLMs, parameter counts, and VRAM requirements.
+- [Workloads Framework](https://odysseusai.ai/odysseus-workloads) - Multi-agent crew task orchestrator and prompt compiler.
 - [Install Hub](https://odysseusai.ai/odysseus-ai-install) - Central guide directory for deploying Odysseus AI on Windows, Mac, and Linux.
-- [Docker Setup Guide](https://odysseusai.ai/install/docker) - Deploy Odysseus AI locally in containerized environments using Docker Compose.
-- [Ollama Setup Guide](https://odysseusai.ai/install/ollama) - Configure local model serving acceleration endpoints with Ollama.
-- [Windows Installation Guide](https://odysseusai.ai/install/windows) - Native Windows installation walkthrough with NVIDIA CUDA acceleration.
-- [macOS Installation Guide](https://odysseusai.ai/install/macbook) - Native macOS installation instructions with Metal API acceleration.
-- [Error Doctor](https://odysseusai.ai/fix) - Diagnose and fix common terminal, CUDA context, and container issues.
-- [About Us](https://odysseusai.ai/about) - Our open-source local-first vision, background, and credentials.
-- [Contact Us](https://odysseusai.ai/contact) - Get in touch with support, community channels, and business inquiries.
-- [Privacy Policy](https://odysseusai.ai/privacy) - Our strict local-first zero data tracking privacy policy.
-- [Terms of Service](https://odysseusai.ai/terms) - Terms and conditions for utilizing the Odysseus AI companion tools.
-- [Blog Directory](https://odysseusai.ai/blog) - Latest technical guides and articles regarding local LLM setups.
-- [Auth Cockpit](https://odysseusai.ai/login) - User login and registration cockpit workspace.
-- [UI Interface Landscape Comparison](https://odysseusai.ai/comparison) - Detailed architectural and performance comparison of local AI client workspaces.
-- [Model Inference Benchmarks](https://odysseusai.ai/benchmark) - In-depth speed, latency, and quality benchmarks comparing local GGUF models.
-- [Purchase Pro License](https://odysseusai.ai/purchase-pro-license) - Acquire commercial licenses and priority support blueprints for Odysseus AI.
+- [Docker Setup Guide](https://odysseusai.ai/odysseus-install/docker) - Deploy Odysseus AI locally in containerized environments using Docker Compose.
+- [Ollama Setup Guide](https://odysseusai.ai/odysseus-install/ollama) - Configure local model serving acceleration endpoints with Ollama.
+- [Windows Installation Guide](https://odysseusai.ai/odysseus-install/windows) - Native Windows installation walkthrough with NVIDIA CUDA acceleration.
+- [macOS Installation Guide](https://odysseusai.ai/odysseus-install/macbook) - Native macOS installation instructions with Metal API acceleration.
+- [Error Doctor](https://odysseusai.ai/odysseus-fix) - Diagnose and fix common terminal, CUDA context, and container issues.
+- [About Us](https://odysseusai.ai/odysseus-about) - Our open-source local-first vision, background, and credentials.
+- [Contact Us](https://odysseusai.ai/odysseus-contact) - Get in touch with support, community channels, and business inquiries.
+- [Privacy Policy](https://odysseusai.ai/odysseus-privacy) - Our strict local-first zero data tracking privacy policy.
+- [Terms of Service](https://odysseusai.ai/odysseus-terms) - Terms and conditions for utilizing the Odysseus AI companion tools.
+- [Blog Directory](https://odysseusai.ai/odysseus-blog) - Latest technical guides and articles regarding local LLM setups.
+- [Auth Cockpit](https://odysseusai.ai/odysseus-login) - User login and registration cockpit workspace.
+- [UI Interface Landscape Comparison](https://odysseusai.ai/odysseus-comparison) - Detailed architectural and performance comparison of local AI client workspaces.
+- [Model Inference Benchmarks](https://odysseusai.ai/odysseus-benchmark) - In-depth speed, latency, and quality benchmarks comparing local GGUF models.
+- [Purchase Pro License](https://odysseusai.ai/odysseus-purchase-pro-license) - Acquire commercial licenses and priority support blueprints for Odysseus AI.
 - [Guide: Odysseus AI Local Install Tutorial: The Definitive Step-by-Step Guide](https://odysseusai.ai/guides/odysseus-ai-local-install-tutorial) - Learn how to deploy Odysseus AI locally on Windows, macOS, and Linux without encountering common terminal errors. Target keywords: local AI install, run Odysseus locally, deploy open-source LLM.
 - [Guide: How to Run DeepSeek Coder Locally via Ollama Integration](https://odysseusai.ai/guides/run-deepseek-coder-locally-ollama) - Unlock coding autonomy by running DeepSeek Coder locally. We explain setup command, model pulling, and integration with Odysseus workspace. Target keywords: DeepSeek Ollama, local coding LLM, offline programmer.
 - [Guide: Resolving CUDA Out of Memory (OOM) Errors in Local LLMs](https://odysseusai.ai/guides/resolve-cuda-out-of-memory-local-llm) - A complete guide to resolving CUDA Out of Memory errors on Windows and Linux when serving open-source models. Target keywords: CUDA OOM error, GPU memory optimization, run LLM low VRAM.

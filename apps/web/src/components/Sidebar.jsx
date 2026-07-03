@@ -48,18 +48,18 @@ const Sidebar = () => {
 
   const menuItems = [
     { name: 'HOME', path: '/', icon: LayoutDashboard },
-    { name: 'MARKETPLACE', path: '/products', icon: ShoppingBag },
-    { name: 'CALCULATOR', path: '/calculator', icon: Calculator },
-    { name: 'SIMULATOR', path: '/workspace-simulator', icon: MonitorPlay },
-    { name: 'BLOG', path: '/blog', icon: FileText },
+    { name: 'MARKETPLACE', path: '/odysseus-Launch-Kit', icon: ShoppingBag },
+    { name: 'CALCULATOR', path: '/odysseus-calculator', icon: Calculator },
+    { name: 'SIMULATOR', path: '/odysseus-workspace-simulator', icon: MonitorPlay },
+    { name: 'BLOG', path: '/odysseus-blog', icon: FileText },
   ];
 
   const referenceItems = [
-    { name: 'RESOURCES', path: '/resources', icon: BookOpen },
-    { name: 'LLM DIRECTORY', path: '/llm-directory', icon: Database },
-    { name: 'WORKLOADS', path: '/workloads', icon: Briefcase },
-    { name: 'TRIAGE WIZARD', path: '/triage-wizard', icon: ShieldAlert },
-    { name: 'LAUNCH KIT', path: '/launch-kit', icon: Rocket },
+    { name: 'RESOURCES', path: '/odysseus-resources', icon: BookOpen },
+    { name: 'LLM DIRECTORY', path: '/odysseus-llm-directory', icon: Database },
+    { name: 'WORKLOADS', path: '/odysseus-workloads', icon: Briefcase },
+    { name: 'TRIAGE WIZARD', path: '/odysseus-triage-wizard', icon: ShieldAlert },
+    { name: 'LAUNCH KIT', path: '/odysseus-launch-kit', icon: Rocket },
   ];
 
   return (
@@ -153,7 +153,7 @@ const Sidebar = () => {
           <div className="mt-auto pt-4 border-t-[4px] border-black flex flex-col gap-3">
             {isAdmin && (
               <Link 
-                to="/admin"
+                to="/odysseus-admin"
                 title={isCollapsed ? 'Admin' : ''}
                 className={`
                   flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
@@ -168,7 +168,7 @@ const Sidebar = () => {
 
             {!isAuthenticated ? (
               <Link 
-                to="/login"
+                to="/odysseus-login"
                 title={isCollapsed ? 'Login' : ''}
                 className={`
                   flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
@@ -182,11 +182,11 @@ const Sidebar = () => {
             ) : (
               <div className="flex flex-col gap-3">
                 <Link 
-                  to="/dashboard"
+                  to="/odysseus-dashboard"
                   title={isCollapsed ? 'Dashboard' : ''}
                   className={`
                     flex items-center gap-3 px-3 py-3 border-[4px] border-black font-bold text-sm lg:text-base tracking-wider transition-all duration-200 uppercase rounded-none
-                    ${location.pathname === '/dashboard' ? 'bg-[hsl(var(--active-green))] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-1 translate-y-1' : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--active-green))]'} text-black
+                    ${location.pathname === '/odysseus-dashboard' ? 'bg-[hsl(var(--active-green))] shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] translate-x-1 translate-y-1' : 'bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:-translate-x-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-[hsl(var(--active-green))]'} text-black
                     ${isCollapsed ? 'justify-center' : ''}
                   `}
                 >
@@ -295,7 +295,7 @@ const Sidebar = () => {
           <div className="mt-auto pt-4 border-t-[4px] border-black flex flex-col gap-3 mb-6">
             {isAdmin && (
               <Link
-                to="/admin"
+                to="/odysseus-admin"
                 className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--destructive))] text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 onClick={() => setIsMobileOpen(false)}
               >
@@ -307,7 +307,7 @@ const Sidebar = () => {
 
             {!isAuthenticated ? (
               <Link
-                to="/login"
+                to="/odysseus-login"
                 className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--primary))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                 onClick={() => setIsMobileOpen(false)}
               >
@@ -318,7 +318,7 @@ const Sidebar = () => {
             ) : (
               <>
                 <Link
-                  to="/dashboard"
+                  to="/odysseus-dashboard"
                   className="flex items-center gap-3 px-4 py-3 border-[4px] border-black font-bold text-sm tracking-wider transition-all duration-200 uppercase rounded-none group bg-[hsl(var(--active-green))] text-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]"
                   onClick={() => setIsMobileOpen(false)}
                 >

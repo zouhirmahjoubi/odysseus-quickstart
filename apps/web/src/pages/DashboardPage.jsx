@@ -308,7 +308,7 @@ function DashboardPage() {
                       <h3 className="font-black text-[16px] md:text-[18px] mb-[10px] w-full break-words">{card.title}</h3>
                       <p className="font-medium mb-[15px] flex-grow text-[12px] md:text-[14px] text-[hsl(var(--muted-foreground))] w-full break-words">{card.desc}</p>
                       <div className="mt-auto w-full">
-                        <NeoBrutalButton variant="primary" className="w-full text-[12px] md:text-[14px]" onClick={() => navigate('/workspace-simulator')}>Launch</NeoBrutalButton>
+                        <NeoBrutalButton variant="primary" className="w-full text-[12px] md:text-[14px]" onClick={() => navigate('/odysseus-workspace-simulator')}>Launch</NeoBrutalButton>
                       </div>
                     </NeoBrutalCard>
                   ))}
@@ -390,7 +390,7 @@ function DashboardPage() {
                           <p className="font-medium text-[12px] md:text-[14px] text-[hsl(var(--muted-foreground))] line-clamp-3 mb-[15px] w-full break-words">{blog.content}</p>
                         </div>
                         <div className="p-[15px] md:p-[20px] pt-0 mt-auto w-full">
-                          <NeoBrutalButton variant="secondary" className="w-full text-[12px] md:text-[14px]" onClick={() => navigate(`/blog/${blog.slug}`)}>Read Log</NeoBrutalButton>
+                          <NeoBrutalButton variant="secondary" className="w-full text-[12px] md:text-[14px]" onClick={() => navigate(`/odysseus-blog/${blog.slug}`)}>Read Log</NeoBrutalButton>
                         </div>
                       </NeoBrutalCard>
                     ))}

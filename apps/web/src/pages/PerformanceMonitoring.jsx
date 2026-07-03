@@ -12,7 +12,7 @@ const PerformanceMonitoring = () => {
   const fetchMetrics = async () => {
     try {
       setLoading(true);
-      const res = await apiServerClient.fetch('/admin/performance');
+      const res = await apiServerClient.fetch('/odysseus-admin/performance');
       if (res.ok) {
         const data = await res.json();
         setMetrics(data.metrics);
@@ -28,7 +28,7 @@ const PerformanceMonitoring = () => {
 
   const clearCache = async () => {
     try {
-      await apiServerClient.fetch('/admin/cache/clear', { method: 'POST' });
+      await apiServerClient.fetch('/odysseus-admin/cache/clear', { method: 'POST' });
       toast.success('System cache cleared successfully');
       fetchMetrics();
     } catch (err) {
@@ -91,7 +91,7 @@ const PerformanceMonitoring = () => {
             <h2 className="text-xl font-black space-grotesk mb-4 flex items-center"><AlertCircle size={20} className="mr-2 text-[hsl(var(--status-error))]"/> Active System Alerts</h2>
             <div className="p-4 bg-white neo-border font-bold text-sm flex items-center">
               <span className="w-3 h-3 rounded-full bg-[hsl(var(--status-warning))] mr-3"></span>
-              P99 Response time exceeding 800ms threshold on /search endpoint. Database indexes recommended.
+              P99 Response time exceeding 800ms threshold on /odysseus-search endpoint. Database indexes recommended.
             </div>
           </div>
         </>

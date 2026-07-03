@@ -11,7 +11,7 @@ const SessionManagementPage = () => {
 
   const fetchSessions = async () => {
     try {
-      const res = await apiServerClient.fetch('/admin/security/sessions');
+      const res = await apiServerClient.fetch('/odysseus-admin/security/sessions');
       const data = await res.json();
       setSessions(data.items || []);
     } catch (e) {
@@ -25,7 +25,7 @@ const SessionManagementPage = () => {
 
   const terminate = async (id) => {
     try {
-      await apiServerClient.fetch(`/admin/security/sessions/${id}`, { method: 'DELETE' });
+      await apiServerClient.fetch(`/odysseus-admin/security/sessions/${id}`, { method: 'DELETE' });
       toast.success('Session terminated');
       fetchSessions();
     } catch (e) {

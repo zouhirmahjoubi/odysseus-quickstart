@@ -10,7 +10,7 @@ const SecurityAlertsPage = () => {
   const [loading, setLoading] = useState(true);
 
   const fetchAlerts = async () => {
-    apiServerClient.fetch('/admin/security/alerts')
+    apiServerClient.fetch('/odysseus-admin/security/alerts')
       .then(res => res.json())
       .then(data => setAlerts(data.items || []))
       .finally(() => setLoading(false));
@@ -20,7 +20,7 @@ const SecurityAlertsPage = () => {
 
   const handleResolve = async (id) => {
     try {
-      await apiServerClient.fetch(`/admin/security/alerts/${id}/resolve`, { method: 'POST' });
+      await apiServerClient.fetch(`/odysseus-admin/security/alerts/${id}/resolve`, { method: 'POST' });
       toast.success('Alert resolved');
       fetchAlerts();
     } catch (e) {

@@ -56,7 +56,7 @@ const ProductEditPage = () => {
         await pb.collection('products').update(id, formData, { $autoCancel: false });
         toast.success('Product updated');
       }
-      navigate('/zouhirmahjoubi/products');
+      navigate('/odysseus-zouhirmahjoubi/products');
     } catch (err) {
       toast.error('Operation failed: ' + err.message);
     }
@@ -97,7 +97,7 @@ const ProductEditPage = () => {
           </div>
           <div className="flex gap-4 pt-4 border-t-4 border-border">
             <button type="submit" className="neo-button bg-primary text-primary-foreground">Save Product</button>
-            <button type="button" onClick={() => navigate('/zouhirmahjoubi/products')} className="neo-button bg-card">Cancel</button>
+            <button type="button" onClick={() => navigate('/odysseus-zouhirmahjoubi/products')} className="neo-button bg-card">Cancel</button>
           </div>
         </form>
       </div>

@@ -77,10 +77,10 @@ const Footer = () => {
               <ul className="space-y-3">
                 {[
                   { to: '/odysseus-ai-install', label: 'Install Hub' },
-                  { to: '/install/docker', label: 'Docker Setup' },
-                  { to: '/install/ollama', label: 'Ollama Resolver' },
-                  { to: '/install/windows', label: 'Windows Native' },
-                  { to: '/install/macbook', label: 'macOS Native' },
+                  { to: '/odysseus-install/docker', label: 'Docker Setup' },
+                  { to: '/odysseus-install/ollama', label: 'Ollama Resolver' },
+                  { to: '/odysseus-install/windows', label: 'Windows Native' },
+                  { to: '/odysseus-install/macbook', label: 'macOS Native' },
                 ].map(({ to, label }) => (
                   <li key={to}>
                     <Link
@@ -108,11 +108,11 @@ const Footer = () => {
               </Chip>
               <ul className="space-y-3">
                 {[
-                  { to: '/fix', label: 'Error Doctor' },
-                  { to: '/triage-wizard', label: 'Triage Wizard' },
-                  { to: '/resources', label: 'Resources' },
-                  { to: '/blog', label: 'Guides & Tutorials' },
-                  { to: '/llm-directory', label: 'LLM Directory' },
+                  { to: '/odysseus-fix', label: 'Error Doctor' },
+                  { to: '/odysseus-triage-wizard', label: 'Triage Wizard' },
+                  { to: '/odysseus-resources', label: 'Resources' },
+                  { to: '/odysseus-blog', label: 'Guides & Tutorials' },
+                  { to: '/odysseus-llm-directory', label: 'LLM Directory' },
                 ].map(({ to, label }) => (
                   <li key={to}>
                     <Link
@@ -140,12 +140,12 @@ const Footer = () => {
               </Chip>
               <ul className="space-y-3">
                 {[
-                  { to: '/about', label: 'About Us' },
-                  { to: '/contact', label: 'Contact' },
-                  { to: '/products', label: 'Marketplace' },
-                  { to: '/purchase-pro-license', label: 'Pro License' },
-                  { to: '/privacy', label: 'Privacy Policy' },
-                  { to: '/terms', label: 'Terms of Service' },
+                  { to: '/odysseus-about', label: 'About Us' },
+                  { to: '/odysseus-contact', label: 'Contact' },
+                  { to: '/odysseus-Launch-Kit', label: 'Marketplace' },
+                  { to: '/odysseus-purchase-pro-license', label: 'Pro License' },
+                  { to: '/odysseus-privacy', label: 'Privacy Policy' },
+                  { to: '/odysseus-terms', label: 'Terms of Service' },
                 ].map(({ to, label }) => (
                   <li key={to}>
                     <Link

@@ -28,12 +28,12 @@ const AdminLoginPage = () => {
     if (searchParams.get('timeout') === '1') {
       setErrorMsg('Session expired due to inactivity. Please log in again.');
       // Remove it from URL so it doesn't persist
-      navigate('/admin-login', { replace: true });
+      navigate('/odysseus-admin-login', { replace: true });
     }
 
     // If already authenticated, bounce to dashboard
     if (isAuthenticated) {
-      const redirectUrl = searchParams.get('redirect') || '/admin';
+      const redirectUrl = searchParams.get('redirect') || '/odysseus-admin';
       navigate(redirectUrl, { replace: true });
     }
 
@@ -66,7 +66,7 @@ const AdminLoginPage = () => {
     if (result.success) {
       toast.success('Admin session authorized.');
       const searchParams = new URLSearchParams(location.search);
-      const redirectUrl = searchParams.get('redirect') || '/admin';
+      const redirectUrl = searchParams.get('redirect') || '/odysseus-admin';
       navigate(redirectUrl, { replace: true }); // Use replace to prevent back-button loops
     } else {
       setErrorMsg(result.error || 'Authorization Failed. Invalid command credentials.');

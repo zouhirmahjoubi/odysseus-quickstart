@@ -61,7 +61,7 @@ const UserSegmentsPage = () => {
             <p className="font-bold text-gray-600 text-sm mb-6 flex-1 line-clamp-2">{seg.description}</p>
             
             <div className="flex gap-2 mt-auto pt-4 border-t-[3px] border-black border-dashed">
-              <Link to={`/admin/segments/${seg.id}`} className="neo-button bg-[hsl(var(--accent))] flex-1 text-sm py-2 px-0 text-center">View</Link>
+              <Link to={`/odysseus-admin/segments/${seg.id}`} className="neo-button bg-[hsl(var(--accent))] flex-1 text-sm py-2 px-0 text-center">View</Link>
               <button className="neo-button bg-gray-100 p-2"><Edit size={16}/></button>
               <button onClick={() => handleDelete(seg.id)} className="neo-button bg-[hsl(var(--destructive))] text-white p-2"><Trash2 size={16}/></button>
             </div>

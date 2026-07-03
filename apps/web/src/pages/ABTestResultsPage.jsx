@@ -25,7 +25,7 @@ const ABTestResultsPage = () => {
     <div className="max-w-6xl mx-auto px-4 py-12">
       <Helmet><title>A/B Test Results</title></Helmet>
 
-      <Link to="/admin/ab-tests" className="inline-flex items-center font-bold mb-6 hover:underline">
+      <Link to="/odysseus-admin/ab-tests" className="inline-flex items-center font-bold mb-6 hover:underline">
         <ArrowLeft size={16} className="mr-2" /> Back to Tests
       </Link>
 

@@ -92,7 +92,7 @@ const HomePage = () => {
   const [isCheckoutLoading, setIsCheckoutLoading] = useState(false);
 
   const handleLaunchKitCheckout = () => {
-    navigate('/install-odysseus-pewdiepie');
+    navigate('/odysseus-install-odysseus-pewdiepie');
   };
 
   useEffect(() => {
@@ -389,7 +389,7 @@ docker compose up -d --build`;
             {/* Windows Card */}
             <StaggerItem>
             <Link
-              to="/install/windows"
+              to="/odysseus-install/windows"
               title="NVIDIA CUDA GPU acceleration setup instructions"
               className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
             >
@@ -409,7 +409,7 @@ docker compose up -d --build`;
             {/* macOS Card */}
             <StaggerItem>
             <Link
-              to="/install/macbook"
+              to="/odysseus-install/macbook"
               title="Apple Silicon Metal framework acceleration configuration"
               className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
             >
@@ -448,7 +448,7 @@ docker compose up -d --build`;
             {/* Docker Card */}
             <StaggerItem>
             <Link
-              to="/install/docker"
+              to="/odysseus-install/docker"
               title="Deploy repeatable isolated service container clusters"
               className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
             >
@@ -467,7 +467,7 @@ docker compose up -d --build`;
             {/* Ollama Card */}
             <StaggerItem>
             <Link
-              to="/install/ollama"
+              to="/odysseus-install/ollama"
               title="Integrate local LLM model engines (Llama 3.2, Qwen 2.5)"
               className="glass-card p-6 md:p-8 flex flex-col items-center justify-center text-center hover:-translate-y-1 transition-all duration-200"
             >
@@ -822,7 +822,7 @@ docker compose up -d --build`;
                 <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">docker compose up -d --build</td>
                 <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Using localhost:11434 inside Docker. Use host.docker.internal instead.</td>
                 <td className="p-4">
-                  <Link to="/install/docker" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Docker Guide</Link>
+                  <Link to="/odysseus-install/docker" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Docker Guide</Link>
                 </td>
               </tr>
               {/* Matrix Row 2 */}
@@ -833,7 +833,7 @@ docker compose up -d --build`;
                 <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">.\launch-windows.ps1</td>
                 <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Running the script from the wrong folder or using older Python interpreters.</td>
                 <td className="p-4">
-                  <Link to="/install/windows" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Windows Guide</Link>
+                  <Link to="/odysseus-install/windows" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Windows Guide</Link>
                 </td>
               </tr>
               {/* Matrix Row 3 */}
@@ -844,7 +844,7 @@ docker compose up -d --build`;
                 <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">./start-macos.sh</td>
                 <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Expecting Docker Desktop on macOS to provide native Metal GPU acceleration.</td>
                 <td className="p-4">
-                  <Link to="/install/macbook" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Mac Guide</Link>
+                  <Link to="/odysseus-install/macbook" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Mac Guide</Link>
                 </td>
               </tr>
               {/* Matrix Row 4 */}
@@ -855,7 +855,7 @@ docker compose up -d --build`;
                 <td className="p-4 border-r border-white/10 font-mono text-[10px] text-emerald-400">http://host.docker.internal:11434/v1</td>
                 <td className="p-4 border-r border-white/10 leading-relaxed text-red-400 font-semibold">Forgetting the /v1 suffix or assuming Docker localhost means host machine.</td>
                 <td className="p-4">
-                  <Link to="/install/ollama" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Ollama Resolver</Link>
+                  <Link to="/odysseus-install/ollama" className="font-bold text-[#E73A5A] hover:text-[#E73A5A]/80 transition-colors">Ollama Resolver</Link>
                 </td>
               </tr>
             </tbody>
@@ -1126,7 +1126,7 @@ docker compose up -d --build`;
 
             <div className="pt-2 flex justify-end">
               <Link 
-                to="/triage-wizard" 
+                to="/odysseus-triage-wizard" 
                 className="inline-flex items-center gap-1 bg-[#E73A5A] hover:bg-[#E73A5A]/80 text-white px-4 py-2 rounded-xl font-bold text-xs transition-all"
               >
                 Go to Triage Wizard <ArrowRight size={12} />
@@ -1506,7 +1506,7 @@ docker compose up -d --build`;
       <section className="max-w-5xl mx-auto px-4 py-16 font-rounded select-none">
         <FadeIn direction="up" distance={20}><div className="flex items-center justify-between mb-8 border-b border-white/10 pb-2">
           <h2 className="text-2xl md:text-3xl font-bold text-white">Parent Guides & Updates</h2>
-          <Link to="/blog" className="hidden sm:flex items-center text-sm font-bold tracking-widest text-white hover:text-[#E73A5A] transition-colors">
+          <Link to="/odysseus-blog" className="hidden sm:flex items-center text-sm font-bold tracking-widest text-white hover:text-[#E73A5A] transition-colors">
             View All Guides <ArrowRight className="ml-2 w-5 h-5 text-[#E73A5A]" />
           </Link>
         </div></FadeIn>
@@ -1553,7 +1553,7 @@ docker compose up -d --build`;
         )}
         
         <div className="mt-8 sm:hidden text-center">
-          <Link to="/blog" className="w-full bg-white/5 text-white border border-white/10 hover:bg-white/10 font-bold py-3 px-6 rounded-2xl block text-center transition-all">
+          <Link to="/odysseus-blog" className="w-full bg-white/5 text-white border border-white/10 hover:bg-white/10 font-bold py-3 px-6 rounded-2xl block text-center transition-all">
             View All Articles
           </Link>
         </div>
