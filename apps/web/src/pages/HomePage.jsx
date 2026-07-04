@@ -209,6 +209,31 @@ docker compose up -d --build`;
       <Helmet>
         <title>Odysseus AI Quickstart — Install Without Fighting</title>
         <meta name="description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
+        <meta name="keywords" content="odysseus ai, local llm setup, docker install guide, pewdiepie install, ollama setup, local ai workspace" />
+        <meta name="author" content="Odysseus AI Project Owners" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <link rel="canonical" href="https://odysseusai.ai/" />
+        
+        {/* Open Graph Protocol (OG) Tags */}
+        <meta property="og:title" content="Odysseus AI Quickstart — Install Without Fighting" />
+        <meta property="og:description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
+        <meta property="og:image" content="https://odysseusai.ai/odysseus_launch_kit_preview.png" />
+        <meta property="og:url" content="https://odysseusai.ai/" />
+        <meta property="og:type" content="website" />
+        <meta property="og:site_name" content="Odysseus AI Setup Hub" />
+        
+        {/* Twitter Cards Tags */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="Odysseus AI Quickstart — Install Without Fighting" />
+        <meta name="twitter:description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
+        <meta name="twitter:image" content="https://odysseusai.ai/odysseus_launch_kit_preview.png" />
+        <meta name="twitter:site" content="@OdysseusAI" />
+        <meta name="twitter:creator" content="@OdysseusAI" />
+        
+        {/* Language alternates */}
+        <link rel="alternate" hrefLang="en" href="https://odysseusai.ai/" />
+        <link rel="alternate" hrefLang="x-default" href="https://odysseusai.ai/" />
         <script type="application/ld+json">
           {JSON.stringify({
             "@context": "https://schema.org",
