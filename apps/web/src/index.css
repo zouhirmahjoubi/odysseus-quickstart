@@ -183,6 +183,8 @@
   html {
     background-color: var(--color-bg) !important;
     scroll-behavior: smooth;
+    max-width: 100%;
+    overflow-x: hidden;
   }
   body {
     background-color: transparent !important;
@@ -995,4 +997,24 @@ html:not(.dark):not(.cyber-mode):not([data-theme="dark"]) .text-\[\#10B981\] {
 }
 .dark .blog-content-rich tr:hover td {
   background: rgba(255, 255, 255, 0.02);
+}
+
+/* Responsive Code Block Flexbox Overflow Fix */
+.bg-black\/60 {
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+}
+
+.bg-black\/60 > code {
+  min-width: 0 !important;
+  flex-grow: 1 !important;
+  flex-shrink: 1 !important;
+  overflow-x: auto !important;
+  white-space: nowrap !important;
+  display: block !important;
+  margin-right: 1rem !important; /* Space between code and copy button */
+}
+
+.bg-black\/60 > button {
+  flex-shrink: 0 !important;
 }
