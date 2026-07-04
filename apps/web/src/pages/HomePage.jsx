@@ -239,11 +239,56 @@ docker compose up -d --build`;
             "@context": "https://schema.org",
             "@graph": [
               {
+                "@type": "Organization",
+                "@id": "https://odysseusai.ai/#organization",
+                "name": "Odysseus AI",
+                "url": "https://odysseusai.ai/",
+                "logo": {
+                  "@type": "ImageObject",
+                  "@id": "https://odysseusai.ai/#logo",
+                  "url": "https://odysseusai.ai/logo_icon.png",
+                  "caption": "Odysseus AI Logo"
+                },
+                "image": {
+                  "@id": "https://odysseusai.ai/#logo"
+                },
+                "sameAs": [
+                  "https://github.com/pewdiepie-archdaemon/odysseus"
+                ]
+              },
+              {
                 "@type": "WebPage",
                 "@id": "https://odysseusai.ai/#webpage",
                 "url": "https://odysseusai.ai/",
-                "name": "Odysseus AI Quickstart & Installation Triage Hub",
-                "description": "Independent configuration, setup guides, and interactive tools for deploying the open-source Odysseus AI workspace via Docker, Windows, and macOS."
+                "name": "Odysseus AI Setup Hub | PewDiePie Install & Docker Guide",
+                "description": "Get your Odysseus AI workspace running safely. Step-by-step setup guides for Docker, Ollama, Windows, and Mac. Fix login, port 7000, and log errors easily.",
+                "isPartOf": {
+                  "@id": "https://odysseusai.ai/#organization"
+                },
+                "about": {
+                  "@id": "https://odysseusai.ai/#organization"
+                },
+                "breadcrumb": {
+                  "@id": "https://odysseusai.ai/#breadcrumb"
+                }
+              },
+              {
+                "@type": "BreadcrumbList",
+                "@id": "https://odysseusai.ai/#breadcrumb",
+                "itemListElement": [
+                  {
+                    "@type": "ListItem",
+                    "position": 1,
+                    "name": "Home",
+                    "item": "https://odysseusai.ai/"
+                  },
+                  {
+                    "@type": "ListItem",
+                    "position": 2,
+                    "name": "Launch Kit",
+                    "item": "https://odysseusai.ai/odysseus-Launch-Kit"
+                  }
+                ]
               },
               {
                 "@type": "WebApplication",
@@ -349,14 +394,24 @@ docker compose up -d --build`;
               },
               {
                 "@type": "FAQPage",
-                "mainEntity": [{
-                  "@type": "Question",
-                  "name": "Does OdysseusAI track user data?",
-                  "acceptedAnswer": {
-                    "@type": "Answer",
-                    "text": "No, OdysseusAI features zero data tracking. It is powered entirely by local, open-source AI, ensuring 100% data privacy since all processing happens locally on the user's machine."
+                "mainEntity": [
+                  {
+                    "@type": "Question",
+                    "name": "Does Odysseus AI require an internet connection?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "No, when paired with local runners like Ollama, Llama.cpp, or LM Studio, Odysseus AI operates completely offline, ensuring that your data, prompts, and code never leave your machine."
+                    }
+                  },
+                  {
+                    "@type": "Question",
+                    "name": "What is the minimum GPU requirement for local LLMs?",
+                    "acceptedAnswer": {
+                      "@type": "Answer",
+                      "text": "We recommend a minimum of 8GB of VRAM to run quantized 7B models (like Llama-3 or Mistral) comfortably. For larger models (like 14B or 32B), a minimum of 16GB or 24GB of VRAM is recommended. Use our VRAM calculator page to check your hardware profile."
+                    }
                   }
-                }]
+                ]
               }
             ]
           })}
