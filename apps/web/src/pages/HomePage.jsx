@@ -216,8 +216,8 @@ docker compose up -d --build`;
         <link rel="canonical" href="https://odysseusai.ai/" />
         
         {/* Open Graph Protocol (OG) Tags */}
-        <meta property="og:title" content="Odysseus AI Quickstart — Install Without Fighting" />
-        <meta property="og:description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
+        <meta property="og:title" content="Odysseus AI Setup & Docker Hub" />
+        <meta property="og:description" content="Get your self-hosted Odysseus AI workspace running safely." />
         <meta property="og:image" content="https://odysseusai.ai/odysseus_launch_kit_preview.png" />
         <meta property="og:url" content="https://odysseusai.ai/" />
         <meta property="og:type" content="website" />
@@ -225,8 +225,8 @@ docker compose up -d --build`;
         
         {/* Twitter Cards Tags */}
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Odysseus AI Quickstart — Install Without Fighting" />
-        <meta name="twitter:description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
+        <meta name="twitter:title" content="Odysseus AI Setup & Docker Hub" />
+        <meta name="twitter:description" content="Get your self-hosted Odysseus AI workspace running safely." />
         <meta name="twitter:image" content="https://odysseusai.ai/odysseus_launch_kit_preview.png" />
         <meta name="twitter:site" content="@OdysseusAI" />
         <meta name="twitter:creator" content="@OdysseusAI" />
