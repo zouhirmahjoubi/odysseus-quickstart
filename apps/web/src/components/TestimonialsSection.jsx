@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, Github, Download, Users, Heart } from 'lucide-react';
+import { Star, Github, Download, Users, Heart, Shield, Award, CheckCircle } from 'lucide-react';
 import pb from '@/lib/pocketbaseClient.js';
 
 // Predefined premium gradient avatars matching the Dokploy design
@@ -209,6 +209,47 @@ const TestimonialsSection = () => {
         }
       `}} />
 
+      {/* Client / Tech Logos Banner */}
+      <div className="max-w-5xl mx-auto px-4 mb-20">
+        <p className="text-[10px] md:text-[11px] font-black text-gray-500 uppercase tracking-widest text-center mb-8">
+          INTEGRATES SEAMLESSLY WITH LEADING LOCAL RUNTIMES & FRAMEWORKS
+        </p>
+        <div className="flex flex-wrap items-center justify-center gap-8 md:gap-12 opacity-50 hover:opacity-80 transition-opacity duration-300">
+          {/* Docker */}
+          <div className="group flex items-center justify-center">
+            <svg className="h-6 text-gray-400 group-hover:text-[#2496ED] fill-current transition-colors duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path d="M13.983 11.078h2.119v-2.006h-2.119v2.006zm-2.737-2.006h2.117v2.006h-2.117v-2.006zm-.002-2.317h2.117v2.006h-2.117V6.755zM8.51 11.078H10.63v-2.006H8.51v2.006zm-2.739 0h2.119v-2.006H5.771v2.006zm2.737-2.006H10.63V7.066H8.51v2.006zM5.771 9.072h2.119V7.066H5.771v2.006zm-2.739 2.006h2.119v-2.006H3.032v2.006zm8.214-4.333h2.117V4.739h-2.117v2.006zm5.856 2.006H19.22V6.743h-2.118v2.008zM1.01 12.53c.012.353.036.702.072 1.05a5.556 5.556 0 00.569 1.83 5.4 5.4 0 001.378 1.76c1.196 1.036 2.84 1.724 4.887 1.724 3.793 0 6.643-2.284 7.973-5.748a8.36 8.36 0 00.567-2.617c.07-.63.093-1.258.073-1.85h-2.12v1.417c0 1.206-.43 2.164-1.291 2.87-.775.637-1.745.962-2.92.962H1.01zm21.98-3.072c-.22-.387-.616-.628-1.07-.628H19.64a5.05 5.05 0 00-4.81-4.092c-.113 0-.224.004-.334.01a.333.333 0 00-.288.24c-.114.398-.21.808-.288 1.228a.334.334 0 00.177.35c.78.43 1.426 1.036 1.902 1.782a.333.333 0 00.276.155h4.898c.094 0 .147.106.09.183-.34.464-.787.848-1.309 1.13-.58.314-1.246.475-1.98.475H1.01c-.085 0-.154.069-.154.154v.397c0 .17.013.339.038.508.01.072.074.124.147.124h18.232c1.4 0 2.53-1.127 2.53-2.52a2.49 2.49 0 00-.783-1.791z"/>
+            </svg>
+          </div>
+          {/* Ollama */}
+          <div className="group flex items-center justify-center text-gray-400 hover:text-white transition-colors duration-300 font-mono font-black text-sm tracking-wider">
+            <span className="w-5 h-5 rounded-md border-2 border-current flex items-center justify-center font-black text-xs mr-2 transition-transform duration-300 group-hover:scale-110">O</span>
+            OLLAMA
+          </div>
+          {/* Hugging Face */}
+          <div className="group flex items-center justify-center text-gray-400 hover:text-[#FFD21E] transition-colors duration-300 font-mono font-bold text-sm tracking-tight">
+            <span className="text-lg mr-2 transition-transform duration-300 group-hover:scale-110">🤗</span>
+            HUGGING FACE
+          </div>
+          {/* PyTorch */}
+          <div className="group flex items-center justify-center text-gray-400 hover:text-[#EE4C2C] transition-colors duration-300 font-mono font-bold text-sm tracking-tight">
+            <span className="text-lg mr-2 transition-transform duration-300 group-hover:scale-110">🔥</span>
+            PYTORCH
+          </div>
+          {/* LangChain */}
+          <div className="group flex items-center justify-center text-gray-400 hover:text-[#13c19e] transition-colors duration-300 font-mono font-bold text-sm tracking-tight">
+            <span className="text-lg mr-2 transition-transform duration-300 group-hover:scale-110">🦜</span>
+            LANGCHAIN
+          </div>
+          {/* GitHub */}
+          <div className="group flex items-center justify-center">
+            <svg className="h-6 text-gray-400 group-hover:text-white fill-current transition-colors duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+              <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.193 22 16.44 22 12.017 22 6.484 17.522 2 12 2z"/>
+            </svg>
+          </div>
+        </div>
+      </div>
+
       {/* Header */}
       <div className="max-w-4xl mx-auto text-center px-4 mb-16">
         <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4 text-white">
@@ -250,7 +291,27 @@ const TestimonialsSection = () => {
 
       </div>
 
-
+      {/* Compliance & Trust Badges */}
+      <div className="max-w-6xl mx-auto px-4 mt-16 mb-4">
+        <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
+            <Shield className="w-4 h-4 text-emerald-500 animate-pulse" />
+            100% GDPR Compliant & Offline
+          </div>
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
+            <CheckCircle className="w-4 h-4 text-amber-500" />
+            MIT License Certified
+          </div>
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
+            <Award className="w-4 h-4 text-blue-500" />
+            Docker Certified Compatible
+          </div>
+          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
+            <Shield className="w-4 h-4 text-purple-500" />
+            SOC 2 Security Ready Architecture
+          </div>
+        </div>
+      </div>
 
       {/* Stats Counter Grid */}
       <div className="max-w-6xl mx-auto px-4 mt-20 md:mt-28">
