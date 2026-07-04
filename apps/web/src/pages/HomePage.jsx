@@ -254,12 +254,52 @@ docker compose up -d --build`;
                 "@id": "https://odysseusai.ai/#product-launchkit",
                 "name": "Odysseus AI Launch Kit",
                 "description": "An independent technical setup workbook, diagnostic checklist, and workflow template companion package.",
+                "image": ["https://odysseusai.ai/odysseus_launch_kit_preview.png"],
+                "sku": "ODYSSEUS-LAUNCH-KIT-01",
+                "mpn": "ODYSSEUS-LAUNCH-KIT-01",
+                "brand": {
+                  "@type": "Brand",
+                  "name": "Odysseus AI"
+                },
                 "offers": {
                   "@type": "Offer",
                   "price": "19.99",
                   "priceCurrency": "USD",
                   "availability": "http://schema.org/InStock",
-                  "url": "https://odysseusai.ai/#pricing"
+                  "url": "https://odysseusai.ai/#pricing",
+                  "hasMerchantReturnPolicy": {
+                    "@type": "MerchantReturnPolicy",
+                    "applicableCountry": "US",
+                    "returnPolicyCategory": "https://schema.org/MerchantReturnPolicyUnconditional",
+                    "merchantReturnDays": 14,
+                    "returnMethod": "https://schema.org/ReturnByMail",
+                    "returnFees": "https://schema.org/FreeReturn"
+                  },
+                  "shippingDetails": {
+                    "@type": "OfferShippingDetails",
+                    "shippingRate": {
+                      "@type": "MonetaryAmount",
+                      "value": "0",
+                      "priceCurrency": "USD"
+                    },
+                    "shippingDestination": {
+                      "@type": "DefinedRegion",
+                      "addressCountry": "US"
+                    },
+                    "deliveryTime": {
+                      "@type": "ShippingDeliveryTime",
+                      "handlingTime": {
+                        "@type": "QuantitativeValue",
+                        "maxValue": 0,
+                        "unitCode": "DAY"
+                      },
+                      "transitTime": {
+                        "@type": "QuantitativeValue",
+                        "maxValue": 0,
+                        "unitCode": "DAY"
+                      }
+                    }
+                  }
                 },
                 "aggregateRating": {
                   "@type": "AggregateRating",

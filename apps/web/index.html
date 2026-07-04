@@ -3,6 +3,7 @@
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/png" href="/logo_icon.png" />
+		<link rel="apple-touch-icon" sizes="180x180" href="/logo_icon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<script defer src="https://analytics.odysseusai.ai/script.js" data-website-id="113f68ab-9f3a-4b2a-b07a-35e1f3e7ad1c"></script>
 		<!-- Google tag (gtag.js) -->
@@ -49,7 +50,67 @@
 				}
 			});
 		</script>
-		<div id="root"></div>
+		<div id="root">
+			<!-- Rich Semantic Fallback Content for Crawlers (Overwritten upon Hydration) -->
+			<header>
+				<h1>Odysseus AI Setup Hub | PewDiePie Install & Docker Guide</h1>
+				<nav>
+					<ul>
+						<li><a href="/odysseus-Launch-Kit">Odysseus Launch Kit</a></li>
+						<li><a href="/odysseus-calculator">ROI & Performance Calculator</a></li>
+						<li><a href="/odysseus-benchmark">LLM Model Benchmarks</a></li>
+						<li><a href="/odysseus-blog">Official Tech Blog</a></li>
+						<li><a href="/odysseus-ai-install">All Setup Blueprints</a></li>
+					</ul>
+				</nav>
+			</header>
+
+			<main>
+				<section>
+					<h2>100% Private, Self-Hosted Local AI Workspace Cockpit</h2>
+					<p>
+						Odysseus AI functions purely as a secure, self-hosted workspace cockpit interface designed for engineers, developers, and data privacy innovators. Unlike typical cloud-dependent platforms, it is not an AI engine itself. Instead, it serves as an orchestration layer on the local host, running completely independent of external tracking systems. Building a modern AI workflow requires full control over the data pipeline. With native configuration options, software architectures stay isolated from public clouds, ensuring sensitive code, documents, and system prompts process strictly on local hardware setups.
+					</p>
+				</section>
+
+				<section>
+					<h2>Supported Deployment Environments & Platforms</h2>
+					<p>
+						The platform natively supports multiple isolated installation pathways tailored to distinct infrastructure requirements. For repeatable service clusters, a Docker Compose deployment network isolates dependencies, integrating ChromaDB vector stores, SearXNG search engines, and backend application layers natively. Developers using M-series Apple Silicon chips can bypass container translation layers to tap direct hardware speed via native Metal framework acceleration hooks. Windows environments leverage fine-tuned PowerShell setup routines to execute directly against local Python runtimes, while native Linux environments deploy bare-metal hooks alongside secure container workflows.
+					</p>
+					<ul>
+						<li><a href="/odysseus-install/docker">Docker Container Environment Configuration</a></li>
+						<li><a href="/odysseus-install/windows">Windows Native Setup & CUDA GPU Acceleration</a></li>
+						<li><a href="/odysseus-install/macbook">macOS Metal Framework Local Acceleration Guide</a></li>
+						<li><a href="/odysseus-install/ollama">Ollama Base URL Endpoint Mapping Matrix</a></li>
+					</ul>
+				</section>
+
+				<section>
+					<h2>Resolving Common Port Conflicts & Endpoint Connections</h2>
+					<p>
+						A common deployment bottleneck stems from improper internal networking loops rather than app initialization vulnerabilities. When binding services within a closed Docker network, mapping a local Ollama model model runner instance requires pointing endpoints explicitly toward the host gateway proxy using the designated internal address path (such as host.docker.internal:11434) rather than localized loopback strings. Furthermore, secure environments restrict exposure by keeping applications tied closely to localhost networks by default on port 7000. Managing temporary access administrative credentials through automated log triaging ensures proper environment variable mapping from initialization onwards.
+					</p>
+					<ul>
+						<li><a href="/odysseus-triage-wizard">Triage Wizard & Error Diagnoser</a></li>
+						<li><a href="/odysseus-fix">Common Installation Failure Index</a></li>
+						<li><a href="/odysseus-resources">Download Reference Manuals</a></li>
+						<li><a href="/odysseus-blog/odysseus-ai-local-install-tutorial">Step-by-Step Installation Masterclass</a></li>
+						<li><a href="/odysseus-blog/run-deepseek-coder-locally-ollama">DeepSeek Coder Integration Blueprints</a></li>
+					</ul>
+				</section>
+			</main>
+
+			<footer>
+				<p>&copy; 2026 Odysseus AI Launch Kit. Open-source software under the MIT License.</p>
+				<ul>
+					<li><a href="/odysseus-about">About Project</a></li>
+					<li><a href="/odysseus-contact">Developer Contact</a></li>
+					<li><a href="/odysseus-privacy">Data Privacy Agreement</a></li>
+					<li><a href="/odysseus-terms">Terms of Service</a></li>
+				</ul>
+			</footer>
+		</div>
 		<script type="module" src="/src/main.jsx"></script>
 	</body>
 </html>
