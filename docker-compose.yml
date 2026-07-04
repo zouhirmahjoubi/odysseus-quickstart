@@ -59,6 +59,28 @@ services:
       - api
       - pocketbase
     restart: always
+    labels:
+      - "traefik.enable=true"
+
+      # 1. Primary Router for the Apex Domain
+      - "traefik.http.routers.odysseus-web.rule=Host(`odysseusai.ai`)"
+      - "traefik.http.routers.odysseus-web.entrypoints=websecure"
+      - "traefik.http.routers.odysseus-web.tls=true"
+      - "traefik.http.routers.odysseus-web.tls.certresolver=letsencrypt"
+
+      # 2. Dedicated Router for the WWW Subdomain (Forces SSL Generation)
+      - "traefik.http.routers.odysseus-www.rule=Host(`www.odysseusai.ai`)"
+      - "traefik.http.routers.odysseus-www.entrypoints=websecure"
+      - "traefik.http.routers.odysseus-www.tls=true"
+      - "traefik.http.routers.odysseus-www.tls.certresolver=letsencrypt"
+      
+      # 3. Middleware Definition (301 Redirect to Apex)
+      - "traefik.http.middlewares.redirect-to-apex.redirectregex.regex=^https?://www\\.(.*)$"
+      - "traefik.http.middlewares.redirect-to-apex.redirectregex.replacement=https://$${1}"
+      - "traefik.http.middlewares.redirect-to-apex.redirectregex.permanent=true"
+      
+      # 4. Bind the Middleware exclusively to the WWW Router
+      - "traefik.http.routers.odysseus-www.middlewares=redirect-to-apex"
 
 volumes:
   pocketbase_data:
