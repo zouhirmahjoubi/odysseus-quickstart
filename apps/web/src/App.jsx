@@ -108,6 +108,29 @@ function App() {
               <Routes>
                 {/* Redirects */}
                 <Route path="/odysseus-home" element={<Navigate to="/" replace />} />
+                 
+                 {/* Standard clean paths fallback redirects to prevent 404s */}
+                 <Route path="/blog" element={<Navigate to="/odysseus-blog" replace />} />
+                 <Route path="/login" element={<Navigate to="/odysseus-login" replace />} />
+                 <Route path="/signup" element={<Navigate to="/odysseus-login" replace />} />
+                 <Route path="/about" element={<Navigate to="/odysseus-about" replace />} />
+                 <Route path="/contact" element={<Navigate to="/odysseus-contact" replace />} />
+                 <Route path="/privacy" element={<Navigate to="/odysseus-privacy" replace />} />
+                 <Route path="/terms" element={<Navigate to="/odysseus-terms" replace />} />
+                 <Route path="/search" element={<Navigate to="/odysseus-search" replace />} />
+                 <Route path="/calculator" element={<Navigate to="/odysseus-calculator" replace />} />
+                 <Route path="/resources" element={<Navigate to="/odysseus-resources" replace />} />
+                 <Route path="/launch-kit" element={<Navigate to="/odysseus-launch-kit" replace />} />
+                 <Route path="/Launch-Kit" element={<Navigate to="/odysseus-Launch-Kit" replace />} />
+                 <Route path="/llm-directory" element={<Navigate to="/odysseus-llm-directory" replace />} />
+                 <Route path="/workloads" element={<Navigate to="/odysseus-workloads" replace />} />
+                 <Route path="/comparison" element={<Navigate to="/odysseus-comparison" replace />} />
+                 <Route path="/purchase-pro-license" element={<Navigate to="/odysseus-purchase-pro-license" replace />} />
+                 <Route path="/triage-wizard" element={<Navigate to="/odysseus-triage-wizard" replace />} />
+                 <Route path="/ai-install" element={<Navigate to="/odysseus-ai-install" replace />} />
+                 <Route path="/benchmark" element={<Navigate to="/odysseus-benchmark" replace />} />
+                 <Route path="/fix" element={<Navigate to="/odysseus-fix" replace />} />
+                 
                 
                 {/* Admin Auth Route (No layout) */}
                 <Route path="/odysseus-admin-login" element={<AdminLoginPage />} />
