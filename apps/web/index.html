@@ -73,6 +73,25 @@
 					"url": "https://odysseusai.ai/",
 					"name": "Odysseus AI Setup Hub | PewDiePie Install & Docker Guide",
 					"description": "Get your Odysseus AI workspace running safely. Step-by-step setup guides for Docker, Ollama, Windows, and Mac. Fix login, port 7000, and log errors easily.",
+					"datePublished": "2026-06-09",
+					"dateModified": "2026-07-04",
+					"citation": [
+						{
+							"@type": "CreativeWork",
+							"name": "Docker Documentation",
+							"url": "https://docs.docker.com/get-started/"
+						},
+						{
+							"@type": "CreativeWork",
+							"name": "Ollama Official Hub",
+							"url": "https://ollama.com/"
+						},
+						{
+							"@type": "CreativeWork",
+							"name": "PyTorch Local Installation Guide",
+							"url": "https://pytorch.org/get-started/locally/"
+						}
+					],
 					"isPartOf": {
 						"@id": "https://odysseusai.ai/#organization"
 					},
@@ -257,18 +276,32 @@
 				</header>
 
 				<main>
+					<p><time datetime="2026-07-04">Published: July 4, 2026</time> &middot; <time datetime="2026-07-04">Last updated: July 4, 2026</time></p>
+
 					<section>
 						<h2>Welcome to the Odysseus AI Setup Hub</h2>
-						<p>
-							The official <strong>Odysseus AI Setup Hub</strong> is designed as a comprehensive orchestration directory and installation reference for developers, engineers, and data privacy advocates. Odysseus AI functions purely as a self-hosted workspace cockpit interface that connects to your local machine resources; it is not a standalone AI model engine itself. Managing a local artificial intelligence pipeline requires precise configuration of backend runtimes, database layers, and front-end interface containers. Our <strong>Docker Guide</strong> and companion <strong>PewDiePie Install</strong> checklist walk you through initializing the local repository, managing local system dependencies, and resolving common environment variable issues. Deploying local AI allows complete data isolation, preventing telemetry leaks and ensuring sensitive files remain secure on your own local hardware setups.
-						</p>
+						<p>The official Odysseus AI Setup Hub is a comprehensive orchestration directory and installation reference.</p>
+						<p>Odysseus AI functions as a self-hosted workspace cockpit interface that connects to your local machine resources.</p>
+						<p>It is not a standalone AI model engine itself.</p>
+						<p>Managing a local artificial intelligence pipeline requires precise configuration of backend runtimes, database layers, and front-end interface containers.</p>
+						<p>Our Docker Guide and companion PewDiePie Install checklist walk you through initializing the local repository.</p>
+						<p>They help you manage local system dependencies and resolve common environment variable issues.</p>
+						<p>Deploying local AI allows complete data isolation.</p>
+						<p>This prevents telemetry leaks and ensures sensitive files remain secure on your own local hardware setups.</p>
 					</section>
 
 					<section>
 						<h2>Docker Container Environment Orchestration</h2>
-						<p>
-							Using containers is the most reliable way to run the local workspace. This <strong>Docker Guide</strong> explains how to launch and configure the monorepo application using Docker Compose networks. The standard deployment architecture isolates individual services into separate containers: the web client Nginx server, the Express API routing backend, and the PocketBase database platform. A robust container network isolates dependencies, allowing direct integration with ChromaDB vector stores for RAG, SearXNG search modules for real-time web retrieval, and local Ollama model runners. Setting up Docker requires configuring the environment file (.env) with valid keys, binding container network ports securely, and mounting external Docker volumes to ensure that user settings, data collections, and auth tables persist across system reboots.
-						</p>
+						<p>Using containers is the most reliable way to run the local workspace.</p>
+						<p>This Docker Guide explains how to launch and configure the monorepo application using Docker Compose networks.</p>
+						<p>For details, refer to the <a href="https://docs.docker.com/get-started/" rel="noopener">Docker Documentation</a>.</p>
+						<p>The standard deployment architecture isolates individual services into separate containers.</p>
+						<p>These include the web client Nginx server, the Express API routing backend, and the PocketBase database platform.</p>
+						<p>A robust container network isolates dependencies.</p>
+						<p>This allows direct integration with ChromaDB vector stores, SearXNG search modules, and local Ollama model runners.</p>
+						<p>Setting up Docker requires configuring the environment file (.env) with valid keys.</p>
+						<p>It also requires binding container network ports securely and mounting external Docker volumes.</p>
+						<p>This ensures that user settings, data collections, and auth tables persist across system reboots.</p>
 						<ul>
 							<li><a href="/odysseus-install/docker">Docker Container Environment Configuration</a></li>
 							<li><a href="/odysseus-install/ollama">Ollama Base URL Endpoint Mapping Matrix</a></li>
@@ -277,9 +310,15 @@
 
 					<section>
 						<h2>Windows Native Setup and CUDA GPU Acceleration</h2>
-						<p>
-							For developers running on Windows 10 or 11, running natively outside of container virtual layers yields maximum execution speed by talking directly to graphics processing unit (GPU) drivers. Performing a native Windows installation requires downloading Git for Windows, installing Python 3.11+ (adding it to the system environment PATH variables), and installing the NVIDIA CUDA Toolkit version 12.1 or newer. This ensures that PyTorch and local model engines can tap into the tensor cores of NVIDIA RTX cards. Once the prerequisites are met, developers can run our PowerShell installer script to check hardware configurations, download workspace dependencies, and verify directory pathways automatically.
-						</p>
+						<p>For developers running on Windows 10 or 11, running natively outside of container virtual layers yields maximum execution speed.</p>
+						<p>This is achieved by talking directly to graphics processing unit (GPU) drivers.</p>
+						<p>Performing a native Windows installation requires downloading Git for Windows and installing Python 3.11+.</p>
+						<p>It also requires installing the NVIDIA CUDA Toolkit version 12.1 or newer.</p>
+						<p>For toolkit downloads, visit the <a href="https://developer.nvidia.com/cuda-downloads" rel="noopener">NVIDIA CUDA Toolkit Download Page</a>.</p>
+						<p>This ensures that PyTorch and local model engines can tap into the tensor cores of NVIDIA RTX cards.</p>
+						<p>Refer to the <a href="https://pytorch.org/get-started/locally/" rel="noopener">PyTorch Local Installation Guide</a> for setup steps.</p>
+						<p>Once the prerequisites are met, developers can run our PowerShell installer script to check hardware configurations.</p>
+						<p>This script checks workspace dependencies and verifies directory pathways automatically.</p>
 						<ul>
 							<li><a href="/odysseus-install/windows">Windows Native Setup & CUDA GPU Acceleration</a></li>
 							<li><a href="/odysseus-fix">Common Installation Failure Index</a></li>
@@ -288,9 +327,14 @@
 
 					<section>
 						<h2>macOS Metal Framework Local Acceleration Guide</h2>
-						<p>
-							Apple Silicon hardware (M1, M2, and M3 chips) features unified memory architectures that offer massive VRAM capacity for running large language models locally. Bypassing container networks on macOS is highly recommended to leverage the unified memory pool. Setting up Odysseus AI natively on a MacBook requires installing Xcode Command Line Tools, configuring the Homebrew package manager, and setting up a clean virtual Python environment. Using Apple's Metal Performance Shaders (MPS) allows the models to execute matrix operations directly on GPU cores rather than CPU threads. Our macOS guide outlines step-by-step instructions to compile local wheel files, verify Python pathings, and map unified memory boundaries.
-						</p>
+						<p>Apple Silicon hardware features unified memory architectures that offer massive VRAM capacity.</p>
+						<p>Bypassing container networks on macOS is highly recommended to leverage the unified memory pool.</p>
+						<p>Setting up Odysseus AI natively on a MacBook requires installing Xcode Command Line Tools.</p>
+						<p>It also requires configuring the Homebrew package manager and setting up a clean virtual Python environment.</p>
+						<p>Using Apple's Metal Performance Shaders (MPS) allows the models to execute matrix operations directly on GPU cores.</p>
+						<p>For reference documentation, see the <a href="https://developer.apple.com/metal/" rel="noopener">Apple Metal Framework Developer Portal</a>.</p>
+						<p>Our macOS guide outlines step-by-step instructions to compile local wheel files.</p>
+						<p>It also walks you through verifying Python pathings and mapping unified memory boundaries.</p>
 						<ul>
 							<li><a href="/odysseus-install/macbook">macOS Metal Framework Local Acceleration Guide</a></li>
 							<li><a href="/odysseus-resources">Download Reference Manuals</a></li>
@@ -299,9 +343,12 @@
 
 					<section>
 						<h2>Ollama Endpoint Mapping and Model Configuration</h2>
-						<p>
-							Connecting the dashboard to a model runner like Ollama is the core step in achieving a functional workspace. When the workspace cockpit runs inside a Docker container, it cannot reach the host machine's loopback address (127.0.0.1) directly because containers use an isolated bridge network. To map the Ollama base URL, you must change the endpoint address from localhost to the host gateway ip (typically host.docker.internal:11434 on Windows and macOS, or the default bridge IP on Linux). Once mapped, Odysseus AI can pull available local GGUF models, query embeddings, and manage system prompts securely.
-						</p>
+						<p>Connecting the dashboard to a model runner like Ollama is the core step in achieving a functional workspace.</p>
+						<p>Learn more at the <a href="https://ollama.com/" rel="noopener">Ollama Official Website</a>.</p>
+						<p>When the workspace cockpit runs inside a Docker container, it cannot reach the host machine's loopback address directly.</p>
+						<p>This is because containers use an isolated bridge network.</p>
+						<p>To map the Ollama base URL, you must change the endpoint address from localhost to the host gateway IP.</p>
+						<p>Once mapped, Odysseus AI can pull available local GGUF models, query embeddings, and manage system prompts securely.</p>
 						<ul>
 							<li><a href="/odysseus-blog/odysseus-ai-local-install-tutorial">Step-by-Step Installation Masterclass</a></li>
 							<li><a href="/odysseus-blog/run-deepseek-coder-locally-ollama">DeepSeek Coder Integration Blueprints</a></li>
@@ -310,9 +357,12 @@
 
 					<section>
 						<h2>Troubleshooting Port Conflicts and Authentication Failures</h2>
-						<p>
-							Most setup blockages stem from port conflicts or database migration issues. By default, Odysseus AI binds the web cockpit dashboard to port 7000. If port 7000 is occupied by another local service (such as Apple AirPlay Receiver on macOS), you must rebind the port in the docker-compose or environment file. Furthermore, the first login requires a secure SQLite database connection initialized via Better Auth migrations. If the dashboard displays login errors or fails to load workspace logs, our Triage Wizard and diagnostic checklists provide immediate solutions to rebuild database tables, verify network sockets, and inspect volume access parameters.
-						</p>
+						<p>Most setup blockages stem from port conflicts or database migration issues.</p>
+						<p>By default, Odysseus AI binds the web cockpit dashboard to port 7000.</p>
+						<p>If port 7000 is occupied by another local service, you must rebind the port in the docker-compose or environment file.</p>
+						<p>Furthermore, the first login requires a secure SQLite database connection initialized via Better Auth migrations.</p>
+						<p>If the dashboard displays login errors, our Triage Wizard provides immediate solutions.</p>
+						<p>It helps you rebuild database tables, verify network sockets, and inspect volume access parameters.</p>
 						<ul>
 							<li><a href="/odysseus-triage-wizard">Triage Wizard & Error Diagnoser</a></li>
 						</ul>
@@ -320,25 +370,27 @@
 
 					<section>
 						<h2>PewDiePie Install and Companion Launch Kit Checklist</h2>
-						<p>
-							The <strong>PewDiePie Install</strong> guide has popularized running private, self-hosted AI work environments that do not track user activities or share proprietary source code. The Odysseus AI Launch Kit functions as a premium companion setup workbook, offering pre-configured templates, diagnostic scripts, VRAM calculations, and performance benchmark files. Using the Launch Kit saves hours of manual configuration, helping you set up offline Retrieval-Augmented Generation (RAG) pipelines, configure agent task groups, and resolve environment dependencies instantly.
-						</p>
+						<p>The PewDiePie Install guide has popularized running private, self-hosted AI work environments.</p>
+						<p>These environments do not track user activities or share proprietary source code.</p>
+						<p>The Odysseus AI Launch Kit functions as a premium companion setup workbook.</p>
+						<p>It offers pre-configured templates, diagnostic scripts, VRAM calculations, and performance benchmark files.</p>
+						<p>Using the Launch Kit saves hours of manual configuration.</p>
+						<p>It helps you set up offline Retrieval-Augmented Generation (RAG) pipelines and resolve environment dependencies instantly.</p>
 					</section>
 
 					<section>
 						<h2>Frequently Asked Questions</h2>
 						<h3>Does Odysseus AI require an internet connection?</h3>
-						<p>
-							No, when paired with local runners like Ollama, Llama.cpp, or LM Studio, Odysseus AI operates completely offline, ensuring that your data, prompts, and code never leave your machine.
-						</p>
+						<p>No, when paired with local runners like Ollama, Llama.cpp, or LM Studio, Odysseus AI operates completely offline.</p>
+						<p>This ensures that your data, prompts, and code never leave your machine.</p>
 						<h3>What is the minimum GPU requirement for local LLMs?</h3>
-						<p>
-							We recommend a minimum of 8GB of VRAM to run quantized 7B models (like Llama-3 or Mistral) comfortably. For larger models (like 14B or 32B), a minimum of 16GB or 24GB of VRAM is recommended. Use our VRAM calculator page to check your hardware profile.
-						</p>
+						<p>We recommend a minimum of 8GB of VRAM to run quantized 7B models comfortably.</p>
+						<p>For larger models, a minimum of 16GB or 24GB of VRAM is recommended.</p>
+						<p>Use our VRAM calculator page to check your hardware profile.</p>
 						<h3>How do I update the Odysseus AI container files?</h3>
-						<p>
-							To update to the latest release, navigate to your local repository directory and execute a git pull command: git pull origin main. Then, rebuild the container network using: docker compose up -d --build.
-						</p>
+						<p>To update to the latest release, navigate to your local repository directory and execute a git pull command.</p>
+						<p>The command is: git pull origin main.</p>
+						<p>Then, rebuild the container network using: docker compose up -d --build.</p>
 					</section>
 
 					<section>
