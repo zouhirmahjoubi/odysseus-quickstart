@@ -324,7 +324,7 @@ docker compose up -d --build`;
                 "@id": "https://odysseusai.ai/#product-launchkit",
                 "name": "Odysseus AI Launch Kit",
                 "description": "An independent technical setup workbook, diagnostic checklist, and workflow template companion package.",
-                "image": ["https://odysseusai.ai/odysseus_launch_kit_preview.png"],
+                "image": "https://odysseusai.ai/odysseus_launch_kit_preview.png",
                 "sku": "ODYSSEUS-LAUNCH-KIT-01",
                 "mpn": "ODYSSEUS-LAUNCH-KIT-01",
                 "brand": {
@@ -335,11 +335,14 @@ docker compose up -d --build`;
                   "@type": "Offer",
                   "price": "19.99",
                   "priceCurrency": "USD",
-                  "availability": "http://schema.org/InStock",
+                  "availability": "https://schema.org/InStock",
                   "url": "https://odysseusai.ai/#pricing",
                   "hasMerchantReturnPolicy": {
                     "@type": "MerchantReturnPolicy",
-                    "applicableCountry": "US",
+                    "applicableCountry": {
+                      "@type": "Country",
+                      "name": "US"
+                    },
                     "returnPolicyCategory": "https://schema.org/MerchantReturnPolicyUnconditional",
                     "merchantReturnDays": 14,
                     "returnMethod": "https://schema.org/ReturnByMail",
@@ -350,22 +353,27 @@ docker compose up -d --build`;
                     "shippingRate": {
                       "@type": "MonetaryAmount",
                       "value": "0",
-                      "priceCurrency": "USD"
+                      "currency": "USD"
                     },
                     "shippingDestination": {
                       "@type": "DefinedRegion",
-                      "addressCountry": "US"
+                      "addressCountry": {
+                        "@type": "Country",
+                        "name": "US"
+                      }
                     },
                     "deliveryTime": {
                       "@type": "ShippingDeliveryTime",
                       "handlingTime": {
                         "@type": "QuantitativeValue",
-                        "maxValue": 0,
+                        "minValue": "0",
+                        "maxValue": "0",
                         "unitCode": "DAY"
                       },
                       "transitTime": {
                         "@type": "QuantitativeValue",
-                        "maxValue": 0,
+                        "minValue": "0",
+                        "maxValue": "0",
                         "unitCode": "DAY"
                       }
                     }
@@ -376,7 +384,7 @@ docker compose up -d --build`;
                   "ratingValue": "5",
                   "reviewCount": "1"
                 },
-                "review": [{
+                "review": {
                   "@type": "Review",
                   "author": {
                     "@type": "Person",
@@ -390,7 +398,7 @@ docker compose up -d --build`;
                     "ratingValue": "5",
                     "worstRating": "1"
                   }
-                }]
+                }
               },
               {
                 "@type": "FAQPage",
