@@ -260,10 +260,10 @@ docker compose up -d --build`;
 
         {/* Hero Title */}
         <FadeIn delay={0.2} direction="up" distance={30}>
-        <h1 className="text-4xl md:text-6xl font-bold mb-8 flex flex-col items-center gap-4 text-white leading-tight">
+        <p className="text-4xl md:text-6xl font-bold mb-8 flex flex-col items-center gap-4 text-white leading-tight" role="heading" aria-level="2">
           <span>Odysseus AI</span>
           <TypewriterHero />
-        </h1>
+        </p>
         </FadeIn>
 
         <FadeIn delay={0.35} direction="up" distance={20}>
