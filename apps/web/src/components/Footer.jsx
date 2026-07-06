@@ -35,7 +35,7 @@ const Footer = () => {
                   content: 'text-[10px] font-bold uppercase tracking-wider text-white/80',
                 }}
               >
-                MIT Licensed
+                Open Source Guides
               </Chip>
               <Chip
                 variant="flat"

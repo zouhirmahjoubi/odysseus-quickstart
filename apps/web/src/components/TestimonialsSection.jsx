@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Star, Github, Download, Users, Heart, Shield, Award, CheckCircle } from 'lucide-react';
+import { Star, Github, Download, Users, Heart, Shield, CheckCircle } from 'lucide-react';
 import pb from '@/lib/pocketbaseClient.js';
 
 // Predefined premium gradient avatars matching the Dokploy design
@@ -18,92 +18,7 @@ const gradients = [
   'from-amber-500 to-rose-500'
 ];
 
-const fallbackTestimonials = [
-  {
-    name: "Alex Chen",
-    title: "Full Stack Developer",
-    handle: "@alex_dev",
-    text: "Odysseus AI makes running local models incredibly easy. I just spin it up, connect my Ollama instance, and the agent takes care of the rest.",
-    rating: 5
-  },
-  {
-    name: "vinum?",
-    title: "System Architect",
-    handle: "@vinum",
-    text: "Odysseus AI is everything I wanted in a local AI workspace. The functionality is impressive, and it's completely free! Highly recommend the Launch Kit.",
-    rating: 5
-  },
-  {
-    name: "Duras",
-    title: "AI Researcher",
-    handle: "@duras",
-    text: "This app convinced me to try local LLMs without manual Docker Compose setups. It's a pleasure to contribute to such an awesome project!",
-    rating: 5
-  },
-  {
-    name: "apis",
-    title: "DevOps Engineer",
-    handle: "@apis",
-    text: "I replaced my complex Open WebUI setup with Odysseus AI today. It's stable, easy to use, and offers excellent support for GPU setups!",
-    rating: 5
-  },
-  {
-    name: "yayza_",
-    title: "Software Engineer",
-    handle: "@yayza_",
-    text: "Migrated all my AI pipelines to Odysseus—it worked seamlessly! The level of configuration is perfect for all kinds of projects.",
-    rating: 5
-  },
-  {
-    name: "Sarah K.",
-    title: "Lead Developer",
-    handle: "@sarah_k",
-    text: "Odysseus makes debugging container routing a breeze. The automated diagnostics check is worth its weight in gold.",
-    rating: 5
-  },
-  {
-    name: "lua",
-    title: "Frontend Developer",
-    handle: "@lua",
-    text: "Odysseus is genuinely so nice to use. The UI is exceptionally polished and the hard work behind it really shows.",
-    rating: 5
-  },
-  {
-    name: "johnnygri",
-    title: "Product Engineer",
-    handle: "@johnnygri",
-    text: "Odysseus is a complete joy to use. I'm running a mix of local models and workflows seamlessly. Truly a terminal-free experience.",
-    rating: 5
-  },
-  {
-    name: "HiJoe",
-    title: "Indie Hacker",
-    handle: "@hijoe",
-    text: "Setting up Odysseus was great—simple, intuitive, and reliable. Perfect for developers and AI enthusiasts alike.",
-    rating: 5
-  },
-  {
-    name: "johannes0910",
-    title: "Data Scientist",
-    handle: "@johannes0910",
-    text: "Odysseus has been a game-changer for my side projects. Solid UI, straightforward LLM abstraction, and great design.",
-    rating: 5
-  },
-  {
-    name: "vadzim",
-    title: "Security Analyst",
-    handle: "@vadzim",
-    text: "Odysseus is fantastic! I rarely encounter any setup issues now, and the community support is top-notch. Secure and offline.",
-    rating: 5
-  },
-  {
-    name: "Slurpy Beckerman",
-    title: "Creative Technologist",
-    handle: "@slurpy",
-    text: "This is exactly what I want in a local AI workspace. I've restructured my entire developer workflow around Odysseus!",
-    rating: 5
-  }
-];
+
 
 // Pure div-based card — no HeroUI dependency
 const TestimonialCard = ({ t, gradientClass }) => (
@@ -155,18 +70,14 @@ const TestimonialsSection = () => {
           title: r.title,
           handle: r.email ? `@${r.email.split('@')[0]}` : `@${r.name.toLowerCase().replace(/\s+/g, '_')}`,
           text: r.text,
-          rating: r.rating || 5,
+          rating: r.rating,
           avatar: r.avatar ? pb.files.getUrl(r, r.avatar) : null
         }));
 
-        if (dbTestimonials.length > 0) {
-          setTestimonials([...dbTestimonials, ...fallbackTestimonials]);
-        } else {
-          setTestimonials(fallbackTestimonials);
-        }
+        setTestimonials(dbTestimonials);
       } catch (error) {
-        console.warn('Error fetching testimonials, using defaults:', error);
-        setTestimonials(fallbackTestimonials);
+        console.warn('Error fetching testimonials:', error);
+        setTestimonials([]);
       }
     };
 
@@ -175,8 +86,7 @@ const TestimonialsSection = () => {
 
   }, []);
 
-  // Start with fallbacks immediately so marquee renders on mount
-  const displayTestimonials = testimonials.length > 0 ? testimonials : fallbackTestimonials;
+  const displayTestimonials = testimonials;
 
   const midIndex = Math.ceil(displayTestimonials.length / 2);
   const firstRow = displayTestimonials.slice(0, midIndex);
@@ -253,62 +163,68 @@ const TestimonialsSection = () => {
       {/* Header */}
       <div className="max-w-4xl mx-auto text-center px-4 mb-16">
         <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4 text-white">
-          Why Innovators Love the New Odysseus AI
+          Community Feedback
         </h2>
         <p className="text-gray-400 text-sm md:text-base font-medium max-w-2xl mx-auto">
-          Hear from the first adopters who discovered how easy private AI development can be. They're not just bragging—they're building better.
+          Real experiences from developers using Odysseus AI for local LLM orchestration.
         </p>
       </div>
 
       {/* Testimonials Marquees */}
-      <div className="relative flex flex-col gap-6 py-4 [mask-image:linear-gradient(to_right,rgba(0,0,0,0)_0%,rgba(0,0,0,1)_15%,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
-        
-        {/* Row 1: Left Scrolling */}
-        <div className="flex overflow-hidden marquee-row py-4">
-          <div className="flex gap-6 animate-scroll-left w-max px-3">
-            {firstRowList.map((t, idx) => (
-              <TestimonialCard
-                key={`r1-${idx}`}
-                t={t}
-                gradientClass={gradients[idx % gradients.length]}
-              />
-            ))}
+      {displayTestimonials.length > 0 ? (
+        <div className="relative flex flex-col gap-6 py-4 [mask-image:linear-gradient(to_right,rgba(0,0,0,0)_0%,rgba(0,0,0,1)_15%,rgba(0,0,0,1)_85%,rgba(0,0,0,0)_100%)]">
+          
+          {/* Row 1: Left Scrolling */}
+          <div className="flex overflow-hidden marquee-row py-4">
+            <div className="flex gap-6 animate-scroll-left w-max px-3">
+              {firstRowList.map((t, idx) => (
+                <TestimonialCard
+                  key={`r1-${idx}`}
+                  t={t}
+                  gradientClass={gradients[idx % gradients.length]}
+                />
+              ))}
+            </div>
           </div>
-        </div>
 
-        {/* Row 2: Right Scrolling */}
-        <div className="flex overflow-hidden marquee-row py-4">
-          <div className="flex gap-6 animate-scroll-right w-max px-3">
-            {secondRowList.map((t, idx) => (
-              <TestimonialCard
-                key={`r2-${idx}`}
-                t={t}
-                gradientClass={gradients[(idx + 6) % gradients.length]}
-              />
-            ))}
+          {/* Row 2: Right Scrolling */}
+          <div className="flex overflow-hidden marquee-row py-4">
+            <div className="flex gap-6 animate-scroll-right w-max px-3">
+              {secondRowList.map((t, idx) => (
+                <TestimonialCard
+                  key={`r2-${idx}`}
+                  t={t}
+                  gradientClass={gradients[(idx + 6) % gradients.length]}
+                />
+              ))}
+            </div>
           </div>
+
         </div>
+      ) : (
+        <div className="max-w-md mx-auto text-center py-16 px-4">
+          <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
+            <Star size={24} className="text-gray-500" />
+          </div>
+          <p className="text-gray-400 text-sm font-medium mb-2">No community reviews yet</p>
+          <p className="text-gray-500 text-xs">Be the first to share your experience with Odysseus AI.</p>
+        </div>
+      )}
 
-      </div>
-
-      {/* Compliance & Trust Badges */}
+      {/* Factual Badges */}
       <div className="max-w-6xl mx-auto px-4 mt-16 mb-4">
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
           <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
-            <Shield className="w-4 h-4 text-emerald-500 animate-pulse" />
-            100% GDPR Compliant & Offline
+            <Shield className="w-4 h-4 text-emerald-500" />
+            Self-Hosted & Offline
           </div>
+          <a href="https://github.com/pewdiepie-archdaemon/odysseus" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md hover:border-[#E73A5A]/30 transition-all">
+            <Github className="w-4 h-4 text-white" />
+            Open Source Project
+          </a>
           <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
-            <CheckCircle className="w-4 h-4 text-amber-500" />
-            MIT License Certified
-          </div>
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
-            <Award className="w-4 h-4 text-blue-500" />
-            Docker Certified Compatible
-          </div>
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
-            <Shield className="w-4 h-4 text-purple-500" />
-            SOC 2 Security Ready Architecture
+            <CheckCircle className="w-4 h-4 text-blue-500" />
+            Docker Compatible
           </div>
         </div>
       </div>

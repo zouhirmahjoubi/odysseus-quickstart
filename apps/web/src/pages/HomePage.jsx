@@ -210,7 +210,7 @@ docker compose up -d --build`;
         <title>Odysseus AI Quickstart — Install Without Fighting</title>
         <meta name="description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
         <meta name="keywords" content="odysseus ai, local llm setup, docker install guide, pewdiepie install, ollama setup, local ai workspace" />
-        <meta name="author" content="Odysseus AI Project Owners" />
+        <meta name="author" content="OdysseusAI.ai" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <link rel="canonical" href="https://odysseusai.ai/" />

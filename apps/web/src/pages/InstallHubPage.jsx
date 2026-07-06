@@ -191,8 +191,8 @@ const InstallHubPage = () => {
   return (
     <div className="min-h-screen bg-transparent py-12 px-4 md:px-8 font-sans">
       <Helmet>
-        <title>Odysseus AI Installation Hub | Local LLM Workspace Setup</title>
-        <meta name="description" content="Choose your local deployment path for Odysseus AI. Step-by-step setup guides for Windows (CUDA), MacBook (MPS), Docker containers, and Ollama integration." />
+        <title>Odysseus AI Platform Setup Guides | Windows, Mac, Docker & Ollama</title>
+        <meta name="description" content="Compare deployment paths for Odysseus AI. Platform-specific setup guides for Windows CUDA, macOS Metal, Docker containers, and Ollama model integration." />
       </Helmet>
 
       {/* ════════════════════════════════════════════════════════════

@@ -42,7 +42,7 @@ const FAQPage = () => {
     <PageTransition>
       <Helmet>
         <title>Frequently Asked Questions | Odysseus AI</title>
-        <meta name="description" content="Find official answers to frequently asked questions about Odysseus AI installations, Docker, Ollama, and Launch Kits." />
+        <meta name="description" content="Find answers to frequently asked questions about Odysseus AI installations, Docker, Ollama, and Launch Kits." />
       </Helmet>
 
       <div className="min-h-screen bg-[#fefaf0] py-12 px-4 md:px-8 font-sans text-[#1A2333]">
