@@ -38,11 +38,13 @@ const FeaturedLaunchKitCard = () => {
             <span className="bg-[#00F0FF]/10 text-[#00F0FF] border border-[#00F0FF]/30 px-4 py-1.5 font-black uppercase tracking-widest rounded-full text-xs inline-flex items-center gap-1 shadow-[0_0_10px_rgba(0,240,255,0.1)]">
               🚀 Complete Launch Kit
             </span>
-            <div className="flex items-center gap-0.5">
-              {[...Array(5)].map((_, i) => (
-                <Star key={i} size={14} className="fill-[#00F0FF] text-[#00F0FF]" />
-              ))}
-              <span className="text-xs font-bold text-gray-300 ml-1">5/5 (180+ reviews)</span>
+            <div className="flex items-center gap-2">
+              <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded font-black uppercase text-[9px] tracking-widest px-2 py-0.5 inline-block">
+                100% Offline
+              </span>
+              <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded font-black uppercase text-[9px] tracking-widest px-2 py-0.5 inline-block">
+                Self-Hosted
+              </span>
             </div>
           </div>
 

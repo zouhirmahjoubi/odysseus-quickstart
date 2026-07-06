@@ -105,11 +105,13 @@ const OdysseusPewdiepieInstallPage = () => {
           <h2 className="text-lg md:text-xl font-bold text-[#00F0FF] mb-6">
             Skip the terminal loops. Launch in 5 minutes. Save your night.
           </h2>
-          <div className="flex justify-center items-center gap-0.5 mb-8">
-            {[...Array(5)].map((_, i) => (
-              <Star key={i} size={16} className="fill-[#00F0FF] text-[#00F0FF]" />
-            ))}
-            <span className="text-sm font-bold text-gray-300 ml-2">5/5 (180+ reviews)</span>
+          <div className="flex justify-center items-center gap-3 mb-8">
+            <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded font-black uppercase text-[10px] tracking-widest px-3 py-1 inline-block">
+              100% Offline Compatible
+            </span>
+            <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded font-black uppercase text-[10px] tracking-widest px-3 py-1 inline-block">
+              Self-Hosted Setup
+            </span>
           </div>
           
           <p className="text-sm md:text-base text-gray-400 max-w-3xl mx-auto font-medium leading-relaxed mb-6">
