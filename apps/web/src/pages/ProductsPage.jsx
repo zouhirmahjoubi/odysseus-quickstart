@@ -161,7 +161,7 @@ const ProductsPage = () => {
             {[
               { icon: '🎁', val: `${BUNDLES.length}`, label: 'Bundles' },
               { icon: '🤖', val: `${displayModels.length}+`, label: 'Presets' },
-              { icon: '⭐', val: '5/5', label: 'Rating' },
+              { icon: '⚙️', val: 'Tested', label: 'Verified' },
               { icon: '🔒', val: '100%', label: 'Secure' },
             ].map((s) => (
               <div

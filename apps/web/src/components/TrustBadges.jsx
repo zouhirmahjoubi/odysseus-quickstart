@@ -3,7 +3,7 @@ import React from 'react';
 
 const TrustBadges = () => {
   const badges = [
-    "📜 License: MIT (Open Source)",
+    "📜 Core Repo: MIT Licensed",
     "🔍 Telemetry: 0% Tracker Footprint",
     "📦 Dependencies: Python 3.11+ / Ollama"
   ];

@@ -1247,14 +1247,14 @@ docker compose up -d --build`;
             <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               {/* Left Column: What You Get & Guarantee (7/12 cols) */}
               <div className="lg:col-span-7 space-y-8 text-left">
-                {/* Reviews star rating */}
-                <div className="flex items-center gap-2">
-                  <div className="flex items-center gap-0.5">
-                    {[...Array(5)].map((_, i) => (
-                      <Star key={i} size={14} className="fill-[#E73A5A] text-[#E73A5A]" />
-                    ))}
-                  </div>
-                  <span className="text-xs font-bold text-gray-300 ml-1">5/5 (180+ reviews)</span>
+                {/* Product status badges */}
+                <div className="flex flex-wrap gap-2">
+                  <span className="bg-emerald-500/10 text-emerald-400 border border-emerald-500/20 rounded font-black uppercase text-[10px] tracking-widest px-2.5 py-1 inline-block">
+                    100% Offline Compatible
+                  </span>
+                  <span className="bg-blue-500/10 text-blue-400 border border-blue-500/20 rounded font-black uppercase text-[10px] tracking-widest px-2.5 py-1 inline-block">
+                    Self-Hosted Setup
+                  </span>
                 </div>
 
                 {/* What you get */}

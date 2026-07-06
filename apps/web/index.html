@@ -239,50 +239,6 @@
 		</script>
 	</head>
 	<body>
-		<!-- Global Visual Debug Console for Unhandled Runtime Errors -->
-		<div id="debug-error-console" style="display:none; position:fixed; top:10px; left:10px; right:10px; background:#fee2e2; border:4px solid #ef4444; color:#991b1b; padding:15px; z-index:99999; font-family:monospace; font-size:14px; overflow:auto; max-height:90vh; box-shadow: 6px 6px 0px #000;">
-			<h3 style="margin-top:0; font-weight:bold; text-transform:uppercase;">🚨 Runtime Error Detected</h3>
-			<pre id="debug-error-message" style="margin:0; white-space:pre-wrap;"></pre>
-			<button onclick="this.parentNode.style.display='none'" style="margin-top:10px; padding:5px 10px; border:2px solid #000; background:#fff; font-weight:bold; cursor:pointer;">Dismiss</button>
-		</div>
-		<script>
-			window.addEventListener('error', function(event) {
-				// Only display debug console on localhost
-				if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-					return;
-				}
-				// Ignore resource loading errors (which do not have a message)
-				if (!event.message) {
-					return;
-				}
-				var consoleDiv = document.getElementById('debug-error-console');
-				var messagePre = document.getElementById('debug-error-message');
-				if (consoleDiv && messagePre) {
-					consoleDiv.style.display = 'block';
-					consoleDiv.style.background = '#fee2e2';
-					consoleDiv.style.borderColor = '#ef4444';
-					messagePre.textContent += (messagePre.textContent ? '\n\n' : '') + 
-						'Error: ' + event.message + '\n' +
-						'Source: ' + event.filename + ':' + event.lineno + ':' + event.colno + '\n' +
-						'Stack: ' + (event.error ? event.error.stack : 'No stack trace');
-				}
-			});
-			window.addEventListener('unhandledrejection', function(event) {
-				// Only display debug console on localhost
-				if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
-					return;
-				}
-				var consoleDiv = document.getElementById('debug-error-console');
-				var messagePre = document.getElementById('debug-error-message');
-				if (consoleDiv && messagePre) {
-					consoleDiv.style.display = 'block';
-					consoleDiv.style.background = '#fee2e2';
-					consoleDiv.style.borderColor = '#ef4444';
-					messagePre.textContent += (messagePre.textContent ? '\n\n' : '') + 
-						'Promise Rejection: ' + event.reason;
-				}
-			});
-		</script>
 		<div id="root"></div>
 		<noscript>
 			<!-- Rich Semantic Fallback Content for Crawlers & JS-disabled Users -->
@@ -293,7 +249,7 @@
 							<li><a href="/odysseus-Launch-Kit">Odysseus Launch Kit</a></li>
 							<li><a href="/odysseus-calculator">ROI & Performance Calculator</a></li>
 							<li><a href="/odysseus-benchmark">LLM Model Benchmarks</a></li>
-							<li><a href="/odysseus-blog">Tech Blog</a></li>
+							<li><a href="/odysseus-blog">Blog</a></li>
 							<li><a href="/odysseus-ai-install">All Setup Blueprints</a></li>
 						</ul>
 					</nav>
