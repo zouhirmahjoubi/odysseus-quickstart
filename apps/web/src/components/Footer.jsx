@@ -169,10 +169,14 @@ const Footer = () => {
         {/* Bottom row */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
 
-          {/* Copyright */}
-          <p className="text-[10px] md:text-[11px] font-semibold text-gray-500 select-none text-center sm:text-left">
-            © {year} Odysseus AI Launch Kit. All rights reserved.
-          </p>
+          <div className="flex flex-col text-center sm:text-left gap-2 max-w-xl">
+            <p className="text-[10px] md:text-[11px] font-semibold text-gray-500 select-none">
+              © {year} Odysseus AI Launch Kit. All rights reserved.
+            </p>
+            <p className="text-[9px] md:text-[10px] font-semibold text-gray-500 leading-relaxed">
+              Disclaimer: OdysseusAI.ai is an independent resource for installing the open-source Odysseus AI project. This site is not affiliated with, sponsored by, or endorsed by the project's creators, and the \"Launch Kit\" is a paid product created and sold by us, not the official Odysseus team.
+            </p>
+          </div>
 
           {/* Right side: Domain + links */}
           <div className="flex items-center gap-3 flex-shrink-0">

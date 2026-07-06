@@ -272,6 +272,15 @@ docker compose up -d --build`;
         </p>
         </FadeIn>
 
+        <FadeIn delay={0.38} direction="up" distance={20}>
+        <div className="max-w-3xl mx-auto mb-10 p-4 border border-amber-500/20 bg-amber-500/5 text-amber-300 rounded-2xl text-xs md:text-sm font-medium leading-relaxed text-left flex items-start gap-3">
+          <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+          <span>
+            <strong>Disclaimer:</strong> OdysseusAI.ai is an independent resource for installing the open-source Odysseus AI project. This site is not affiliated with, sponsored by, or endorsed by the project's creators, and the "Launch Kit" is a paid product created and sold by us, not the official Odysseus team.
+          </span>
+        </div>
+        </FadeIn>
+
         {/* 🔒 100% Private Hero Copy */}
         <FadeIn delay={0.4} direction="up" distance={20}>
           <div className="max-w-xl mx-auto mb-10 p-5 border border-[#E73A5A]/30 bg-[#E73A5A]/5 rounded-2xl backdrop-blur-sm select-none">

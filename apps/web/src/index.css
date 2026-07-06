@@ -605,7 +605,7 @@ body > *:not(#matrix-canvas) {
 
 /* Ensure buttons, badges, status chips, code blocks, and primary action text remain readable (white) */
 button, button *, .btn-primary-tech, .neo-button, [role="button"], [role="button"] *, 
-.bg-[#E73A5A], .bg-[#E73A5A] *, .bg-primary, .bg-primary *, 
+.bg-\[\#E73A5A\], .bg-\[\#E73A5A\] *, .bg-primary, .bg-primary *, 
 .bg-destructive, .bg-destructive *, .triage-code-block, .triage-code-block *, 
 pre, pre *, code, code *,
 button.text-white, button.text-\[\#ffffff\], button .text-white, button .text-\[\#ffffff\],

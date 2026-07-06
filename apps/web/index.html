@@ -179,44 +179,7 @@
 								}
 							}
 						}
-					},
-					"aggregateRating": {
-						"@type": "AggregateRating",
-						"ratingValue": "5",
-						"reviewCount": "2"
-					},
-					"review": [
-						{
-							"@type": "Review",
-							"author": {
-								"@type": "Person",
-								"name": "Early Adopter"
-							},
-							"datePublished": "2026-06-15",
-							"reviewBody": "Excellent, lightweight template setup that cuts out hours of configuration.",
-							"reviewRating": {
-								"@type": "Rating",
-								"bestRating": "5",
-								"ratingValue": "5",
-								"worstRating": "1"
-							}
-						},
-						{
-							"@type": "Review",
-							"author": {
-								"@type": "Person",
-								"name": "Local AI Developer"
-							},
-							"datePublished": "2026-06-18",
-							"reviewBody": "Resolving port 7000 issues took only a few seconds with the Triage Wizard script. Highly recommend the Launch Kit companion package.",
-							"reviewRating": {
-								"@type": "Rating",
-								"bestRating": "5",
-								"ratingValue": "5",
-								"worstRating": "1"
-							}
-						}
-					]
+					}
 				},
 				{
 					"@type": "FAQPage",
@@ -231,10 +194,10 @@
 						},
 						{
 							"@type": "Question",
-							"name": "What is the minimum VRAM requirement for local LLMs?",
+							"name": "What is the minimum GPU requirement for local LLMs?",
 							"acceptedAnswer": {
 								"@type": "Answer",
-								"text": "We recommend a minimum of 8GB of VRAM to run quantized 7B models (like Llama-3 or Mistral) comfortably. For larger models, 16GB or 24GB is recommended."
+								"text": "We recommend a minimum of 8GB of VRAM to run quantized 7B models comfortly. For larger models, a minimum of 16GB or 24GB of VRAM is recommended."
 							}
 						}
 					]
@@ -252,6 +215,14 @@
 		</div>
 		<script>
 			window.addEventListener('error', function(event) {
+				// Only display debug console on localhost
+				if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+					return;
+				}
+				// Ignore resource loading errors (which do not have a message)
+				if (!event.message) {
+					return;
+				}
 				var consoleDiv = document.getElementById('debug-error-console');
 				var messagePre = document.getElementById('debug-error-message');
 				if (consoleDiv && messagePre) {
@@ -265,6 +236,10 @@
 				}
 			});
 			window.addEventListener('unhandledrejection', function(event) {
+				// Only display debug console on localhost
+				if (window.location.hostname !== 'localhost' && window.location.hostname !== '127.0.0.1') {
+					return;
+				}
 				var consoleDiv = document.getElementById('debug-error-console');
 				var messagePre = document.getElementById('debug-error-message');
 				if (consoleDiv && messagePre) {
@@ -286,18 +261,21 @@
 							<li><a href="/odysseus-Launch-Kit">Odysseus Launch Kit</a></li>
 							<li><a href="/odysseus-calculator">ROI & Performance Calculator</a></li>
 							<li><a href="/odysseus-benchmark">LLM Model Benchmarks</a></li>
-							<li><a href="/odysseus-blog">Official Tech Blog</a></li>
+							<li><a href="/odysseus-blog">Tech Blog</a></li>
 							<li><a href="/odysseus-ai-install">All Setup Blueprints</a></li>
 						</ul>
 					</nav>
 				</header>
+				<p style="background: #fff3cd; color: #856404; padding: 15px; border: 1px solid #ffeeba; border-radius: 8px; font-size: 13px; max-width: 800px; margin: 15px auto; text-align: left; font-family: sans-serif;">
+					<strong>Disclaimer:</strong> OdysseusAI.ai is an independent resource for installing the open-source Odysseus AI project. This site is not affiliated with, sponsored by, or endorsed by the project's creators, and the \"Launch Kit\" is a paid product created and sold by us, not the official Odysseus team.
+				</p>
 
 				<main>
 					<p><time datetime="2026-07-04">Published: July 4, 2026</time> &middot; <time datetime="2026-07-04">Last updated: July 4, 2026</time></p>
 
 					<section>
 						<h2>Welcome to the Odysseus AI Setup Hub</h2>
-						<p>The official Odysseus AI Setup Hub is a comprehensive orchestration directory and installation reference.</p>
+						<p>OdysseusAI.ai is a comprehensive independent orchestration directory and installation reference.</p>
 						<p>Odysseus AI functions as a self-hosted workspace cockpit interface that connects to your local machine resources.</p>
 						<p>It is not a standalone AI model engine itself.</p>
 						<p>The standard system relies on three core orchestration layers:</p>
@@ -433,7 +411,7 @@
 						<h3>Does Odysseus AI require an internet connection?</h3>
 						<p>No, when paired with local runners like Ollama, Llama.cpp, or LM Studio, Odysseus AI operates completely offline.</p>
 						<p>This ensures that your data, prompts, and code never leave your machine.</p>
-						<h3>What is the minimum VRAM requirement for local LLMs?</h3>
+						<h3>What is the minimum GPU requirement for local LLMs?</h3>
 						<p>We recommend a minimum of 8GB of VRAM to run quantized 7B models comfortably.</p>
 						<p>For larger models, a minimum of 16GB or 24GB of VRAM is recommended.</p>
 						<p>Use our VRAM calculator page to check your hardware profile.</p>
@@ -444,23 +422,23 @@
 					</section>
 
 					<section>
-						<h2>Customer Reviews and Testimonials</h2>
-						<div class="rating-summary" style="margin-bottom: 15px;">
-							<p><strong>Overall Rating: ★★★★★ (5/5 stars based on customer ratings)</strong></p>
-						</div>
+						<h2>Developer Feedback and Testimonials</h2>
 						<div class="testimonial" style="border-left: 3px solid #E73A5A; padding-left: 10px; margin-bottom: 15px;">
 							<p><em>"Excellent, lightweight template setup that cuts out hours of configuration. Very easy to get Ollama and Docker working on my Windows machine."</em></p>
-							<p><strong>— Early Adopter (Verified Buyer)</strong></p>
+							<p><strong>— Early Adopter</strong></p>
 						</div>
 						<div class="testimonial" style="border-left: 3px solid #E73A5A; padding-left: 10px; margin-bottom: 15px;">
 							<p><em>"Resolving port 7000 issues took only a few seconds with the Triage Wizard script. Highly recommend the Launch Kit companion package."</em></p>
-							<p><strong>— Local AI Developer (Verified Buyer)</strong></p>
+							<p><strong>— Local AI Developer</strong></p>
 						</div>
 					</section>
 				</main>
 
 				<footer>
 					<p>&copy; 2026 Odysseus AI Launch Kit. Open-source software under the MIT License.</p>
+					<p style="font-size: 11px; color: #666; max-width: 800px; margin: 10px auto; text-align: left; font-family: sans-serif; line-height: 1.5;">
+						<strong>Disclaimer:</strong> OdysseusAI.ai is an independent resource for installing the open-source Odysseus AI project. This site is not affiliated with, sponsored by, or endorsed by the project's creators, and the "Launch Kit" is a paid product created and sold by us, not the official Odysseus team.
+					</p>
 					<ul>
 						<li><a href="/odysseus-about">About Project</a></li>
 						<li><a href="/odysseus-contact">Developer Contact</a></li>
