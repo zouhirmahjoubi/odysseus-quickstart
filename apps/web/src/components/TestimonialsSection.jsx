@@ -86,7 +86,7 @@ const TestimonialsSection = () => {
 
   }, []);
 
-  const displayTestimonials = testimonials;
+  const displayTestimonials = [];
 
   const midIndex = Math.ceil(displayTestimonials.length / 2);
   const firstRow = displayTestimonials.slice(0, midIndex);

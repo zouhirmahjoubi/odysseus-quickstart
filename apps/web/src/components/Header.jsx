@@ -88,7 +88,7 @@ const Header = ({ setIsCartOpen }) => {
             <Link to="/odysseus-Launch-Kit" className={navLinkClass('/odysseus-Launch-Kit')}>Marketplace</Link>
             <Link to="/odysseus-calculator" className={navLinkClass('/odysseus-calculator')}>Calculator</Link>
             <Link to="/odysseus-benchmark" className={navLinkClass('/odysseus-benchmark')}>Benchmark</Link>
-            <Link to="/odysseus-blog" className={navLinkClass('/odysseus-blog')}>Blog</Link>
+            <Link to="/odysseus-blog" className={navLinkClass('/odysseus-blog')}>Independent Developer Blog</Link>
 
             {/* Install Paths Dropdown */}
             <div className="relative" ref={installDropdown.ref}>
@@ -232,7 +232,7 @@ const Header = ({ setIsCartOpen }) => {
             <Link to="/odysseus-Launch-Kit" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Marketplace</Link>
             <Link to="/odysseus-calculator" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Calculator</Link>
             <Link to="/odysseus-benchmark" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Benchmark 🏆</Link>
-            <Link to="/odysseus-blog" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Blog</Link>
+            <Link to="/odysseus-blog" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40">Independent Developer Blog</Link>
             
             <div className="text-[9px] font-bold text-muted-foreground uppercase tracking-wider mt-2 border-b border-border/30 pb-1">Install Paths</div>
             <div className="grid grid-cols-2 gap-2 pl-2">

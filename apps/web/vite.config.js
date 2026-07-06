@@ -177,17 +177,25 @@ window.fetch = function(...args) {
 				contentType.includes('application/xhtml+xml');
 
 			if (!response.ok && !isDocumentResponse) {
+				if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
 					const responseClone = response.clone();
 					const errorFromRes = await responseClone.text();
 					const requestUrl = response.url;
 					console.error(\`Fetch error from \${requestUrl}: \${errorFromRes}\`);
+				} else {
+					console.warn(\`Fetch error from \${response.url} (status \${response.status})\`);
+				}
 			}
 
 			return response;
 		})
 		.catch(error => {
-			if (!url.match(/\.html?$/i)) {
-				console.error(error);
+			if (!url.match(/\\.html?$/i)) {
+				if (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') {
+					console.error(error);
+				} else {
+					console.warn(error);
+				}
 			}
 
 			throw error;
@@ -269,8 +277,19 @@ const addTransformIndexHtml = {
 			);
 		}
 
+		// Automatically bump dates in index.html during build
+		const d = new Date();
+		const months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+		const formattedDate = `${months[d.getMonth()]} ${d.getDate()}, ${d.getFullYear()}`;
+		const isoDate = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+		
+		let modifiedHtml = html
+			.replace(/"dateModified":\s*"[^"]*"/g, `"dateModified": "${isoDate}"`)
+			.replace(/Last updated:\s*[A-Za-z]+\s+\d+,\s+\d+/g, `Last updated: ${formattedDate}`)
+			.replace(/<time\s+datetime="[^"]*"\s*>\s*Last updated:/g, `<time datetime="${isoDate}">Last updated:`);
+
 		return {
-			html,
+			html: modifiedHtml,
 			tags,
 		};
 	},

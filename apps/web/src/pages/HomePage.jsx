@@ -210,7 +210,7 @@ docker compose up -d --build`;
         <title>Odysseus AI Quickstart — Install Without Fighting</title>
         <meta name="description" content="Get the safest, fastest and most beginner-friendly way to install and run Odysseus AI on Windows, Mac, or Linux using Docker and Ollama." />
         <meta name="keywords" content="odysseus ai, local llm setup, docker install guide, pewdiepie install, ollama setup, local ai workspace" />
-        <meta name="author" content="OdysseusAI.ai" />
+        <meta name="author" content="OdysseusAI.ai Team" />
         <meta name="format-detection" content="telephone=no" />
         <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
         <link rel="canonical" href="https://odysseusai.ai/" />
@@ -276,7 +276,7 @@ docker compose up -d --build`;
         <div className="max-w-3xl mx-auto mb-10 p-4 border border-amber-500/20 bg-amber-500/5 text-amber-300 rounded-2xl text-xs md:text-sm font-medium leading-relaxed text-left flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
           <span>
-            <strong>Disclaimer:</strong> OdysseusAI.ai is an independent resource for installing the open-source Odysseus AI project. This site is not affiliated with, sponsored by, or endorsed by the project's creators, and the "Launch Kit" is a paid product created and sold by us, not the official Odysseus team.
+            <strong>Disclaimer:</strong> OdysseusAI.ai is an independent, unofficial resource for installing the open-source Odysseus AI project. We are not affiliated with the official project or creators, and the 'Launch Kit' is a separate paid product created and sold by us.
           </span>
         </div>
         </FadeIn>
