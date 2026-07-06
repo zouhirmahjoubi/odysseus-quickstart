@@ -183,23 +183,40 @@
 					"aggregateRating": {
 						"@type": "AggregateRating",
 						"ratingValue": "5",
-						"reviewCount": "1"
+						"reviewCount": "2"
 					},
-					"review": {
-						"@type": "Review",
-						"author": {
-							"@type": "Person",
-							"name": "Early Adopter"
+					"review": [
+						{
+							"@type": "Review",
+							"author": {
+								"@type": "Person",
+								"name": "Early Adopter"
+							},
+							"datePublished": "2026-06-15",
+							"reviewBody": "Excellent, lightweight template setup that cuts out hours of configuration.",
+							"reviewRating": {
+								"@type": "Rating",
+								"bestRating": "5",
+								"ratingValue": "5",
+								"worstRating": "1"
+							}
 						},
-						"datePublished": "2026-06-15",
-						"reviewBody": "Excellent, lightweight template setup that cuts out hours of configuration.",
-						"reviewRating": {
-							"@type": "Rating",
-							"bestRating": "5",
-							"ratingValue": "5",
-							"worstRating": "1"
+						{
+							"@type": "Review",
+							"author": {
+								"@type": "Person",
+								"name": "Local AI Developer"
+							},
+							"datePublished": "2026-06-18",
+							"reviewBody": "Resolving port 7000 issues took only a few seconds with the Triage Wizard script. Highly recommend the Launch Kit companion package.",
+							"reviewRating": {
+								"@type": "Rating",
+								"bestRating": "5",
+								"ratingValue": "5",
+								"worstRating": "1"
+							}
 						}
-					}
+					]
 				},
 				{
 					"@type": "FAQPage",
@@ -259,10 +276,10 @@
 				}
 			});
 		</script>
-		<div id="root">
-			<!-- Rich Semantic Fallback Content for Crawlers (Overwritten upon Hydration) -->
-			<div style="display: none;">
-				<header>
+		<div id="root"></div>
+		<noscript>
+			<!-- Rich Semantic Fallback Content for Crawlers & JS-disabled Users -->
+			<header>
 					<h1>Odysseus AI Setup Hub | PewDiePie Install & Docker Guide</h1>
 					<nav>
 						<ul>
@@ -408,6 +425,7 @@
 						</ul>
 						<p>Using the Launch Kit saves hours of manual configuration.</p>
 						<p>It helps you set up offline Retrieval-Augmented Generation (RAG) pipelines and resolve environment dependencies instantly.</p>
+						<p><strong><a href="/odysseus-Launch-Kit">Buy the Odysseus AI Launch Kit now for $19.99</a></strong> to fast-track your private AI pipeline setup.</p>
 					</section>
 
 					<section>
@@ -415,7 +433,7 @@
 						<h3>Does Odysseus AI require an internet connection?</h3>
 						<p>No, when paired with local runners like Ollama, Llama.cpp, or LM Studio, Odysseus AI operates completely offline.</p>
 						<p>This ensures that your data, prompts, and code never leave your machine.</p>
-						<h3>What is the minimum GPU requirement for local LLMs?</h3>
+						<h3>What is the minimum VRAM requirement for local LLMs?</h3>
 						<p>We recommend a minimum of 8GB of VRAM to run quantized 7B models comfortably.</p>
 						<p>For larger models, a minimum of 16GB or 24GB of VRAM is recommended.</p>
 						<p>Use our VRAM calculator page to check your hardware profile.</p>
@@ -450,8 +468,7 @@
 						<li><a href="/odysseus-terms">Terms of Service</a></li>
 					</ul>
 				</footer>
-			</div>
-		</div>
+		</noscript>
 		<script type="module" src="/src/main.jsx"></script>
 	</body>
 </html>

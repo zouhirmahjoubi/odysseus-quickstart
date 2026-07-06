@@ -1160,6 +1160,7 @@ docker compose up -d --build`;
 
       {/* Pricing / Launch Kit Offer Section */}
       <section id="offer" className="max-w-6xl mx-auto px-4 py-16 font-rounded">
+        <div id="pricing" />
         <div className="text-center max-w-3xl mx-auto mb-12">
           <motion.div
             initial={{ opacity: 0, y: -20 }}
