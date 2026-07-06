@@ -10,7 +10,7 @@ COPY apps/web/package.json ./apps/web/
 # Install dependencies for the workspace
 RUN npm ci
 
-# Copy web app source code
+# Cache breaker to force rebuild: 2026-07-06-03-11
 COPY apps/web ./apps/web
 
 # Declare build-time arguments and set environment variables for Vite
