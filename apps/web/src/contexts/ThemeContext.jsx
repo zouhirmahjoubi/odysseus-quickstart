@@ -11,7 +11,7 @@ export const ThemeProvider = ({ children }) => {
     if (saved) {
       return saved === 'cyber';
     }
-    return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    return true; // Default to Dark / Cyber mode
   });
 
   useEffect(() => {

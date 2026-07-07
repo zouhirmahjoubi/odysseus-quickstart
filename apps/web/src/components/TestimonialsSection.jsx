@@ -22,19 +22,19 @@ const gradients = [
 
 // Pure div-based card — no HeroUI dependency
 const TestimonialCard = ({ t, gradientClass }) => (
-  <div className="w-[300px] md:w-[350px] bg-white/5 border border-white/10 rounded-2xl shadow-sm flex flex-col justify-between flex-shrink-0 backdrop-blur-md">
+  <div className="w-[300px] md:w-[350px] bg-card border border-border rounded-2xl shadow-sm flex flex-col justify-between flex-shrink-0 backdrop-blur-md">
     {/* Card Header */}
     <div className="flex gap-3 px-5 pt-5 pb-0">
       {t.avatar ? (
-        <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover border border-white/10 flex-shrink-0" />
+        <img src={t.avatar} alt={t.name} className="w-10 h-10 rounded-full object-cover border border-border flex-shrink-0" />
       ) : (
-        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradientClass} flex items-center justify-center font-bold text-white text-sm border border-white/10 flex-shrink-0`}>
+        <div className={`w-10 h-10 rounded-full bg-gradient-to-br ${gradientClass} flex items-center justify-center font-bold text-white text-sm border border-border flex-shrink-0`}>
           {t.name.charAt(0)}
         </div>
       )}
       <div className="flex flex-col text-left min-w-0">
-        <p className="font-bold text-white text-sm md:text-base leading-none truncate">{t.name}</p>
-        <p className="text-xs text-gray-400 font-mono mt-1 truncate">{t.handle}</p>
+        <p className="font-bold text-foreground text-sm md:text-base leading-none truncate">{t.name}</p>
+        <p className="text-xs text-muted-foreground font-mono mt-1 truncate">{t.handle}</p>
       </div>
     </div>
 
@@ -45,7 +45,7 @@ const TestimonialCard = ({ t, gradientClass }) => (
           <Star key={i} size={14} className={i < t.rating ? "fill-current text-[#E73A5A]" : "text-gray-600"} />
         ))}
       </div>
-      <blockquote className="text-xs md:text-sm text-gray-300 font-medium leading-relaxed text-left flex-grow">
+      <blockquote className="text-xs md:text-sm text-foreground/80 font-medium leading-relaxed text-left flex-grow">
         &ldquo;{t.text}&rdquo;
       </blockquote>
     </div>
@@ -86,7 +86,7 @@ const TestimonialsSection = () => {
 
   }, []);
 
-  const displayTestimonials = [];
+  const displayTestimonials = testimonials;
 
   const midIndex = Math.ceil(displayTestimonials.length / 2);
   const firstRow = displayTestimonials.slice(0, midIndex);
@@ -96,7 +96,7 @@ const TestimonialsSection = () => {
   const secondRowList = [...secondRow, ...secondRow];
 
   return (
-    <section className="bg-transparent text-white py-16 md:py-24 border-t border-b border-white/10 w-full overflow-hidden select-none font-rounded">
+    <section className="bg-transparent text-foreground py-16 md:py-24 border-t border-b border-border w-full overflow-hidden select-none font-rounded">
       {/* Dynamic styles for continuous marquee scrolling */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes scroll-left {
@@ -132,7 +132,7 @@ const TestimonialsSection = () => {
             </svg>
           </div>
           {/* Ollama */}
-          <div className="group flex items-center justify-center text-gray-400 hover:text-white transition-colors duration-300 font-mono font-black text-sm tracking-wider">
+          <div className="group flex items-center justify-center text-gray-400 hover:text-foreground transition-colors duration-300 font-mono font-black text-sm tracking-wider">
             <span className="w-5 h-5 rounded-md border-2 border-current flex items-center justify-center font-black text-xs mr-2 transition-transform duration-300 group-hover:scale-110">O</span>
             OLLAMA
           </div>
@@ -153,7 +153,7 @@ const TestimonialsSection = () => {
           </div>
           {/* GitHub */}
           <div className="group flex items-center justify-center">
-            <svg className="h-6 text-gray-400 group-hover:text-white fill-current transition-colors duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg className="h-6 text-gray-400 group-hover:text-foreground fill-current transition-colors duration-300" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path fillRule="evenodd" clipRule="evenodd" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.343-3.369-1.343-.454-1.158-1.11-1.466-1.11-1.466-.908-.62.069-.608.069-.608 1.003.07 1.53 1.032 1.53 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0112 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482C19.138 20.193 22 16.44 22 12.017 22 6.484 17.522 2 12 2z"/>
             </svg>
           </div>
@@ -162,10 +162,10 @@ const TestimonialsSection = () => {
 
       {/* Header */}
       <div className="max-w-4xl mx-auto text-center px-4 mb-16">
-        <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4 text-white">
+        <h2 className="text-3xl md:text-5xl font-black tracking-tight leading-tight mb-4 text-foreground">
           Community Feedback
         </h2>
-        <p className="text-gray-400 text-sm md:text-base font-medium max-w-2xl mx-auto">
+        <p className="text-muted-foreground text-sm md:text-base font-medium max-w-2xl mx-auto">
           Real experiences from developers using Odysseus AI for local LLM orchestration.
         </p>
       </div>
@@ -203,26 +203,26 @@ const TestimonialsSection = () => {
         </div>
       ) : (
         <div className="max-w-md mx-auto text-center py-16 px-4">
-          <div className="w-16 h-16 rounded-full bg-white/5 border border-white/10 flex items-center justify-center mx-auto mb-6">
+          <div className="w-16 h-16 rounded-full bg-card border border-border flex items-center justify-center mx-auto mb-6">
             <Star size={24} className="text-gray-500" />
           </div>
-          <p className="text-gray-400 text-sm font-medium mb-2">No community reviews yet</p>
-          <p className="text-gray-500 text-xs">Be the first to share your experience with Odysseus AI.</p>
+          <p className="text-muted-foreground text-sm font-medium mb-2">No community reviews yet</p>
+          <p className="text-muted-foreground/80 text-xs">Be the first to share your experience with Odysseus AI.</p>
         </div>
       )}
 
       {/* Factual Badges */}
       <div className="max-w-6xl mx-auto px-4 mt-16 mb-4">
         <div className="flex flex-wrap items-center justify-center gap-4 md:gap-6">
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
+          <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2 text-xs font-bold text-foreground/80 backdrop-blur-md">
             <Shield className="w-4 h-4 text-emerald-500" />
             Self-Hosted & Offline
           </div>
-          <a href="https://github.com/pewdiepie-archdaemon/odysseus" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md hover:border-[#E73A5A]/30 transition-all">
-            <Github className="w-4 h-4 text-white" />
+          <a href="https://github.com/pewdiepie-archdaemon/odysseus" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2 text-xs font-bold text-foreground/80 backdrop-blur-md hover:border-[#E73A5A]/30 transition-all">
+            <Github className="w-4 h-4 text-foreground" />
             Open Source Project
           </a>
-          <div className="flex items-center gap-2 bg-white/5 border border-white/10 rounded-full px-4 py-2 text-xs font-bold text-gray-300 backdrop-blur-md">
+          <div className="flex items-center gap-2 bg-card border border-border rounded-full px-4 py-2 text-xs font-bold text-foreground/80 backdrop-blur-md">
             <CheckCircle className="w-4 h-4 text-blue-500" />
             Docker Compatible
           </div>
@@ -234,79 +234,79 @@ const TestimonialsSection = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 md:gap-8">
           
           {/* Stat 1: Github Stars */}
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
-            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-white group-hover:scale-110 transition-transform duration-300">
+          <div className="bg-card p-6 rounded-2xl border border-border flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
+            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-foreground group-hover:scale-110 transition-transform duration-300">
               <Github size={120} />
             </div>
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">GitHub Stars</h3>
-                <div className="text-[#E73A5A] bg-white/5 border border-white/10 p-2 rounded-xl">
+                <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">GitHub Stars</h3>
+                <div className="text-[#E73A5A] bg-card border border-border p-2 rounded-xl">
                   <Github size={18} />
                 </div>
               </div>
-              <p className="text-xs text-gray-400 font-medium leading-relaxed mb-6">
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-6">
                 With over 71.9k stars on GitHub, Odysseus is trusted by developers worldwide for local LLM orchestration.
               </p>
             </div>
-            <div className="text-2xl md:text-3xl font-black text-white mt-auto">71,984+</div>
+            <div className="text-2xl md:text-3xl font-black text-foreground mt-auto">71,984+</div>
           </div>
 
           {/* Stat 2: DockerHub Downloads */}
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
-            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-white group-hover:scale-110 transition-transform duration-300">
+          <div className="bg-card p-6 rounded-2xl border border-border flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
+            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-foreground group-hover:scale-110 transition-transform duration-300">
               <Download size={120} />
             </div>
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">Docker Downloads</h3>
-                <div className="text-[#E73A5A] bg-white/5 border border-white/10 p-2 rounded-xl">
+                <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">Docker Downloads</h3>
+                <div className="text-[#E73A5A] bg-card border border-border p-2 rounded-xl">
                   <Download size={18} />
                 </div>
               </div>
-              <p className="text-xs text-gray-400 font-medium leading-relaxed mb-6">
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-6">
                 Downloaded over 95k times on DockerHub. Pre-configured container networks ensure zero conflict setup.
               </p>
             </div>
-            <div className="text-2xl md:text-3xl font-black text-white mt-auto">95,967+</div>
+            <div className="text-2xl md:text-3xl font-black text-foreground mt-auto">95,967+</div>
           </div>
 
           {/* Stat 3: Community Contributors */}
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
-            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-white group-hover:scale-110 transition-transform duration-300">
+          <div className="bg-card p-6 rounded-2xl border border-border flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
+            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-foreground group-hover:scale-110 transition-transform duration-300">
               <Users size={120} />
             </div>
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">Contributors</h3>
-                <div className="text-[#E73A5A] bg-white/5 border border-white/10 p-2 rounded-xl">
+                <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">Contributors</h3>
+                <div className="text-[#E73A5A] bg-card border border-border p-2 rounded-xl">
                   <Users size={18} />
                 </div>
               </div>
-              <p className="text-xs text-gray-400 font-medium leading-relaxed mb-6">
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-6">
                 Thanks to our growing base of 30+ contributors, Odysseus continues to expand features and repair complex edge cases.
               </p>
             </div>
-            <div className="text-2xl md:text-3xl font-black text-white mt-auto">31+</div>
+            <div className="text-2xl md:text-3xl font-black text-foreground mt-auto">31+</div>
           </div>
 
           {/* Stat 4: Sponsors */}
-          <div className="bg-white/5 p-6 rounded-2xl border border-white/10 flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
-            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-white group-hover:scale-110 transition-transform duration-300">
+          <div className="bg-card p-6 rounded-2xl border border-border flex flex-col justify-between text-left hover:border-[#E73A5A]/30 transition-all duration-300 relative overflow-hidden group backdrop-blur-md">
+            <div className="absolute right-0 bottom-0 translate-x-4 translate-y-4 opacity-5 text-foreground group-hover:scale-110 transition-transform duration-300">
               <Heart size={120} />
             </div>
             <div>
               <div className="flex items-center justify-between mb-4">
-                <h3 className="font-bold text-sm text-gray-400 uppercase tracking-wider">Sponsors</h3>
-                <div className="text-[#E73A5A] bg-white/5 border border-white/10 p-2 rounded-xl">
+                <h3 className="font-bold text-sm text-muted-foreground uppercase tracking-wider">Sponsors</h3>
+                <div className="text-[#E73A5A] bg-card border border-border p-2 rounded-xl">
                   <Heart size={18} />
                 </div>
               </div>
-              <p className="text-xs text-gray-400 font-medium leading-relaxed mb-6">
+              <p className="text-xs text-muted-foreground font-medium leading-relaxed mb-6">
                 Supported by more than 15 sponsors and organisations, guaranteeing a steady flow of updates and free support resources.
               </p>
             </div>
-            <div className="text-2xl md:text-3xl font-black text-white mt-auto">15+</div>
+            <div className="text-2xl md:text-3xl font-black text-foreground mt-auto">15+</div>
           </div>
 
         </div>
