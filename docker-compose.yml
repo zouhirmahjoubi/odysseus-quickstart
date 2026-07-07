@@ -79,12 +79,15 @@ services:
       # 3. Explicit Load Balancer Port Definition (Resolves 502 Bad Gateway)
       - "traefik.http.services.odysseus-web-service.loadbalancer.server.port=80"
       
-      # 4. Middleware Definition (301 Redirect to Apex)
+      # 4. Explicit Network Routing Definition
+      - "traefik.docker.network=dokploy-network"
+      
+      # 5. Middleware Definition (301 Redirect to Apex)
       - "traefik.http.middlewares.redirect-to-apex.redirectregex.regex=^https?://www\\.(.*)$"
       - "traefik.http.middlewares.redirect-to-apex.redirectregex.replacement=https://$${1}"
       - "traefik.http.middlewares.redirect-to-apex.redirectregex.permanent=true"
       
-      # 5. Bind the Middleware exclusively to the WWW Router
+      # 6. Bind the Middleware exclusively to the WWW Router
       - "traefik.http.routers.odysseus-www.middlewares=redirect-to-apex"
 
 volumes:
