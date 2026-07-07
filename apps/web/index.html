@@ -1,10 +1,22 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" class="cyber-mode dark" data-theme="dark">
 	<head>
 		<meta charset="UTF-8" />
 		<link rel="icon" type="image/png" href="/logo_icon.png" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/logo_icon.png" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<script>
+			try {
+				const saved = localStorage.getItem('theme');
+				if (saved === 'cyber' || !saved) {
+					document.documentElement.classList.add('cyber-mode', 'dark');
+					document.documentElement.setAttribute('data-theme', 'dark');
+				} else {
+					document.documentElement.classList.remove('cyber-mode', 'dark');
+					document.documentElement.setAttribute('data-theme', 'light');
+				}
+			} catch (e) {}
+		</script>
 		<script defer src="https://analytics.odysseusai.ai/script.js" data-website-id="113f68ab-9f3a-4b2a-b07a-35e1f3e7ad1c"></script>
 		<!-- Google tag (gtag.js) -->
 		<script async src="https://www.googletagmanager.com/gtag/js?id=G-NN645G4L96"></script>
