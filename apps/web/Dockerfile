@@ -10,7 +10,7 @@ COPY apps/api/package.json ./apps/api/
 COPY apps/pocketbase/package.json ./apps/pocketbase/
 
 # Install dependencies for the workspace
-RUN npm ci
+RUN npm ci -w web
 
 # Cache breaker to force rebuild: 2026-07-06-03-11
 COPY apps/web ./apps/web
