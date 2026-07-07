@@ -3,9 +3,11 @@ FROM node:20-alpine AS builder
 
 WORKDIR /app
 
-# Copy root workspace package config
+# Copy root workspace package config and workspace package configs
 COPY package*.json ./
 COPY apps/web/package.json ./apps/web/
+COPY apps/api/package.json ./apps/api/
+COPY apps/pocketbase/package.json ./apps/pocketbase/
 
 # Install dependencies for the workspace
 RUN npm ci
