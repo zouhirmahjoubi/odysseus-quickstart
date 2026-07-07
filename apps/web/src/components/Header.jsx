@@ -1,9 +1,10 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { ShoppingCart, LogOut, LayoutDashboard, User, ShieldAlert, Menu, X, ChevronDown } from 'lucide-react';
+import { ShoppingCart, LogOut, LayoutDashboard, User, ShieldAlert, Menu, X, ChevronDown, Sun, Moon } from 'lucide-react';
 import { useCart } from '@/hooks/useCart.jsx';
 import { useAuth } from '@/contexts/AuthContext.jsx';
 import { useAdminAuth } from '@/contexts/AdminAuthContext.jsx';
+import { useTheme } from '@/contexts/ThemeContext.jsx';
 import LogoComponent from './LogoComponent.jsx';
 
 // Simple dropdown hook
@@ -26,6 +27,7 @@ const Header = ({ setIsCartOpen }) => {
   const { cartItems } = useCart();
   const { isAuthenticated, logout } = useAuth();
   const { isAuthenticated: isAdmin } = useAdminAuth();
+  const { isCyberMode, toggleTheme } = useTheme();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [menuTop, setMenuTop] = useState(140);
 
@@ -195,6 +197,15 @@ const Header = ({ setIsCartOpen }) => {
               </button>
             )}
 
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 bg-foreground/5 hover:bg-primary/20 border border-border rounded-full hover:scale-105 transition-all flex items-center justify-center"
+              aria-label="Toggle Theme"
+            >
+              {isCyberMode ? <Sun size={16} className="text-foreground" /> : <Moon size={16} className="text-foreground" />}
+            </button>
+
             {/* Shopping Cart */}
             <button
               onClick={() => setIsCartOpen(true)}
@@ -255,6 +266,14 @@ const Header = ({ setIsCartOpen }) => {
               <Link to="/odysseus-llm-directory" onClick={() => setIsMenuOpen(false)} className="block py-1 text-left font-bold text-xs text-muted-foreground hover:text-primary">LLM Directory</Link>
             </div>
             
+            <button
+              onClick={toggleTheme}
+              className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40 flex items-center gap-2"
+            >
+              {isCyberMode ? <Sun size={16} className="text-foreground" /> : <Moon size={16} className="text-foreground" />}
+              Theme: {isCyberMode ? 'Cyber / Dark' : 'Yellow / Light'}
+            </button>
+
             {isAuthenticated ? (
               <div className="flex flex-col gap-2 mt-2">
                 <Link to="/odysseus-dashboard" onClick={() => setIsMenuOpen(false)} className="w-full block py-2.5 text-left font-bold text-foreground hover:text-primary border-b border-border/40 flex items-center gap-2">

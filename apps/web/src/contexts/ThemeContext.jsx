@@ -8,10 +8,11 @@ export const useTheme = () => useContext(ThemeContext);
 export const ThemeProvider = ({ children }) => {
   const [isCyberMode, setIsCyberMode] = useState(() => {
     const saved = localStorage.getItem('theme');
-    if (saved) {
-      return saved === 'cyber';
+    if (saved === 'yellow' || !saved) {
+      localStorage.setItem('theme', 'cyber');
+      return true;
     }
-    return true; // Default to Dark / Cyber mode
+    return saved === 'cyber';
   });
 
   useEffect(() => {
