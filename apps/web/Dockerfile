@@ -9,6 +9,9 @@ COPY apps/web/package.json ./apps/web/
 COPY apps/api/package.json ./apps/api/
 COPY apps/pocketbase/package.json ./apps/pocketbase/
 
+# Install build dependencies for native modules (e.g. better-sqlite3)
+RUN apk add --no-cache python3 make g++
+
 # Install dependencies for the workspace
 RUN npm ci -w web
 
